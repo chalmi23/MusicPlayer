@@ -30,14 +30,21 @@
         {
             button1 = new Button();
             musicList = new ListView();
+            empty = new ColumnHeader();
+            Id = new ColumnHeader();
+            Cover = new ColumnHeader();
+            Title = new ColumnHeader();
+            Artist = new ColumnHeader();
+            Album = new ColumnHeader();
+            Duration = new ColumnHeader();
             SuspendLayout();
             // 
             // button1
             // 
             button1.ForeColor = SystemColors.ActiveCaptionText;
-            button1.Location = new Point(622, 602);
+            button1.Location = new Point(12, 12);
             button1.Name = "button1";
-            button1.Size = new Size(135, 48);
+            button1.Size = new Size(148, 34);
             button1.TabIndex = 1;
             button1.Text = "add new song\r\n";
             button1.UseVisualStyleBackColor = true;
@@ -45,11 +52,46 @@
             // 
             // musicList
             // 
+            musicList.Columns.AddRange(new ColumnHeader[] { empty, Id, Cover, Title, Artist, Album, Duration });
             musicList.Location = new Point(267, 12);
             musicList.Name = "musicList";
             musicList.Size = new Size(950, 546);
             musicList.TabIndex = 0;
             musicList.UseCompatibleStateImageBehavior = false;
+            // 
+            // empty
+            // 
+            empty.Width = 0;
+            // 
+            // Id
+            // 
+            Id.Text = "Id";
+            Id.Width = 65;
+            // 
+            // Cover
+            // 
+            Cover.Text = "Cover";
+            Cover.Width = 100;
+            // 
+            // Title
+            // 
+            Title.Text = "Title";
+            Title.Width = 300;
+            // 
+            // Artist
+            // 
+            Artist.Text = "Artist";
+            Artist.Width = 150;
+            // 
+            // Album
+            // 
+            Album.Text = "Album";
+            Album.Width = 250;
+            // 
+            // Duration
+            // 
+            Duration.Text = "Duration";
+            Duration.Width = 96;
             // 
             // Form1
             // 
@@ -68,5 +110,12 @@
         #endregion
         private Button button1;
         private ListView musicList;
+        private ColumnHeader empty;
+        private ColumnHeader Id;
+        private ColumnHeader Cover;
+        private ColumnHeader Title;
+        private ColumnHeader Artist;
+        private ColumnHeader Album;
+        private ColumnHeader Duration;
     }
 }

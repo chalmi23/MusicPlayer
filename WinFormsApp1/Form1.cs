@@ -7,18 +7,9 @@ namespace WinFormsApp1
             InitializeComponent();
 
             musicList.View = View.Details; // W³¹czenie wyœwietlania nag³ówków
-
-            musicList.Columns.Add("Lp.", 50);
-            musicList.Columns.Add("Ok³adka", 50);
-            musicList.Columns.Add("Tytu³", 300);
-            musicList.Columns.Add("Wykonawca", 150);
-            musicList.Columns.Add("Album", 250);
-            musicList.Columns.Add("Czas trwania", 96);
-
             musicList.SmallImageList = new ImageList();
             musicList.SmallImageList.ImageSize = new Size(48, 48);
         }
-
         int lp = 0;
 
         private void button1_Click(object sender, EventArgs e)
@@ -30,28 +21,24 @@ namespace WinFormsApp1
             openFileDialog1.Filter = "Pliki muzyczne (*.mp3, *.wav, *.mp4, *.flac)|*.mp3;*.wav;*.mp4;*.flac";
             openFileDialog1.Multiselect = true;
 
-            // Wyœwietlenie okna dialogowego i sprawdzenie, czy u¿ytkownik wybra³ plik
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                // Pobranie metadanych z pliku MP4
+                trackClass track = new trackClass();
                 TagLib.File file = TagLib.File.Create(openFileDialog1.FileName);
 
-                string title = file.Tag.Title;
-                string artist = file.Tag.Performers.Length > 0 ? file.Tag.Performers[0] : ""; if (artist == "") artist = "unknown";
-                string album = file.Tag.Album;
-                string duration = file.Properties.Duration.ToString(@"mm\:ss");
-                TagLib.IPicture pic = file.Tag.Pictures[0];
+                if (!string.IsNullOrEmpty(file.Tag.Title)) track.TitleGS = file.Tag.Title;
+                else track.TitleGS = "unknown";
 
-                trackClass track = new trackClass(title,artist,album,duration, pic);
-                ListViewItem item = new ListViewItem(new string[] { lp.ToString(), "", title, artist, album, duration });
-                if (file.Tag.Pictures.Length > 0)
-                {
+                if (file.Tag.Performers != null && file.Tag.Performers.Length > 0) track.ArtistGS = file.Tag.Performers[0];
+                else track.ArtistGS = "unknown";
 
+                if (!string.IsNullOrEmpty(file.Tag.Album)) track.AlbumGS = file.Tag.Album;
+                else track.AlbumGS = "unknown";
 
+                if (!string.IsNullOrEmpty(file.Properties.Duration.ToString(@"mm\:ss"))) track.DurationGS = file.Properties.Duration.ToString(@"mm\:ss");
+                else track.DurationGS = "unknown";
 
-                }
-                musicList.Items.Add(item);
-                // Dodanie elementu do listview z wybranymi metadanymi
+                ListViewItem item = new ListViewItem(new string[] { "", "brak aaaaaaaaaa", "brak", track.TitleGS, track.ArtistGS, track.AlbumGS, track.DurationGS });
                 musicList.Items.Add(item);
             }
         }
