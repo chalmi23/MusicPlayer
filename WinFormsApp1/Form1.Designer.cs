@@ -34,11 +34,12 @@
             // 
             // button1
             // 
-            button1.Location = new Point(622, 600);
+            button1.ForeColor = SystemColors.ActiveCaptionText;
+            button1.Location = new Point(622, 602);
             button1.Name = "button1";
-            button1.Size = new Size(108, 48);
+            button1.Size = new Size(135, 48);
             button1.TabIndex = 1;
-            button1.Text = "add new song";
+            button1.Text = "add new song\r\n";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -46,7 +47,7 @@
             // 
             musicList.Location = new Point(267, 12);
             musicList.Name = "musicList";
-            musicList.Size = new Size(947, 546);
+            musicList.Size = new Size(950, 546);
             musicList.TabIndex = 0;
             musicList.UseCompatibleStateImageBehavior = false;
             // 
