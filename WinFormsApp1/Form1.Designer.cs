@@ -48,7 +48,7 @@
             button1.TabIndex = 1;
             button1.Text = "add new song\r\n";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            button1.Click += AddNewSongs;
             // 
             // musicList
             // 
@@ -58,6 +58,7 @@
             musicList.Size = new Size(950, 546);
             musicList.TabIndex = 0;
             musicList.UseCompatibleStateImageBehavior = false;
+            musicList.ColumnWidthChanging += ColumnWidthChanging;
             // 
             // empty
             // 
@@ -91,7 +92,7 @@
             // Duration
             // 
             Duration.Text = "Duration";
-            Duration.Width = 96;
+            Duration.Width = 81;
             // 
             // Form1
             // 
