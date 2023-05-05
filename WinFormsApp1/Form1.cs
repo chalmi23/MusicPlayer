@@ -15,8 +15,6 @@ namespace WinFormsApp1
             musicList.Columns.Add("Album", 250);
             musicList.Columns.Add("Czas trwania", 96);
 
-
-            // Utworzenie listy obrazów dla kontrolki ListView
             musicList.SmallImageList = new ImageList();
             musicList.SmallImageList.ImageSize = new Size(48, 48);
         }
