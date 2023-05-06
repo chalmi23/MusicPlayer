@@ -27,7 +27,7 @@ namespace WinFormsApp1
             trackBar.Scroll += TrackBar_Scroll;
             Controls.Add(trackBar);
 
-            timer.Interval = 1;
+            timer.Interval = 10;
             timer.Tick += Timer_Tick;
         }
 
@@ -73,13 +73,20 @@ namespace WinFormsApp1
         {
             if (outputDevice.PlaybackState == PlaybackState.Playing)
             {
-                trackBar.Value = (int)(audioFile.CurrentTime.TotalMilliseconds * 10000);
+                try
+                {
+                    trackBar.Value = (int)(audioFile.CurrentTime.TotalMilliseconds * 1000);
+                }
+                catch (System.ArgumentOutOfRangeException)
+                {
+                    trackBar.Value = trackBar.Maximum;
+                }
             }
         }
 
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
-            audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 10000);
+            audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 1000);
         }
         private void playMusic(object sender, EventArgs e)
         {
@@ -95,16 +102,24 @@ namespace WinFormsApp1
                 audioFile = new AudioFileReader(filePath);
 
                 outputDevice.Init(audioFile);
+                setInfoSong(sender, e);
                 outputDevice.Play();
-                isPlaying = true;
+
                 currentTrackIndex = trackIndex;
-                pictureBoxPlayMusic.Visible = false;
-                pictureBoxStopMusic.Visible = true;
-                trackBar.Value = 0;
-                trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds * 10000);
-                audioFile.Volume = (float)trackBarVolume.Value / 100;
-                timer.Start();
+
+
             }
+        }
+        private void setInfoSong(object sender, EventArgs e)
+        {
+            isPlaying = true;
+            isPaused = false;
+            pictureBoxPlayMusic.Visible = false;
+            pictureBoxStopMusic.Visible = true;
+            trackBar.Value = 0;
+            trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds * 1000);
+            audioFile.Volume = (float)trackBarVolume.Value / 100;
+            timer.Start();
         }
         private void playPausePictureBox_Click(object sender, EventArgs e)
         {
@@ -153,10 +168,7 @@ namespace WinFormsApp1
 
             outputDevice.Init(audioFile);
             outputDevice.Play();
-            isPlaying = true;
-            isPaused = false;
-            pictureBoxPlayMusic.Visible = false;
-            pictureBoxStopMusic.Visible = true;
+            setInfoSong(sender, e);
 
             musicList.Items[currentTrackIndex].Selected = true;
             musicList.Select();
@@ -180,10 +192,7 @@ namespace WinFormsApp1
 
             outputDevice.Init(audioFile);
             outputDevice.Play();
-            isPlaying = true;
-            isPaused = false;
-            pictureBoxPlayMusic.Visible = false;
-            pictureBoxStopMusic.Visible = true;
+            setInfoSong(sender, e);
 
             musicList.Items[currentTrackIndex].Selected = true;
             musicList.Select();
