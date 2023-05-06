@@ -51,6 +51,9 @@
             labelDuration = new Label();
             pictureBoxForwards = new PictureBox();
             pictureBoxBackwards = new PictureBox();
+            pictureBoxRepeat = new PictureBox();
+            pictureBoxRepeatOne = new PictureBox();
+            pictureBoxRepeatAll = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
@@ -61,6 +64,9 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxSpeakerNoSound).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxForwards).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxBackwards).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRepeat).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatOne).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatAll).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -128,7 +134,7 @@
             // pictureBoxStopMusic
             // 
             pictureBoxStopMusic.Image = (Image)resources.GetObject("pictureBoxStopMusic.Image");
-            pictureBoxStopMusic.Location = new Point(665, 578);
+            pictureBoxStopMusic.Location = new Point(588, 590);
             pictureBoxStopMusic.Name = "pictureBoxStopMusic";
             pictureBoxStopMusic.Size = new Size(49, 49);
             pictureBoxStopMusic.TabIndex = 3;
@@ -139,7 +145,7 @@
             // pictureBoxPlayMusic
             // 
             pictureBoxPlayMusic.Image = (Image)resources.GetObject("pictureBoxPlayMusic.Image");
-            pictureBoxPlayMusic.Location = new Point(665, 577);
+            pictureBoxPlayMusic.Location = new Point(588, 589);
             pictureBoxPlayMusic.Name = "pictureBoxPlayMusic";
             pictureBoxPlayMusic.Size = new Size(49, 49);
             pictureBoxPlayMusic.TabIndex = 4;
@@ -149,7 +155,7 @@
             // pictureBoxNextTrack
             // 
             pictureBoxNextTrack.Image = (Image)resources.GetObject("pictureBoxNextTrack.Image");
-            pictureBoxNextTrack.Location = new Point(720, 589);
+            pictureBoxNextTrack.Location = new Point(643, 601);
             pictureBoxNextTrack.Name = "pictureBoxNextTrack";
             pictureBoxNextTrack.Size = new Size(26, 26);
             pictureBoxNextTrack.TabIndex = 5;
@@ -159,7 +165,7 @@
             // pictureBoxPreviousTrack
             // 
             pictureBoxPreviousTrack.Image = (Image)resources.GetObject("pictureBoxPreviousTrack.Image");
-            pictureBoxPreviousTrack.Location = new Point(633, 589);
+            pictureBoxPreviousTrack.Location = new Point(556, 601);
             pictureBoxPreviousTrack.Name = "pictureBoxPreviousTrack";
             pictureBoxPreviousTrack.Size = new Size(26, 26);
             pictureBoxPreviousTrack.TabIndex = 6;
@@ -169,7 +175,7 @@
             // trackBar
             // 
             trackBar.LargeChange = 0;
-            trackBar.Location = new Point(441, 649);
+            trackBar.Location = new Point(361, 644);
             trackBar.Name = "trackBar";
             trackBar.Size = new Size(507, 45);
             trackBar.TabIndex = 7;
@@ -222,7 +228,7 @@
             labelTimeCounter.BackColor = SystemColors.ButtonHighlight;
             labelTimeCounter.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
             labelTimeCounter.ForeColor = SystemColors.ActiveCaptionText;
-            labelTimeCounter.Location = new Point(409, 649);
+            labelTimeCounter.Location = new Point(329, 644);
             labelTimeCounter.Name = "labelTimeCounter";
             labelTimeCounter.Size = new Size(40, 19);
             labelTimeCounter.TabIndex = 12;
@@ -234,7 +240,7 @@
             labelDuration.BackColor = SystemColors.ButtonHighlight;
             labelDuration.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
             labelDuration.ForeColor = SystemColors.ActiveCaptionText;
-            labelDuration.Location = new Point(945, 649);
+            labelDuration.Location = new Point(865, 644);
             labelDuration.Name = "labelDuration";
             labelDuration.Size = new Size(40, 19);
             labelDuration.TabIndex = 13;
@@ -243,22 +249,54 @@
             // pictureBoxForwards
             // 
             pictureBoxForwards.BackgroundImage = (Image)resources.GetObject("pictureBoxForwards.BackgroundImage");
-            pictureBoxForwards.Location = new Point(771, 582);
+            pictureBoxForwards.Location = new Point(689, 594);
             pictureBoxForwards.Name = "pictureBoxForwards";
             pictureBoxForwards.Size = new Size(39, 41);
             pictureBoxForwards.TabIndex = 14;
             pictureBoxForwards.TabStop = false;
-            pictureBoxForwards.Click += fastForwardSong_Click;
+            pictureBoxForwards.Click += fastForwardSong;
             // 
             // pictureBoxBackwards
             // 
             pictureBoxBackwards.BackgroundImage = (Image)resources.GetObject("pictureBoxBackwards.BackgroundImage");
-            pictureBoxBackwards.Location = new Point(565, 582);
+            pictureBoxBackwards.Location = new Point(500, 595);
             pictureBoxBackwards.Name = "pictureBoxBackwards";
             pictureBoxBackwards.Size = new Size(39, 41);
             pictureBoxBackwards.TabIndex = 15;
             pictureBoxBackwards.TabStop = false;
-            pictureBoxBackwards.Click += rewindSong_Click;
+            pictureBoxBackwards.Click += rewindSong;
+            // 
+            // pictureBoxRepeat
+            // 
+            pictureBoxRepeat.Image = (Image)resources.GetObject("pictureBoxRepeat.Image");
+            pictureBoxRepeat.Location = new Point(750, 596);
+            pictureBoxRepeat.Name = "pictureBoxRepeat";
+            pictureBoxRepeat.Size = new Size(42, 36);
+            pictureBoxRepeat.TabIndex = 16;
+            pictureBoxRepeat.TabStop = false;
+            pictureBoxRepeat.Click += changeStatus;
+            // 
+            // pictureBoxRepeatOne
+            // 
+            pictureBoxRepeatOne.Image = (Image)resources.GetObject("pictureBoxRepeatOne.Image");
+            pictureBoxRepeatOne.Location = new Point(750, 596);
+            pictureBoxRepeatOne.Name = "pictureBoxRepeatOne";
+            pictureBoxRepeatOne.Size = new Size(42, 36);
+            pictureBoxRepeatOne.TabIndex = 17;
+            pictureBoxRepeatOne.TabStop = false;
+            pictureBoxRepeatOne.Visible = false;
+            pictureBoxRepeatOne.Click += changeStatus;
+            // 
+            // pictureBoxRepeatAll
+            // 
+            pictureBoxRepeatAll.Image = (Image)resources.GetObject("pictureBoxRepeatAll.Image");
+            pictureBoxRepeatAll.Location = new Point(750, 596);
+            pictureBoxRepeatAll.Name = "pictureBoxRepeatAll";
+            pictureBoxRepeatAll.Size = new Size(42, 36);
+            pictureBoxRepeatAll.TabIndex = 18;
+            pictureBoxRepeatAll.TabStop = false;
+            pictureBoxRepeatAll.Visible = false;
+            pictureBoxRepeatAll.Click += changeStatus;
             // 
             // Form1
             // 
@@ -266,6 +304,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(pictureBoxRepeatAll);
+            Controls.Add(pictureBoxRepeatOne);
+            Controls.Add(pictureBoxRepeat);
             Controls.Add(pictureBoxBackwards);
             Controls.Add(pictureBoxForwards);
             Controls.Add(labelDuration);
@@ -294,6 +335,9 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxSpeakerNoSound).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxForwards).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxBackwards).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRepeat).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatOne).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatAll).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -321,5 +365,8 @@
         private Label labelDuration;
         private PictureBox pictureBoxForwards;
         private PictureBox pictureBoxBackwards;
+        private PictureBox pictureBoxRepeat;
+        private PictureBox pictureBoxRepeatOne;
+        private PictureBox pictureBoxRepeatAll;
     }
 }

@@ -5,10 +5,12 @@ namespace WinFormsApp1
     {
         int trackCounter = 0;
         int currentTrackIndex;
+        int playStatus = 0; //0 - jednorazowe odtworzenie, 1 - powtarzanie jednej piosenki, 2 - powtarzanie wszystkich piosenek
         float previousVolume = 1;
 
         bool isPlaying = false;
         bool isPaused = false;
+
 
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
@@ -25,7 +27,7 @@ namespace WinFormsApp1
 
             outputDevice = new WaveOutEvent();
 
-            outputDevice.PlaybackStopped += outputDevice_PlaybackStopped;
+            outputDevice.PlaybackStopped += SongIsOver;
             trackBar.Scroll += TrackBar_Scroll;
 
             Controls.Add(trackBar);
@@ -80,21 +82,17 @@ namespace WinFormsApp1
 
                 outputDevice.Init(audioFile);
                 outputDevice.Play();
-                playingSongInfo(sender, e);
+                playingNewSongInfo(sender, e);
                 currentTrackIndex = trackIndex;
             }
         }
-        private void playingSongInfo(object sender, EventArgs e)
+        private void playingNewSongInfo(object sender, EventArgs e)
         {
-            isPlaying = true;
-            isPaused = false;
-            pictureBoxPlayMusic.Visible = false;
-            pictureBoxStopMusic.Visible = true;
             trackBar.Value = 0;
             trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds * 1000);
             audioFile.Volume = (float)trackBarVolume.Value / 100;
             labelDuration.Text = audioFile.TotalTime.ToString(@"mm\:ss");
-            timer.Start();
+            setStatusSongPlaying(sender, e);
         }
         private void playPausePictureBox_Click(object sender, EventArgs e)
         {
@@ -111,12 +109,7 @@ namespace WinFormsApp1
                 }
                 else
                 {
-                    outputDevice.Play();
-                    isPlaying = true;
-                    isPaused = false;
-                    pictureBoxPlayMusic.Visible = false;
-                    pictureBoxStopMusic.Visible = true;
-                    timer.Start();
+                    setStatusSongPlaying(sender, e);
                 }
             }
             catch (System.InvalidOperationException)
@@ -142,8 +135,7 @@ namespace WinFormsApp1
             audioFile = new AudioFileReader(filePath);
 
             outputDevice.Init(audioFile);
-            outputDevice.Play();
-            playingSongInfo(sender, e);
+            playingNewSongInfo(sender, e);
 
             musicList.Items[currentTrackIndex].Selected = true;
             musicList.Select();
@@ -167,7 +159,7 @@ namespace WinFormsApp1
 
             outputDevice.Init(audioFile);
             outputDevice.Play();
-            playingSongInfo(sender, e);
+            playingNewSongInfo(sender, e);
 
             musicList.Items[currentTrackIndex].Selected = true;
             musicList.Select();
@@ -235,7 +227,7 @@ namespace WinFormsApp1
             }
         }
 
-        private void rewindSong_Click(object sender, EventArgs e)
+        private void rewindSong(object sender, EventArgs e)
         {
             if (outputDevice.PlaybackState == PlaybackState.Playing || outputDevice.PlaybackState == PlaybackState.Paused)
             {
@@ -246,10 +238,11 @@ namespace WinFormsApp1
                     currentTime = TimeSpan.Zero;
                 }
                 audioFile.CurrentTime = currentTime;
+                setStatusSongPlaying(sender, e);
             }
         }
 
-        private void fastForwardSong_Click(object sender, EventArgs e)
+        private void fastForwardSong(object sender, EventArgs e)
         {
             if (outputDevice.PlaybackState == PlaybackState.Playing || outputDevice.PlaybackState == PlaybackState.Paused)
             {
@@ -260,9 +253,10 @@ namespace WinFormsApp1
                     currentTime = audioFile.TotalTime;
                 }
                 audioFile.CurrentTime = currentTime;
+                setStatusSongPlaying(sender, e);
             }
         }
-        private void outputDevice_PlaybackStopped(object sender, StoppedEventArgs e)
+        private void SongIsOver(object sender, StoppedEventArgs e)
         {
             if (audioFile != null && labelTimeCounter.Text == audioFile.TotalTime.ToString(@"mm\:ss"))
             {
@@ -275,7 +269,49 @@ namespace WinFormsApp1
                 pictureBoxStopMusic.Visible = false;
                 labelTimeCounter.Text = "00:00";
                 trackBar.Value = 0;
+
+                if (playStatus == 1)
+                {
+                    playMusic(sender, e);
+                }
+                if (playStatus == 2)
+                {
+                    nextSong_Click(sender, e);
+                }
             }
+        }
+
+        private void changeStatus(object sender, EventArgs e)
+        {
+            if (playStatus == 0)
+            {
+                pictureBoxRepeatOne.Visible = true;
+                pictureBoxRepeat.Visible = false;
+            }
+            if (playStatus == 1)
+            {
+                pictureBoxRepeatAll.Visible = true;
+                pictureBoxRepeatOne.Visible = false;
+            }
+            if (playStatus == 2)
+            {
+                pictureBoxRepeatAll.Visible = false;
+                pictureBoxRepeat.Visible = true;
+                playStatus = 0;
+                return;
+            }
+            else playStatus++;
+            return;
+        }
+
+        private void setStatusSongPlaying(object sender, EventArgs e)
+        {
+            outputDevice.Play();
+            isPlaying = true;
+            isPaused = false;
+            pictureBoxPlayMusic.Visible = false;
+            pictureBoxStopMusic.Visible = true;
+            timer.Start();
         }
     }
 }
