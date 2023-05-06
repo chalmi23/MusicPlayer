@@ -14,6 +14,22 @@ namespace WinFormsApp1
 
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
+        private void outputDevice_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            if (audioFile != null)
+            {
+                audioFile.Position = 0;
+                outputDevice.Stop();
+                isPlaying = false;
+                isPaused = false;
+                timer.Stop();
+                pictureBoxPlayMusic.Visible = true;
+                pictureBoxStopMusic.Visible = false;
+                labelTimeCounter.Text = "00:00";
+                trackBar.Value = 0;
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +39,8 @@ namespace WinFormsApp1
             musicList.SmallImageList.ImageSize = new Size(48, 48);
             musicList.FullRowSelect = true;
             outputDevice = new WaveOutEvent();
+
+            outputDevice.PlaybackStopped += outputDevice_PlaybackStopped; // dodanie obs³ugi zdarzenia PlaybackStopped
 
             trackBar.Scroll += TrackBar_Scroll;
             Controls.Add(trackBar);
@@ -98,17 +116,13 @@ namespace WinFormsApp1
 
                 if (isPlaying || isPaused) outputDevice.Stop();
 
-
                 string filePath = tracks[trackIndex].PathGS;
                 audioFile = new AudioFileReader(filePath);
 
                 outputDevice.Init(audioFile);
-                playingSongInfo(sender, e);
                 outputDevice.Play();
-
+                playingSongInfo(sender, e);
                 currentTrackIndex = trackIndex;
-
-
             }
         }
         private void playingSongInfo(object sender, EventArgs e)
@@ -259,6 +273,34 @@ namespace WinFormsApp1
                     pictureBoxSpeakerNoSound.Visible = false;
                     pictureBoxSpeaker.Visible = true;
                 }
+            }
+        }
+
+        private void rewindSong_Click(object sender, EventArgs e)
+        {
+            if (outputDevice.PlaybackState == PlaybackState.Playing || outputDevice.PlaybackState == PlaybackState.Paused)
+            {
+                TimeSpan currentTime = audioFile.CurrentTime;
+                currentTime = currentTime.Subtract(TimeSpan.FromSeconds(15));
+                if (currentTime.TotalMilliseconds < 0)
+                {
+                    currentTime = TimeSpan.Zero;
+                }
+                audioFile.CurrentTime = currentTime;
+            }
+        }
+
+        private void fastForwardSong_Click(object sender, EventArgs e)
+        {
+            if (outputDevice.PlaybackState == PlaybackState.Playing || outputDevice.PlaybackState == PlaybackState.Paused)
+            {
+                TimeSpan currentTime = audioFile.CurrentTime;
+                currentTime = currentTime.Add(TimeSpan.FromSeconds(15));
+                if (currentTime.TotalMilliseconds > audioFile.TotalTime.TotalMilliseconds)
+                {
+                    currentTime = audioFile.TotalTime;
+                }
+                audioFile.CurrentTime = currentTime;
             }
         }
     }
