@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             button1 = new Button();
             musicList = new ListView();
             empty = new ColumnHeader();
@@ -38,6 +39,10 @@
             Album = new ColumnHeader();
             Duration = new ColumnHeader();
             button2 = new Button();
+            pictureBoxStopMusic = new PictureBox();
+            pictureBoxPlayMusic = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -107,18 +112,43 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += playMusic;
             // 
+            // pictureBoxStopMusic
+            // 
+            pictureBoxStopMusic.Image = (Image)resources.GetObject("pictureBoxStopMusic.Image");
+            pictureBoxStopMusic.Location = new Point(628, 601);
+            pictureBoxStopMusic.Name = "pictureBoxStopMusic";
+            pictureBoxStopMusic.Size = new Size(79, 68);
+            pictureBoxStopMusic.TabIndex = 3;
+            pictureBoxStopMusic.TabStop = false;
+            pictureBoxStopMusic.Visible = false;
+            pictureBoxStopMusic.Click += playPausePictureBox_Click;
+            // 
+            // pictureBoxPlayMusic
+            // 
+            pictureBoxPlayMusic.Image = (Image)resources.GetObject("pictureBoxPlayMusic.Image");
+            pictureBoxPlayMusic.Location = new Point(628, 600);
+            pictureBoxPlayMusic.Name = "pictureBoxPlayMusic";
+            pictureBoxPlayMusic.Size = new Size(79, 68);
+            pictureBoxPlayMusic.TabIndex = 4;
+            pictureBoxPlayMusic.TabStop = false;
+            pictureBoxPlayMusic.Click += playPausePictureBox_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(pictureBoxPlayMusic);
+            Controls.Add(pictureBoxStopMusic);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(musicList);
             ForeColor = SystemColors.ControlLight;
             Name = "Form1";
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).EndInit();
             ResumeLayout(false);
         }
 
@@ -133,5 +163,7 @@
         private ColumnHeader Album;
         private ColumnHeader Duration;
         private Button button2;
+        private PictureBox pictureBoxStopMusic;
+        private PictureBox pictureBoxPlayMusic;
     }
 }

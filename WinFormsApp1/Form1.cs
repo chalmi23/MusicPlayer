@@ -5,6 +5,11 @@ namespace WinFormsApp1
     {
         int trackCounter = 0;
         private List<trackClass> tracks = new List<trackClass>();
+        bool isPlaying = false;
+        bool isPaused = false;
+        AudioFileReader audioFile;
+        WaveOutEvent outputDevice;
+        int currentTrackIndex;
         public Form1()
         {
             InitializeComponent();
@@ -13,13 +18,16 @@ namespace WinFormsApp1
             musicList.SmallImageList = new ImageList();
             musicList.SmallImageList.ImageSize = new Size(48, 48);
             musicList.FullRowSelect = true;
+
+            outputDevice = new WaveOutEvent();
         }
+
         private void AddNewSongs(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.Title = "Wybierz plik muzyczny";
-            openFileDialog1.Filter = "Pliki muzyczne (*.mp3, *.wav, *.mp4, *.flac)|*.mp3;*.wav;*.mp4;*.flac";
+            openFileDialog1.Title = "Choose audio file";
+            openFileDialog1.Filter = "Audio files (*.mp3, *.wav, *.mp4, *.flac)|*.mp3;*.wav;*.mp4;*.flac";
             openFileDialog1.Multiselect = true;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -41,7 +49,7 @@ namespace WinFormsApp1
                     if (!string.IsNullOrEmpty(file.Properties.Duration.ToString(@"mm\:ss"))) track.DurationGS = file.Properties.Duration.ToString(@"mm\:ss");
                     else track.DurationGS = "unknown";
 
-                    track.PathGS = fileName; // przypisanie œcie¿ki do w³aœciwoœci PathGS
+                    track.PathGS = fileName;
 
                     trackCounter++;
                     tracks.Add(track);
@@ -51,27 +59,52 @@ namespace WinFormsApp1
                 }
             }
         }
-        private void ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
-        {
-            e.Cancel = true;
-            e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
-        }
-
         private void playMusic(object sender, EventArgs e)
         {
             if (musicList.SelectedItems.Count > 0)
             {
                 ListViewItem selectedItem = musicList.SelectedItems[0];
                 int trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
-                string filePath = tracks[trackIndex].PathGS;
 
-                var audioFile = new AudioFileReader(filePath);
-                var outputDevice = new WaveOutEvent();
-                
+                if (isPlaying && currentTrackIndex == trackIndex) return;
+
+                if (isPlaying || isPaused) outputDevice.Stop();
+
+
+                string filePath = tracks[trackIndex].PathGS;
+                audioFile = new AudioFileReader(filePath);
+
                 outputDevice.Init(audioFile);
                 outputDevice.Play();
-                
+                isPlaying = true;
+                currentTrackIndex = trackIndex;
+                pictureBoxPlayMusic.Visible = false;
+                pictureBoxStopMusic.Visible = true;
             }
+        }
+        private void playPausePictureBox_Click(object sender, EventArgs e)
+        {
+            if (isPlaying)
+            {
+                outputDevice.Pause();
+                isPlaying = false;
+                isPaused = true;
+                pictureBoxPlayMusic.Visible = true;
+                pictureBoxStopMusic.Visible = false;
+            }
+            else
+            {
+                outputDevice.Play();
+                isPlaying = true;
+                isPaused = false;
+                pictureBoxPlayMusic.Visible = false;
+                pictureBoxStopMusic.Visible = true;
+            }
+        }
+        private void ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
         }
     }
 }
