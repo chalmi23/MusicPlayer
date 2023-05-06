@@ -101,6 +101,60 @@ namespace WinFormsApp1
                 pictureBoxStopMusic.Visible = true;
             }
         }
+
+        private void previousSong_Click(object sender, EventArgs e)
+        {
+            if (tracks.Count == 0)
+            {
+                MessageBox.Show("Brak piosenek na liœcie.", "B³¹d");
+                return;
+            }
+
+            outputDevice.Stop();
+
+            currentTrackIndex--;
+            if (currentTrackIndex < 0) currentTrackIndex = tracks.Count - 1;
+
+            string filePath = tracks[currentTrackIndex].PathGS;
+            audioFile = new AudioFileReader(filePath);
+
+            outputDevice.Init(audioFile);
+            outputDevice.Play();
+            isPlaying = true;
+            isPaused = false;
+            pictureBoxPlayMusic.Visible = false;
+            pictureBoxStopMusic.Visible = true;
+
+            musicList.Items[currentTrackIndex].Selected = true;
+            musicList.Select();
+        }
+
+        private void nextSong_Click(object sender, EventArgs e)
+        {
+            if (tracks.Count == 0)
+            {
+                MessageBox.Show("Brak piosenek na liœcie.", "B³¹d");
+                return;
+            }
+
+            outputDevice.Stop();
+
+            currentTrackIndex++;
+            if (currentTrackIndex >= tracks.Count) currentTrackIndex = 0;
+
+            string filePath = tracks[currentTrackIndex].PathGS;
+            audioFile = new AudioFileReader(filePath);
+
+            outputDevice.Init(audioFile);
+            outputDevice.Play();
+            isPlaying = true;
+            isPaused = false;
+            pictureBoxPlayMusic.Visible = false;
+            pictureBoxStopMusic.Visible = true;
+
+            musicList.Items[currentTrackIndex].Selected = true;
+            musicList.Select();
+        }
         private void ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             e.Cancel = true;

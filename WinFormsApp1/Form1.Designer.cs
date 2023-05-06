@@ -38,28 +38,35 @@
             Artist = new ColumnHeader();
             Album = new ColumnHeader();
             Duration = new ColumnHeader();
-            button2 = new Button();
             pictureBoxStopMusic = new PictureBox();
             pictureBoxPlayMusic = new PictureBox();
+            pictureBoxNextTrack = new PictureBox();
+            pictureBoxPreviousTrack = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPreviousTrack).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
+            button1.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             button1.ForeColor = SystemColors.ActiveCaptionText;
             button1.Location = new Point(12, 12);
             button1.Name = "button1";
-            button1.Size = new Size(148, 34);
+            button1.Size = new Size(204, 43);
             button1.TabIndex = 1;
-            button1.Text = "add new song\r\n";
+            button1.Text = "add new songs";
             button1.UseVisualStyleBackColor = true;
             button1.Click += AddNewSongs;
             // 
             // musicList
             // 
             musicList.Columns.AddRange(new ColumnHeader[] { empty, Id, Cover, Title, Artist, Album, Duration });
+            musicList.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            musicList.HideSelection = true;
             musicList.Location = new Point(264, 12);
+            musicList.MultiSelect = false;
             musicList.Name = "musicList";
             musicList.Size = new Size(950, 546);
             musicList.TabIndex = 0;
@@ -84,7 +91,7 @@
             // Title
             // 
             Title.Text = "Title";
-            Title.Width = 300;
+            Title.Width = 280;
             // 
             // Artist
             // 
@@ -101,23 +108,12 @@
             Duration.Text = "Duration";
             Duration.Width = 81;
             // 
-            // button2
-            // 
-            button2.ForeColor = SystemColors.ActiveCaptionText;
-            button2.Location = new Point(66, 375);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 2;
-            button2.Text = "play";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += playMusic;
-            // 
             // pictureBoxStopMusic
             // 
             pictureBoxStopMusic.Image = (Image)resources.GetObject("pictureBoxStopMusic.Image");
             pictureBoxStopMusic.Location = new Point(628, 601);
             pictureBoxStopMusic.Name = "pictureBoxStopMusic";
-            pictureBoxStopMusic.Size = new Size(79, 68);
+            pictureBoxStopMusic.Size = new Size(49, 49);
             pictureBoxStopMusic.TabIndex = 3;
             pictureBoxStopMusic.TabStop = false;
             pictureBoxStopMusic.Visible = false;
@@ -128,10 +124,30 @@
             pictureBoxPlayMusic.Image = (Image)resources.GetObject("pictureBoxPlayMusic.Image");
             pictureBoxPlayMusic.Location = new Point(628, 600);
             pictureBoxPlayMusic.Name = "pictureBoxPlayMusic";
-            pictureBoxPlayMusic.Size = new Size(79, 68);
+            pictureBoxPlayMusic.Size = new Size(49, 49);
             pictureBoxPlayMusic.TabIndex = 4;
             pictureBoxPlayMusic.TabStop = false;
             pictureBoxPlayMusic.Click += playPausePictureBox_Click;
+            // 
+            // pictureBoxNextTrack
+            // 
+            pictureBoxNextTrack.Image = (Image)resources.GetObject("pictureBoxNextTrack.Image");
+            pictureBoxNextTrack.Location = new Point(712, 612);
+            pictureBoxNextTrack.Name = "pictureBoxNextTrack";
+            pictureBoxNextTrack.Size = new Size(26, 26);
+            pictureBoxNextTrack.TabIndex = 5;
+            pictureBoxNextTrack.TabStop = false;
+            pictureBoxNextTrack.Click += nextSong_Click;
+            // 
+            // pictureBoxPreviousTrack
+            // 
+            pictureBoxPreviousTrack.Image = (Image)resources.GetObject("pictureBoxPreviousTrack.Image");
+            pictureBoxPreviousTrack.Location = new Point(564, 612);
+            pictureBoxPreviousTrack.Name = "pictureBoxPreviousTrack";
+            pictureBoxPreviousTrack.Size = new Size(26, 26);
+            pictureBoxPreviousTrack.TabIndex = 6;
+            pictureBoxPreviousTrack.TabStop = false;
+            pictureBoxPreviousTrack.Click += previousSong_Click;
             // 
             // Form1
             // 
@@ -139,9 +155,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(pictureBoxPreviousTrack);
+            Controls.Add(pictureBoxNextTrack);
             Controls.Add(pictureBoxPlayMusic);
             Controls.Add(pictureBoxStopMusic);
-            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(musicList);
             ForeColor = SystemColors.ControlLight;
@@ -149,6 +166,8 @@
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPreviousTrack).EndInit();
             ResumeLayout(false);
         }
 
@@ -162,8 +181,9 @@
         private ColumnHeader Artist;
         private ColumnHeader Album;
         private ColumnHeader Duration;
-        private Button button2;
         private PictureBox pictureBoxStopMusic;
         private PictureBox pictureBoxPlayMusic;
+        private PictureBox pictureBoxNextTrack;
+        private PictureBox pictureBoxPreviousTrack;
     }
 }
