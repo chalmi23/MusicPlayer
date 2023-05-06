@@ -43,12 +43,14 @@
             pictureBoxNextTrack = new PictureBox();
             pictureBoxPreviousTrack = new PictureBox();
             trackBar = new TrackBar();
-            button2 = new Button();
+            splitter1 = new Splitter();
+            trackBarVolume = new TrackBar();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviousTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarVolume).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -154,20 +156,32 @@
             // 
             // trackBar
             // 
+            trackBar.LargeChange = 0;
             trackBar.Location = new Point(441, 649);
             trackBar.Name = "trackBar";
             trackBar.Size = new Size(507, 45);
             trackBar.TabIndex = 7;
             trackBar.TickStyle = TickStyle.None;
             // 
-            // button2
+            // splitter1
             // 
-            button2.Location = new Point(50, 266);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 8;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
+            splitter1.Location = new Point(0, 0);
+            splitter1.Name = "splitter1";
+            splitter1.Size = new Size(3, 706);
+            splitter1.TabIndex = 8;
+            splitter1.TabStop = false;
+            // 
+            // trackBarVolume
+            // 
+            trackBarVolume.Location = new Point(1189, 576);
+            trackBarVolume.Maximum = 100;
+            trackBarVolume.Name = "trackBarVolume";
+            trackBarVolume.Orientation = Orientation.Vertical;
+            trackBarVolume.Size = new Size(45, 104);
+            trackBarVolume.TabIndex = 9;
+            trackBarVolume.TickStyle = TickStyle.None;
+            trackBarVolume.Value = 100;
+            trackBarVolume.Scroll += setVolume;
             // 
             // Form1
             // 
@@ -175,7 +189,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
-            Controls.Add(button2);
+            Controls.Add(trackBarVolume);
+            Controls.Add(splitter1);
             Controls.Add(trackBar);
             Controls.Add(pictureBoxPreviousTrack);
             Controls.Add(pictureBoxNextTrack);
@@ -191,6 +206,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviousTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarVolume).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -210,6 +226,7 @@
         private PictureBox pictureBoxNextTrack;
         private PictureBox pictureBoxPreviousTrack;
         private TrackBar trackBar;
-        private Button button2;
+        private Splitter splitter1;
+        private TrackBar trackBarVolume;
     }
 }

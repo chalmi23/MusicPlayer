@@ -81,7 +81,6 @@ namespace WinFormsApp1
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
             audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 10000);
-
         }
         private void playMusic(object sender, EventArgs e)
         {
@@ -104,7 +103,7 @@ namespace WinFormsApp1
                 pictureBoxStopMusic.Visible = true;
                 progressBar.Value = 0;
                 trackBar.Value = 0;
-                trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds*10000);
+                trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds * 10000);
                 timer.Start();
             }
         }
@@ -192,6 +191,11 @@ namespace WinFormsApp1
         private void button2_Click(object sender, EventArgs e)
         {
             audioFile.CurrentTime = TimeSpan.FromMilliseconds(300);
+        }
+
+        private void setVolume(object sender, EventArgs e)
+        {
+            audioFile.Volume = (float)trackBarVolume.Value/100;
         }
     }
 }
