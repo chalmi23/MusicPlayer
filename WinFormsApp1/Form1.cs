@@ -10,6 +10,10 @@ namespace WinFormsApp1
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
         int currentTrackIndex;
+
+        ProgressBar progressBar = new ProgressBar();
+        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+
         public Form1()
         {
             InitializeComponent();
@@ -20,6 +24,12 @@ namespace WinFormsApp1
             musicList.FullRowSelect = true;
 
             outputDevice = new WaveOutEvent();
+
+            trackBar.Scroll += TrackBar_Scroll;
+            Controls.Add(trackBar);
+
+            timer.Interval = 1;
+            timer.Tick += Timer_Tick;
         }
 
         private void AddNewSongs(object sender, EventArgs e)
@@ -27,7 +37,7 @@ namespace WinFormsApp1
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
             openFileDialog1.Title = "Choose audio file";
-            openFileDialog1.Filter = "Audio files (*.mp3, *.wav, *.mp4, *.flac)|*.mp3;*.wav;*.mp4;*.flac";
+            openFileDialog1.Filter = "Audio files (*.mp3, *.wav, *.mp4)|*.mp3;*.wav;*.mp4";
             openFileDialog1.Multiselect = true;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -59,14 +69,26 @@ namespace WinFormsApp1
                 }
             }
         }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (outputDevice.PlaybackState == PlaybackState.Playing)
+            {
+                trackBar.Value = (int)(audioFile.CurrentTime.TotalMilliseconds * 10000);
+            }
+        }
+
+        private void TrackBar_Scroll(object sender, EventArgs e)
+        {
+            audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 10000);
+
+        }
         private void playMusic(object sender, EventArgs e)
         {
             if (musicList.SelectedItems.Count > 0)
             {
                 ListViewItem selectedItem = musicList.SelectedItems[0];
                 int trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
-
-                if (isPlaying && currentTrackIndex == trackIndex) return;
 
                 if (isPlaying || isPaused) outputDevice.Stop();
 
@@ -80,6 +102,10 @@ namespace WinFormsApp1
                 currentTrackIndex = trackIndex;
                 pictureBoxPlayMusic.Visible = false;
                 pictureBoxStopMusic.Visible = true;
+                progressBar.Value = 0;
+                trackBar.Value = 0;
+                trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds*10000);
+                timer.Start();
             }
         }
         private void playPausePictureBox_Click(object sender, EventArgs e)
@@ -91,6 +117,7 @@ namespace WinFormsApp1
                 isPaused = true;
                 pictureBoxPlayMusic.Visible = true;
                 pictureBoxStopMusic.Visible = false;
+                timer.Stop();
             }
             else
             {
@@ -99,6 +126,7 @@ namespace WinFormsApp1
                 isPaused = false;
                 pictureBoxPlayMusic.Visible = false;
                 pictureBoxStopMusic.Visible = true;
+                timer.Start();
             }
         }
 
@@ -159,6 +187,11 @@ namespace WinFormsApp1
         {
             e.Cancel = true;
             e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            audioFile.CurrentTime = TimeSpan.FromMilliseconds(300);
         }
     }
 }

@@ -42,10 +42,13 @@
             pictureBoxPlayMusic = new PictureBox();
             pictureBoxNextTrack = new PictureBox();
             pictureBoxPreviousTrack = new PictureBox();
+            trackBar = new TrackBar();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviousTrack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -111,7 +114,7 @@
             // pictureBoxStopMusic
             // 
             pictureBoxStopMusic.Image = (Image)resources.GetObject("pictureBoxStopMusic.Image");
-            pictureBoxStopMusic.Location = new Point(628, 601);
+            pictureBoxStopMusic.Location = new Point(672, 577);
             pictureBoxStopMusic.Name = "pictureBoxStopMusic";
             pictureBoxStopMusic.Size = new Size(49, 49);
             pictureBoxStopMusic.TabIndex = 3;
@@ -122,7 +125,7 @@
             // pictureBoxPlayMusic
             // 
             pictureBoxPlayMusic.Image = (Image)resources.GetObject("pictureBoxPlayMusic.Image");
-            pictureBoxPlayMusic.Location = new Point(628, 600);
+            pictureBoxPlayMusic.Location = new Point(672, 576);
             pictureBoxPlayMusic.Name = "pictureBoxPlayMusic";
             pictureBoxPlayMusic.Size = new Size(49, 49);
             pictureBoxPlayMusic.TabIndex = 4;
@@ -132,7 +135,7 @@
             // pictureBoxNextTrack
             // 
             pictureBoxNextTrack.Image = (Image)resources.GetObject("pictureBoxNextTrack.Image");
-            pictureBoxNextTrack.Location = new Point(712, 612);
+            pictureBoxNextTrack.Location = new Point(756, 588);
             pictureBoxNextTrack.Name = "pictureBoxNextTrack";
             pictureBoxNextTrack.Size = new Size(26, 26);
             pictureBoxNextTrack.TabIndex = 5;
@@ -142,12 +145,29 @@
             // pictureBoxPreviousTrack
             // 
             pictureBoxPreviousTrack.Image = (Image)resources.GetObject("pictureBoxPreviousTrack.Image");
-            pictureBoxPreviousTrack.Location = new Point(564, 612);
+            pictureBoxPreviousTrack.Location = new Point(608, 588);
             pictureBoxPreviousTrack.Name = "pictureBoxPreviousTrack";
             pictureBoxPreviousTrack.Size = new Size(26, 26);
             pictureBoxPreviousTrack.TabIndex = 6;
             pictureBoxPreviousTrack.TabStop = false;
             pictureBoxPreviousTrack.Click += previousSong_Click;
+            // 
+            // trackBar
+            // 
+            trackBar.Location = new Point(441, 649);
+            trackBar.Name = "trackBar";
+            trackBar.Size = new Size(507, 45);
+            trackBar.TabIndex = 7;
+            trackBar.TickStyle = TickStyle.None;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(50, 266);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 8;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -155,6 +175,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(button2);
+            Controls.Add(trackBar);
             Controls.Add(pictureBoxPreviousTrack);
             Controls.Add(pictureBoxNextTrack);
             Controls.Add(pictureBoxPlayMusic);
@@ -168,7 +190,9 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviousTrack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -185,5 +209,7 @@
         private PictureBox pictureBoxPlayMusic;
         private PictureBox pictureBoxNextTrack;
         private PictureBox pictureBoxPreviousTrack;
+        private TrackBar trackBar;
+        private Button button2;
     }
 }
