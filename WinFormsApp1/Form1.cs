@@ -1,8 +1,10 @@
+using NAudio.Wave;
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
         int trackCounter = 0;
+        private List<trackClass> tracks = new List<trackClass>();
         public Form1()
         {
             InitializeComponent();
@@ -10,7 +12,7 @@ namespace WinFormsApp1
             musicList.View = View.Details; // W³¹czenie wyœwietlania nag³ówków
             musicList.SmallImageList = new ImageList();
             musicList.SmallImageList.ImageSize = new Size(48, 48);
-
+            musicList.FullRowSelect = true;
         }
         private void AddNewSongs(object sender, EventArgs e)
         {
@@ -39,10 +41,13 @@ namespace WinFormsApp1
                     if (!string.IsNullOrEmpty(file.Properties.Duration.ToString(@"mm\:ss"))) track.DurationGS = file.Properties.Duration.ToString(@"mm\:ss");
                     else track.DurationGS = "unknown";
 
+                    track.PathGS = fileName; // przypisanie œcie¿ki do w³aœciwoœci PathGS
+
                     trackCounter++;
+                    tracks.Add(track);
+
                     ListViewItem item = new ListViewItem(new string[] { "", trackCounter.ToString(), "brak", track.TitleGS, track.ArtistGS, track.AlbumGS, track.DurationGS });
                     musicList.Items.Add(item);
-
                 }
             }
         }
@@ -50,6 +55,23 @@ namespace WinFormsApp1
         {
             e.Cancel = true;
             e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
+        }
+
+        private void playMusic(object sender, EventArgs e)
+        {
+            if (musicList.SelectedItems.Count > 0)
+            {
+                ListViewItem selectedItem = musicList.SelectedItems[0];
+                int trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
+                string filePath = tracks[trackIndex].PathGS;
+
+                var audioFile = new AudioFileReader(filePath);
+                var outputDevice = new WaveOutEvent();
+                
+                outputDevice.Init(audioFile);
+                outputDevice.Play();
+                
+            }
         }
     }
 }

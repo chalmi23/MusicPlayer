@@ -37,6 +37,7 @@
             Artist = new ColumnHeader();
             Album = new ColumnHeader();
             Duration = new ColumnHeader();
+            button2 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -53,12 +54,13 @@
             // musicList
             // 
             musicList.Columns.AddRange(new ColumnHeader[] { empty, Id, Cover, Title, Artist, Album, Duration });
-            musicList.Location = new Point(267, 12);
+            musicList.Location = new Point(264, 12);
             musicList.Name = "musicList";
             musicList.Size = new Size(950, 546);
             musicList.TabIndex = 0;
             musicList.UseCompatibleStateImageBehavior = false;
             musicList.ColumnWidthChanging += ColumnWidthChanging;
+            musicList.Click += playMusic;
             // 
             // empty
             // 
@@ -94,12 +96,24 @@
             Duration.Text = "Duration";
             Duration.Width = 81;
             // 
+            // button2
+            // 
+            button2.ForeColor = SystemColors.ActiveCaptionText;
+            button2.Location = new Point(66, 375);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 2;
+            button2.Text = "play";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += playMusic;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(musicList);
             ForeColor = SystemColors.ControlLight;
@@ -118,5 +132,6 @@
         private ColumnHeader Artist;
         private ColumnHeader Album;
         private ColumnHeader Duration;
+        private Button button2;
     }
 }
