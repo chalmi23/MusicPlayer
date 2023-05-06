@@ -76,6 +76,7 @@ namespace WinFormsApp1
                 try
                 {
                     trackBar.Value = (int)(audioFile.CurrentTime.TotalMilliseconds * 1000);
+                    labelTimeCounter.Text = audioFile.CurrentTime.ToString(@"mm\:ss");
                 }
                 catch (System.ArgumentOutOfRangeException)
                 {
@@ -102,7 +103,7 @@ namespace WinFormsApp1
                 audioFile = new AudioFileReader(filePath);
 
                 outputDevice.Init(audioFile);
-                setInfoSong(sender, e);
+                playingSongInfo(sender, e);
                 outputDevice.Play();
 
                 currentTrackIndex = trackIndex;
@@ -110,7 +111,7 @@ namespace WinFormsApp1
 
             }
         }
-        private void setInfoSong(object sender, EventArgs e)
+        private void playingSongInfo(object sender, EventArgs e)
         {
             isPlaying = true;
             isPaused = false;
@@ -119,6 +120,7 @@ namespace WinFormsApp1
             trackBar.Value = 0;
             trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds * 1000);
             audioFile.Volume = (float)trackBarVolume.Value / 100;
+            labelDuration.Text = audioFile.TotalTime.ToString(@"mm\:ss");
             timer.Start();
         }
         private void playPausePictureBox_Click(object sender, EventArgs e)
@@ -144,7 +146,7 @@ namespace WinFormsApp1
                     timer.Start();
                 }
             }
-            catch(System.InvalidOperationException)
+            catch (System.InvalidOperationException)
             {
                 return;
             }
@@ -168,7 +170,7 @@ namespace WinFormsApp1
 
             outputDevice.Init(audioFile);
             outputDevice.Play();
-            setInfoSong(sender, e);
+            playingSongInfo(sender, e);
 
             musicList.Items[currentTrackIndex].Selected = true;
             musicList.Select();
@@ -192,7 +194,7 @@ namespace WinFormsApp1
 
             outputDevice.Init(audioFile);
             outputDevice.Play();
-            setInfoSong(sender, e);
+            playingSongInfo(sender, e);
 
             musicList.Items[currentTrackIndex].Selected = true;
             musicList.Select();
@@ -246,7 +248,7 @@ namespace WinFormsApp1
             {
                 if (trackBarVolume.Value > 0)
                 {
-                    previousVolume = (float)trackBarVolume.Value/100;
+                    previousVolume = (float)trackBarVolume.Value / 100;
                     trackBarVolume.Value = 0;
                     pictureBoxSpeakerNoSound.Visible = true;
                     pictureBoxSpeaker.Visible = false;

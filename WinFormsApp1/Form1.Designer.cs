@@ -47,6 +47,8 @@
             trackBarVolume = new TrackBar();
             pictureBoxSpeaker = new PictureBox();
             pictureBoxSpeakerNoSound = new PictureBox();
+            labelTimeCounter = new Label();
+            labelDuration = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
@@ -208,12 +210,38 @@
             pictureBoxSpeakerNoSound.Visible = false;
             pictureBoxSpeakerNoSound.Click += setVolumeBySpeaker;
             // 
+            // labelTimeCounter
+            // 
+            labelTimeCounter.AutoSize = true;
+            labelTimeCounter.BackColor = SystemColors.ButtonHighlight;
+            labelTimeCounter.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelTimeCounter.ForeColor = SystemColors.ActiveCaptionText;
+            labelTimeCounter.Location = new Point(409, 632);
+            labelTimeCounter.Name = "labelTimeCounter";
+            labelTimeCounter.Size = new Size(40, 19);
+            labelTimeCounter.TabIndex = 12;
+            labelTimeCounter.Text = "00:00";
+            // 
+            // labelDuration
+            // 
+            labelDuration.AutoSize = true;
+            labelDuration.BackColor = SystemColors.ButtonHighlight;
+            labelDuration.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelDuration.ForeColor = SystemColors.ActiveCaptionText;
+            labelDuration.Location = new Point(945, 632);
+            labelDuration.Name = "labelDuration";
+            labelDuration.Size = new Size(40, 19);
+            labelDuration.TabIndex = 13;
+            labelDuration.Text = "00:00";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(labelDuration);
+            Controls.Add(labelTimeCounter);
             Controls.Add(pictureBoxSpeakerNoSound);
             Controls.Add(pictureBoxSpeaker);
             Controls.Add(trackBarVolume);
@@ -259,5 +287,7 @@
         private TrackBar trackBarVolume;
         private PictureBox pictureBoxSpeaker;
         private PictureBox pictureBoxSpeakerNoSound;
+        private Label labelTimeCounter;
+        private Label labelDuration;
     }
 }
