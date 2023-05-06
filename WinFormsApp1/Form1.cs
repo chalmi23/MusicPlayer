@@ -10,8 +10,8 @@ namespace WinFormsApp1
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
         int currentTrackIndex;
+        float previousVolume = 1;
 
-        ProgressBar progressBar = new ProgressBar();
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
         public Form1()
@@ -22,7 +22,6 @@ namespace WinFormsApp1
             musicList.SmallImageList = new ImageList();
             musicList.SmallImageList.ImageSize = new Size(48, 48);
             musicList.FullRowSelect = true;
-
             outputDevice = new WaveOutEvent();
 
             trackBar.Scroll += TrackBar_Scroll;
@@ -101,31 +100,38 @@ namespace WinFormsApp1
                 currentTrackIndex = trackIndex;
                 pictureBoxPlayMusic.Visible = false;
                 pictureBoxStopMusic.Visible = true;
-                progressBar.Value = 0;
                 trackBar.Value = 0;
                 trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds * 10000);
+                audioFile.Volume = (float)trackBarVolume.Value / 100;
                 timer.Start();
             }
         }
         private void playPausePictureBox_Click(object sender, EventArgs e)
         {
-            if (isPlaying)
+            try
             {
-                outputDevice.Pause();
-                isPlaying = false;
-                isPaused = true;
-                pictureBoxPlayMusic.Visible = true;
-                pictureBoxStopMusic.Visible = false;
-                timer.Stop();
+                if (isPlaying)
+                {
+                    outputDevice.Pause();
+                    isPlaying = false;
+                    isPaused = true;
+                    pictureBoxPlayMusic.Visible = true;
+                    pictureBoxStopMusic.Visible = false;
+                    timer.Stop();
+                }
+                else
+                {
+                    outputDevice.Play();
+                    isPlaying = true;
+                    isPaused = false;
+                    pictureBoxPlayMusic.Visible = false;
+                    pictureBoxStopMusic.Visible = true;
+                    timer.Start();
+                }
             }
-            else
+            catch(System.InvalidOperationException)
             {
-                outputDevice.Play();
-                isPlaying = true;
-                isPaused = false;
-                pictureBoxPlayMusic.Visible = false;
-                pictureBoxStopMusic.Visible = true;
-                timer.Start();
+                return;
             }
         }
 
@@ -195,7 +201,54 @@ namespace WinFormsApp1
 
         private void setVolume(object sender, EventArgs e)
         {
-            audioFile.Volume = (float)trackBarVolume.Value/100;
+            bool isAudioFileNotNull = (audioFile != null);
+            bool isVolumeZero = (trackBarVolume.Value == 0);
+
+            pictureBoxSpeakerNoSound.Visible = isVolumeZero;
+            pictureBoxSpeaker.Visible = !isVolumeZero;
+
+            if (isAudioFileNotNull)
+            {
+                audioFile.Volume = (float)trackBarVolume.Value / 100;
+            }
+        }
+
+        private void setVolumeBySpeaker(object sender, EventArgs e)
+        {
+            if (audioFile != null)
+            {
+                if (audioFile.Volume > 0)
+                {
+                    previousVolume = audioFile.Volume;
+                    trackBarVolume.Value = 0;
+                    audioFile.Volume = 0;
+                    pictureBoxSpeakerNoSound.Visible = true;
+                    pictureBoxSpeaker.Visible = false;
+                }
+                else
+                {
+                    trackBarVolume.Value = (int)(previousVolume * 100);
+                    audioFile.Volume = previousVolume;
+                    pictureBoxSpeakerNoSound.Visible = false;
+                    pictureBoxSpeaker.Visible = true;
+                }
+            }
+            else
+            {
+                if (trackBarVolume.Value > 0)
+                {
+                    previousVolume = (float)trackBarVolume.Value/100;
+                    trackBarVolume.Value = 0;
+                    pictureBoxSpeakerNoSound.Visible = true;
+                    pictureBoxSpeaker.Visible = false;
+                }
+                else
+                {
+                    trackBarVolume.Value = (int)(previousVolume * 100);
+                    pictureBoxSpeakerNoSound.Visible = false;
+                    pictureBoxSpeaker.Visible = true;
+                }
+            }
         }
     }
 }

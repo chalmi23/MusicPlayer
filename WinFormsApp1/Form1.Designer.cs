@@ -45,12 +45,16 @@
             trackBar = new TrackBar();
             splitter1 = new Splitter();
             trackBarVolume = new TrackBar();
+            pictureBoxSpeaker = new PictureBox();
+            pictureBoxSpeakerNoSound = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviousTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBarVolume).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxSpeaker).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxSpeakerNoSound).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -116,7 +120,7 @@
             // pictureBoxStopMusic
             // 
             pictureBoxStopMusic.Image = (Image)resources.GetObject("pictureBoxStopMusic.Image");
-            pictureBoxStopMusic.Location = new Point(672, 577);
+            pictureBoxStopMusic.Location = new Point(665, 578);
             pictureBoxStopMusic.Name = "pictureBoxStopMusic";
             pictureBoxStopMusic.Size = new Size(49, 49);
             pictureBoxStopMusic.TabIndex = 3;
@@ -127,7 +131,7 @@
             // pictureBoxPlayMusic
             // 
             pictureBoxPlayMusic.Image = (Image)resources.GetObject("pictureBoxPlayMusic.Image");
-            pictureBoxPlayMusic.Location = new Point(672, 576);
+            pictureBoxPlayMusic.Location = new Point(665, 577);
             pictureBoxPlayMusic.Name = "pictureBoxPlayMusic";
             pictureBoxPlayMusic.Size = new Size(49, 49);
             pictureBoxPlayMusic.TabIndex = 4;
@@ -137,7 +141,7 @@
             // pictureBoxNextTrack
             // 
             pictureBoxNextTrack.Image = (Image)resources.GetObject("pictureBoxNextTrack.Image");
-            pictureBoxNextTrack.Location = new Point(756, 588);
+            pictureBoxNextTrack.Location = new Point(749, 589);
             pictureBoxNextTrack.Name = "pictureBoxNextTrack";
             pictureBoxNextTrack.Size = new Size(26, 26);
             pictureBoxNextTrack.TabIndex = 5;
@@ -147,7 +151,7 @@
             // pictureBoxPreviousTrack
             // 
             pictureBoxPreviousTrack.Image = (Image)resources.GetObject("pictureBoxPreviousTrack.Image");
-            pictureBoxPreviousTrack.Location = new Point(608, 588);
+            pictureBoxPreviousTrack.Location = new Point(601, 589);
             pictureBoxPreviousTrack.Name = "pictureBoxPreviousTrack";
             pictureBoxPreviousTrack.Size = new Size(26, 26);
             pictureBoxPreviousTrack.TabIndex = 6;
@@ -157,7 +161,7 @@
             // trackBar
             // 
             trackBar.LargeChange = 0;
-            trackBar.Location = new Point(441, 649);
+            trackBar.Location = new Point(441, 632);
             trackBar.Name = "trackBar";
             trackBar.Size = new Size(507, 45);
             trackBar.TabIndex = 7;
@@ -173,7 +177,7 @@
             // 
             // trackBarVolume
             // 
-            trackBarVolume.Location = new Point(1189, 576);
+            trackBarVolume.Location = new Point(1169, 577);
             trackBarVolume.Maximum = 100;
             trackBarVolume.Name = "trackBarVolume";
             trackBarVolume.Orientation = Orientation.Vertical;
@@ -183,12 +187,35 @@
             trackBarVolume.Value = 100;
             trackBarVolume.Scroll += setVolume;
             // 
+            // pictureBoxSpeaker
+            // 
+            pictureBoxSpeaker.Image = (Image)resources.GetObject("pictureBoxSpeaker.Image");
+            pictureBoxSpeaker.Location = new Point(1133, 614);
+            pictureBoxSpeaker.Name = "pictureBoxSpeaker";
+            pictureBoxSpeaker.Size = new Size(30, 31);
+            pictureBoxSpeaker.TabIndex = 10;
+            pictureBoxSpeaker.TabStop = false;
+            pictureBoxSpeaker.Click += setVolumeBySpeaker;
+            // 
+            // pictureBoxSpeakerNoSound
+            // 
+            pictureBoxSpeakerNoSound.Image = (Image)resources.GetObject("pictureBoxSpeakerNoSound.Image");
+            pictureBoxSpeakerNoSound.Location = new Point(1133, 614);
+            pictureBoxSpeakerNoSound.Name = "pictureBoxSpeakerNoSound";
+            pictureBoxSpeakerNoSound.Size = new Size(30, 31);
+            pictureBoxSpeakerNoSound.TabIndex = 11;
+            pictureBoxSpeakerNoSound.TabStop = false;
+            pictureBoxSpeakerNoSound.Visible = false;
+            pictureBoxSpeakerNoSound.Click += setVolumeBySpeaker;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(pictureBoxSpeakerNoSound);
+            Controls.Add(pictureBoxSpeaker);
             Controls.Add(trackBarVolume);
             Controls.Add(splitter1);
             Controls.Add(trackBar);
@@ -207,6 +234,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxPreviousTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBarVolume).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxSpeaker).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxSpeakerNoSound).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -228,5 +257,7 @@
         private TrackBar trackBar;
         private Splitter splitter1;
         private TrackBar trackBarVolume;
+        private PictureBox pictureBoxSpeaker;
+        private PictureBox pictureBoxSpeakerNoSound;
     }
 }
