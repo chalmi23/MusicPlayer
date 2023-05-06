@@ -74,12 +74,13 @@
             button1.TabIndex = 1;
             button1.Text = "add new songs";
             button1.UseVisualStyleBackColor = false;
-            button1.Click += AddNewSongs;
+            button1.Click += AddNewSongsButtonClick;
             // 
             // musicList
             // 
             musicList.Columns.AddRange(new ColumnHeader[] { empty, Id, Cover, Title, Artist, Album, Duration });
             musicList.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            musicList.FullRowSelect = true;
             musicList.HideSelection = true;
             musicList.Location = new Point(264, 12);
             musicList.MultiSelect = false;

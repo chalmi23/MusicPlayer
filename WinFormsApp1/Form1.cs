@@ -4,86 +4,45 @@ namespace WinFormsApp1
     public partial class Form1 : Form
     {
         int trackCounter = 0;
-        private List<trackClass> tracks = new List<trackClass>();
-        bool isPlaying = false;
-        bool isPaused = false;
-        AudioFileReader audioFile;
-        WaveOutEvent outputDevice;
         int currentTrackIndex;
         float previousVolume = 1;
 
+        bool isPlaying = false;
+        bool isPaused = false;
+
+        AudioFileReader audioFile;
+        WaveOutEvent outputDevice;
+
+        private List<trackClass> tracks = new List<trackClass>();
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-
-        private void outputDevice_PlaybackStopped(object sender, StoppedEventArgs e)
-        {
-            if (audioFile != null)
-            {
-                audioFile.Position = 0;
-                outputDevice.Stop();
-                isPlaying = false;
-                isPaused = false;
-                timer.Stop();
-                pictureBoxPlayMusic.Visible = true;
-                pictureBoxStopMusic.Visible = false;
-                labelTimeCounter.Text = "00:00";
-                trackBar.Value = 0;
-            }
-        }
-
         public Form1()
         {
             InitializeComponent();
 
-            musicList.View = View.Details; // W³¹czenie wyœwietlania nag³ówków
+            musicList.View = View.Details;
             musicList.SmallImageList = new ImageList();
             musicList.SmallImageList.ImageSize = new Size(48, 48);
-            musicList.FullRowSelect = true;
+
             outputDevice = new WaveOutEvent();
 
-            outputDevice.PlaybackStopped += outputDevice_PlaybackStopped; // dodanie obs³ugi zdarzenia PlaybackStopped
-
+            outputDevice.PlaybackStopped += outputDevice_PlaybackStopped;
             trackBar.Scroll += TrackBar_Scroll;
+
             Controls.Add(trackBar);
 
             timer.Interval = 10;
             timer.Tick += Timer_Tick;
         }
 
-        private void AddNewSongs(object sender, EventArgs e)
+        private void AddNewSongsButtonClick(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.Title = "Choose audio file";
-            openFileDialog1.Filter = "Audio files (*.mp3, *.wav, *.mp4)|*.mp3;*.wav;*.mp4";
-            openFileDialog1.Multiselect = true;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            List<trackClass> tracksAdded = trackClass.AddNewSongs();
+            foreach (trackClass track in tracksAdded)
             {
-                foreach (string fileName in openFileDialog1.FileNames)
-                {
-                    trackClass track = new trackClass();
-                    TagLib.File file = TagLib.File.Create(fileName);
-
-                    if (!string.IsNullOrEmpty(file.Tag.Title)) track.TitleGS = file.Tag.Title;
-                    else track.TitleGS = "unknown";
-
-                    if (file.Tag.Performers != null && file.Tag.Performers.Length > 0) track.ArtistGS = file.Tag.Performers[0];
-                    else track.ArtistGS = "unknown";
-
-                    if (!string.IsNullOrEmpty(file.Tag.Album)) track.AlbumGS = file.Tag.Album;
-                    else track.AlbumGS = "unknown";
-
-                    if (!string.IsNullOrEmpty(file.Properties.Duration.ToString(@"mm\:ss"))) track.DurationGS = file.Properties.Duration.ToString(@"mm\:ss");
-                    else track.DurationGS = "unknown";
-
-                    track.PathGS = fileName;
-
-                    trackCounter++;
-                    tracks.Add(track);
-
-                    ListViewItem item = new ListViewItem(new string[] { "", trackCounter.ToString(), "brak", track.TitleGS, track.ArtistGS, track.AlbumGS, track.DurationGS });
-                    musicList.Items.Add(item);
-                }
+                trackCounter++;
+                ListViewItem item = new ListViewItem(new string[] { "", trackCounter.ToString(), "brak", track.TitleGS, track.ArtistGS, track.AlbumGS, track.DurationGS });
+                musicList.Items.Add(item);
+                tracks.Add(track);
             }
         }
 
@@ -301,6 +260,21 @@ namespace WinFormsApp1
                     currentTime = audioFile.TotalTime;
                 }
                 audioFile.CurrentTime = currentTime;
+            }
+        }
+        private void outputDevice_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            if (audioFile != null && labelTimeCounter.Text == audioFile.TotalTime.ToString(@"mm\:ss"))
+            {
+                audioFile.Position = 0;
+                outputDevice.Stop();
+                isPlaying = false;
+                isPaused = false;
+                timer.Stop();
+                pictureBoxPlayMusic.Visible = true;
+                pictureBoxStopMusic.Visible = false;
+                labelTimeCounter.Text = "00:00";
+                trackBar.Value = 0;
             }
         }
     }
