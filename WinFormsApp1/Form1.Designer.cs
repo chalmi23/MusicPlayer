@@ -386,8 +386,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
-            Controls.Add(buttonSettings);
             Controls.Add(panelSettings);
+            Controls.Add(buttonSettings);
             Controls.Add(pictureBoxRandomGreen);
             Controls.Add(pictureBoxRandom);
             Controls.Add(pictureBoxCover);

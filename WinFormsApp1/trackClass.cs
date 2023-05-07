@@ -51,7 +51,6 @@ namespace WinFormsApp1
                         if (!string.IsNullOrEmpty(file.Properties.Duration.ToString(@"mm\:ss"))) track.DurationGS = file.Properties.Duration.ToString(@"mm\:ss");
                         else track.DurationGS = "unknown";
 
-                        // pobierz okładkę (jeśli istnieje)
                         IPicture picture = file.Tag.Pictures.FirstOrDefault();
                         if (picture != null)
                         {

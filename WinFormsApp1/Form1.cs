@@ -1,6 +1,4 @@
 using NAudio.Wave;
-using System;
-using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
@@ -191,7 +189,7 @@ namespace WinFormsApp1
             {
                 if (isRandom)
                 {
-                    if (availableTrackIndexes.Count == 0) // jeœli brak dostêpnych utworów
+                    if (availableTrackIndexes.Count == 0) 
                     {
                         MessageBox.Show("Wszystkie piosenki z listy zosta³y ju¿ odtworzone.", "Koniec listy");
                         if (isRandom) initializeAvailableTrackIndexes();
@@ -200,9 +198,9 @@ namespace WinFormsApp1
                     }
 
                     Random rnd = new Random();
-                    int randomIndex = rnd.Next(availableTrackIndexes.Count); // losowy indeks z listy dostêpnych utworów
-                    currentTrackIndex = availableTrackIndexes[randomIndex]; // ustawienie aktualnego indeksu
-                    availableTrackIndexes.RemoveAt(randomIndex); // usuniêcie wybranego indeksu z listy dostêpnych utworów
+                    int randomIndex = rnd.Next(availableTrackIndexes.Count); 
+                    currentTrackIndex = availableTrackIndexes[randomIndex]; 
+                    availableTrackIndexes.RemoveAt(randomIndex); 
                 }
                 else
                 {
