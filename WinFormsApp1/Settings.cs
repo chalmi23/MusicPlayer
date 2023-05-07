@@ -28,10 +28,6 @@ namespace WinFormsApp1
                 }
             }
         }
-
-
-
-
         private void addFolder(object sender, EventArgs e)
         {
             FolderBrowserDialog folderDialog = new FolderBrowserDialog();

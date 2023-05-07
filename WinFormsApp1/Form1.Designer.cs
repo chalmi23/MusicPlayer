@@ -60,6 +60,11 @@
             pictureBoxRandomGreen = new PictureBox();
             panelSettings = new Panel();
             buttonSettings = new Button();
+            button2 = new Button();
+            listViewPlaylist = new ListView();
+            Image = new ColumnHeader();
+            Number = new ColumnHeader();
+            PlayListName = new ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
@@ -83,7 +88,7 @@
             button1.BackColor = SystemColors.ButtonFace;
             button1.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             button1.ForeColor = SystemColors.ActiveCaptionText;
-            button1.Location = new Point(12, 12);
+            button1.Location = new Point(12, 207);
             button1.Name = "button1";
             button1.Size = new Size(246, 43);
             button1.TabIndex = 1;
@@ -372,7 +377,7 @@
             buttonSettings.BackColor = SystemColors.ButtonFace;
             buttonSettings.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             buttonSettings.ForeColor = SystemColors.ActiveCaptionText;
-            buttonSettings.Location = new Point(12, 61);
+            buttonSettings.Location = new Point(12, 12);
             buttonSettings.Name = "buttonSettings";
             buttonSettings.Size = new Size(246, 43);
             buttonSettings.TabIndex = 25;
@@ -380,12 +385,51 @@
             buttonSettings.UseVisualStyleBackColor = false;
             buttonSettings.Click += openSettings;
             // 
+            // button2
+            // 
+            button2.BackColor = SystemColors.ButtonFace;
+            button2.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            button2.ForeColor = SystemColors.ActiveCaptionText;
+            button2.Location = new Point(12, 256);
+            button2.Name = "button2";
+            button2.Size = new Size(246, 43);
+            button2.TabIndex = 26;
+            button2.Text = "add new playlist";
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // listViewPlaylist
+            // 
+            listViewPlaylist.Columns.AddRange(new ColumnHeader[] { Image, Number, PlayListName });
+            listViewPlaylist.Font = new Font("Bahnschrift Condensed", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            listViewPlaylist.Location = new Point(12, 305);
+            listViewPlaylist.Name = "listViewPlaylist";
+            listViewPlaylist.Size = new Size(246, 309);
+            listViewPlaylist.TabIndex = 27;
+            listViewPlaylist.UseCompatibleStateImageBehavior = false;
+            listViewPlaylist.ColumnWidthChanging += ColumnWidthChanging;
+            // 
+            // Image
+            // 
+            Image.Text = "Image";
+            // 
+            // Number
+            // 
+            Number.Text = "No.";
+            Number.Width = 40;
+            // 
+            // PlayListName
+            // 
+            PlayListName.Text = "Playlist name";
+            PlayListName.Width = 130;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(listViewPlaylist);
+            Controls.Add(button2);
             Controls.Add(panelSettings);
             Controls.Add(buttonSettings);
             Controls.Add(pictureBoxRandomGreen);
@@ -466,5 +510,10 @@
         private PictureBox pictureBoxRandomGreen;
         private Panel panelSettings;
         private Button buttonSettings;
+        private Button button2;
+        private ListView listViewPlaylist;
+        private ColumnHeader Image;
+        private ColumnHeader Number;
+        private ColumnHeader PlayListName;
     }
 }

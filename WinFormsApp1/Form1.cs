@@ -1,8 +1,5 @@
 using NAudio.Wave;
 using Newtonsoft.Json;
-using System.Windows.Forms;
-using TagLib;
-using TagLib.Mpeg;
 
 namespace WinFormsApp1
 {
@@ -31,6 +28,7 @@ namespace WinFormsApp1
             InitializeComponent();
 
             musicList.View = View.Details;
+            listViewPlaylist.View = View.Details;
             musicList.SmallImageList = new ImageList();
 
             outputDevice = new WaveOutEvent();
@@ -74,7 +72,7 @@ namespace WinFormsApp1
                     newTracks.Add(track);
                 }
             }
-            if(tracksAdded.Count > newTracks.Count) MessageBox.Show("Some songs are already on the list.", "Music Player");
+            if (tracksAdded.Count > newTracks.Count) MessageBox.Show("Some songs are already on the list.", "Music Player");
             tracksAdded = newTracks;
             foreach (trackClass track in tracksAdded)
             {
@@ -89,7 +87,7 @@ namespace WinFormsApp1
                 {
                     using (var ms = new MemoryStream(pictureData))
                     {
-                        Image coverImage = Image.FromStream(ms);
+                        Image coverImage = System.Drawing.Image.FromStream(ms);
                         index = albumCovers.FindIndex(img => img.RawFormat.Equals(coverImage.RawFormat) && img.Size.Equals(coverImage.Size));
                         if (index == -1)
                         {
@@ -446,7 +444,8 @@ namespace WinFormsApp1
             {
                 using (var ms = new MemoryStream(pictureData))
                 {
-                    image = Image.FromStream(ms);
+                    image = System.Drawing.Image.FromStream(ms);
+
                 }
             }
             else image = defaultCover.Image;
@@ -513,6 +512,7 @@ namespace WinFormsApp1
         {
             e.Cancel = true;
             e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
+            e.NewWidth = listViewPlaylist.Columns[e.ColumnIndex].Width;
         }
         private void panelSettingsPaint(object sender, PaintEventArgs e)
         {
