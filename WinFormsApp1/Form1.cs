@@ -1,4 +1,5 @@
 using NAudio.Wave;
+using Newtonsoft.Json;
 using System.Windows.Forms;
 using TagLib;
 using TagLib.Mpeg;
@@ -43,6 +44,17 @@ namespace WinFormsApp1
             timer.Tick += Timer_Tick;
             settings = new Settings(this);
             defaultCover.Image = pictureBoxCover.Image;
+
+            if (System.IO.File.Exists("appSettings.json"))
+            {
+                string json = System.IO.File.ReadAllText("appSettings.json");
+                List<DirectoryClass> directories = JsonConvert.DeserializeObject<List<DirectoryClass>>(json);
+
+                foreach (var dir in directories)
+                {
+                    AddNewSongs(trackClass.LoadFromDirectory(dir.PathGS));
+                }
+            }
         }
         private List<Image> albumCovers = new List<Image>();
         private void AddNewSongs(List<trackClass> tracksAdded)
@@ -339,15 +351,19 @@ namespace WinFormsApp1
         }
         private void SetDefaultInformations()
         {
-            audioFile.Position = 0;
-            outputDevice.Stop();
-            isPlaying = false;
-            isPaused = false;
-            timer.Stop();
-            pictureBoxPlayMusic.Visible = true;
-            pictureBoxStopMusic.Visible = false;
-            labelTimeCounter.Text = "00:00";
-            trackBar.Value = 0;
+            if (audioFile != null)
+            {
+                audioFile.Position = 0;
+                outputDevice.Stop();
+                isPlaying = false;
+                isPaused = false;
+                timer.Stop();
+                pictureBoxPlayMusic.Visible = true;
+                pictureBoxStopMusic.Visible = false;
+                labelTimeCounter.Text = "00:00";
+                trackBar.Value = 0;
+            }
+            else return;
         }
         private void SongIsOver(object sender, StoppedEventArgs e)
         {
@@ -448,24 +464,7 @@ namespace WinFormsApp1
                 availableTrackIndexes.Remove(currentTrackIndex);
             }
         }
-        private void ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
-        {
-            e.Cancel = true;
-            e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
-        }
-        private void panelSettingsPaint(object sender, PaintEventArgs e)
-        {
-            settings.Dock = DockStyle.Fill;
-            panelSettings.Controls.Add(settings);
-        }
-        private void AddNewSongsButtonClick(object sender, EventArgs e)
-        {
-            AddNewSongs(trackClass.AddNewSongs());
-        }
-        public void LoadToListViewFromFolder(string folderPath)
-        {
-            AddNewSongs(trackClass.LoadFromDirectory(folderPath));
-        }
+
         public void DeleteSongsFromDirectory(string folderPath)
         {
             List<trackClass> tracksToDelete = trackClass.LoadFromDirectory(folderPath);
@@ -509,6 +508,24 @@ namespace WinFormsApp1
         private void openSettings(object sender, EventArgs e)
         {
             panelSettings.Visible = !panelSettings.Visible;
+        }
+        private void ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
+        }
+        private void panelSettingsPaint(object sender, PaintEventArgs e)
+        {
+            settings.Dock = DockStyle.Fill;
+            panelSettings.Controls.Add(settings);
+        }
+        private void AddNewSongsButtonClick(object sender, EventArgs e)
+        {
+            AddNewSongs(trackClass.AddNewSongs());
+        }
+        public void LoadToListViewFromFolder(string folderPath)
+        {
+            AddNewSongs(trackClass.LoadFromDirectory(folderPath));
         }
     }
 }

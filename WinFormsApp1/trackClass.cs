@@ -110,15 +110,10 @@ namespace WinFormsApp1
                         {
                             track.CoverGS = picture;
                         }
-
                         track.PathGS = musicFile;
-
                         tracks.Add(track);
                     }
-                    catch (TagLib.CorruptFileException)
-                    {
-                        //
-                    }
+                    catch (TagLib.CorruptFileException){}
                 }
             }
             return tracks;
