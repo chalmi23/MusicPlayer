@@ -49,6 +49,20 @@ namespace WinFormsApp1
             ImageList imageList = musicList.SmallImageList ?? new ImageList();
             imageList.ImageSize = new Size(48, 48);
 
+            List<string> existingTracks = tracks.Select(t => $"{t.TitleGS} {t.ArtistGS}").ToList();
+            List<trackClass> newTracks = new List<trackClass>();
+
+            foreach (trackClass track in tracksAdded)
+            {
+                string trackIdentifier = $"{track.TitleGS} {track.ArtistGS}";
+                if (!existingTracks.Contains(trackIdentifier))
+                {
+                    existingTracks.Add(trackIdentifier);
+                    newTracks.Add(track);
+                }
+            }
+            if(tracksAdded.Count > newTracks.Count) MessageBox.Show("Some songs are already on the list.", "Music Player");
+            tracksAdded = newTracks;
             foreach (trackClass track in tracksAdded)
             {
                 trackCounter++;
@@ -75,15 +89,6 @@ namespace WinFormsApp1
                 item.ImageIndex = index;
             }
             musicList.SmallImageList = imageList;
-        }
-
-        private void AddNewSongsButtonClick(object sender, EventArgs e)
-        {
-            AddNewSongs(trackClass.AddNewSongs());
-        }
-        public void LoadToListViewFromFolder(string folderPath)
-        {
-            AddNewSongs(trackClass.LoadFromDirectory(folderPath));
         }
 
         private int timerCounterTitle = 0;
@@ -427,6 +432,14 @@ namespace WinFormsApp1
         {
             settings.Dock = DockStyle.Fill;
             panelSettings.Controls.Add(settings);
+        }
+        private void AddNewSongsButtonClick(object sender, EventArgs e)
+        {
+            AddNewSongs(trackClass.AddNewSongs());
+        }
+        public void LoadToListViewFromFolder(string folderPath)
+        {
+            AddNewSongs(trackClass.LoadFromDirectory(folderPath));
         }
         private void openSettings(object sender, EventArgs e)
         {
