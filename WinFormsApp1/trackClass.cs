@@ -74,7 +74,7 @@ namespace WinFormsApp1
             List<trackClass> tracks = new List<trackClass>();
             if (Directory.Exists(directory))
             {
-                string[] files = Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories);
+                string[] files = Directory.GetFiles(directory, "*.*", SearchOption.TopDirectoryOnly);
                 List<string> musicFiles = new List<string>();
 
                 foreach (string file in files)
@@ -117,7 +117,7 @@ namespace WinFormsApp1
                     }
                     catch (TagLib.CorruptFileException)
                     {
-                        MessageBox.Show("One of the files is damaged and cannot be added.", "Błąd");
+                        //
                     }
                 }
             }

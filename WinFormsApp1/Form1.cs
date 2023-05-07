@@ -8,6 +8,7 @@ namespace WinFormsApp1
     public partial class Form1 : Form
     {
         private Settings settings;
+        private PictureBox defaultCover = new PictureBox();
         int trackCounter = 0;
         int currentTrackIndex;
         int playStatus = 0; //0 - jednorazowe odtworzenie, 1 - powtarzanie jednej piosenki, 2 - powtarzanie wszystkich piosenek
@@ -41,9 +42,9 @@ namespace WinFormsApp1
             timer.Interval = 10;
             timer.Tick += Timer_Tick;
             settings = new Settings(this);
+            defaultCover.Image = pictureBoxCover.Image;
         }
         private List<Image> albumCovers = new List<Image>();
-
         private void AddNewSongs(List<trackClass> tracksAdded)
         {
             ImageList imageList = musicList.SmallImageList ?? new ImageList();
@@ -86,8 +87,19 @@ namespace WinFormsApp1
                         }
                     }
                 }
+                else
+                {
+                    index = albumCovers.FindIndex(img => img.RawFormat.Equals(defaultCover.Image.RawFormat) && img.Size.Equals(defaultCover.Image.Size));
+                    if (index == -1)
+                    {
+                        index = albumCovers.Count;
+                        albumCovers.Add(defaultCover.Image);
+                        imageList.Images.Add(defaultCover.Image);
+                    }
+                }
                 item.ImageIndex = index;
             }
+
             musicList.SmallImageList = imageList;
         }
 
@@ -117,6 +129,9 @@ namespace WinFormsApp1
         }
         private void playSelectedTrack(object sender, EventArgs e)
         {
+            pictureBoxPlayMusic.Enabled = true;
+            pictureBoxForwards.Enabled = true;
+            pictureBoxBackwards.Enabled = true;
             if (musicList.SelectedItems.Count > 0)
             {
                 ListViewItem selectedItem = musicList.SelectedItems[0];
@@ -176,6 +191,9 @@ namespace WinFormsApp1
                 MessageBox.Show("Brak piosenek na liœcie.", "B³¹d");
                 return;
             }
+            pictureBoxPlayMusic.Enabled = true;
+            pictureBoxForwards.Enabled = true;
+            pictureBoxBackwards.Enabled = true;
 
             outputDevice.Stop();
 
@@ -199,6 +217,9 @@ namespace WinFormsApp1
                 MessageBox.Show("Brak piosenek na liœcie.", "B³¹d");
                 return;
             }
+            pictureBoxPlayMusic.Enabled = true;
+            pictureBoxForwards.Enabled = true;
+            pictureBoxBackwards.Enabled = true;
 
             outputDevice.Stop();
 
@@ -316,20 +337,23 @@ namespace WinFormsApp1
                 setStatusSongPlaying(sender, e);
             }
         }
+        private void SetDefaultInformations()
+        {
+            audioFile.Position = 0;
+            outputDevice.Stop();
+            isPlaying = false;
+            isPaused = false;
+            timer.Stop();
+            pictureBoxPlayMusic.Visible = true;
+            pictureBoxStopMusic.Visible = false;
+            labelTimeCounter.Text = "00:00";
+            trackBar.Value = 0;
+        }
         private void SongIsOver(object sender, StoppedEventArgs e)
         {
             if (audioFile != null && labelTimeCounter.Text == audioFile.TotalTime.ToString(@"mm\:ss"))
             {
-                audioFile.Position = 0;
-                outputDevice.Stop();
-                isPlaying = false;
-                isPaused = false;
-                timer.Stop();
-                pictureBoxPlayMusic.Visible = true;
-                pictureBoxStopMusic.Visible = false;
-                labelTimeCounter.Text = "00:00";
-                trackBar.Value = 0;
-
+                if (playStatus == 0) SetDefaultInformations();
                 if (playStatus == 1)
                 {
                     playSelectedTrack(sender, e);
@@ -409,6 +433,7 @@ namespace WinFormsApp1
                     image = Image.FromStream(ms);
                 }
             }
+            else image = defaultCover.Image;
             pictureBoxCover.Image = image;
             labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
             labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
@@ -440,6 +465,46 @@ namespace WinFormsApp1
         public void LoadToListViewFromFolder(string folderPath)
         {
             AddNewSongs(trackClass.LoadFromDirectory(folderPath));
+        }
+        public void DeleteSongsFromDirectory(string folderPath)
+        {
+            List<trackClass> tracksToDelete = trackClass.LoadFromDirectory(folderPath);
+            foreach (trackClass trackToDelete in tracksToDelete)
+            {
+                if (tracks[currentTrackIndex].PathGS.ToString() == trackToDelete.PathGS.ToString())
+                {
+                    SetDefaultInformations();
+                    labelDuration.Text = "00:00";
+                    labelArtist.Text = "artist";
+                    labelTitle.Text = "title";
+                    pictureBoxCover.Image = defaultCover.Image;
+                    pictureBoxPlayMusic.Enabled = false;
+                    pictureBoxForwards.Enabled = false;
+                    pictureBoxBackwards.Enabled = false;
+                }
+            }
+            foreach (trackClass trackToDelete in tracksToDelete)
+            {
+                int index = tracks.FindIndex(track => track.PathGS == trackToDelete.PathGS);
+                if (index != -1)
+                {
+                    tracks.RemoveAt(index);
+
+                    foreach (ListViewItem item in musicList.Items)
+                    {
+                        if (item.SubItems[2].Text == trackToDelete.TitleGS && item.SubItems[3].Text == trackToDelete.ArtistGS)
+                        {
+                            musicList.Items.Remove(item);
+                            trackCounter--;
+                            break;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < musicList.Items.Count; i++)
+            {
+                musicList.Items[i].SubItems[1].Text = (i + 1).ToString();
+            }
         }
         private void openSettings(object sender, EventArgs e)
         {

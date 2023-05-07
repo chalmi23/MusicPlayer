@@ -95,7 +95,7 @@
             // 
             // button2
             // 
-            button2.BackColor = SystemColors.ButtonFace;
+            button2.BackColor = Color.Red;
             button2.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
             button2.ForeColor = SystemColors.ControlText;
             button2.Location = new Point(748, 313);
@@ -104,6 +104,7 @@
             button2.TabIndex = 3;
             button2.Text = "Delete selected directory";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += deleteFolder;
             // 
             // Settings
             // 

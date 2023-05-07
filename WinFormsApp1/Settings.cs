@@ -33,5 +33,30 @@
                 }
             }
         }
+        private void deleteFolder(object sender, EventArgs e)
+        {
+            if (listViewDirectories.SelectedItems.Count > 0)
+            {
+                ListViewItem selectedItem = listViewDirectories.SelectedItems[0];
+                string folderPath = selectedItem.SubItems[3].Text;
+
+                // Remove the folder from folderList
+                folderList.Remove(folderPath);
+
+                // Remove the item from the listView
+                listViewDirectories.Items.Remove(selectedItem);
+
+                // Update the remaining items' IDs in the listView
+                for (int i = 0; i < listViewDirectories.Items.Count; i++)
+                {
+                    listViewDirectories.Items[i].SubItems[1].Text = (i + 1).ToString();
+                }
+                _form1.DeleteSongsFromDirectory(folderPath);
+            }
+            else
+            {
+                MessageBox.Show("Please select a folder to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
