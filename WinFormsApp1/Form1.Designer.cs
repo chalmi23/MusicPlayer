@@ -56,6 +56,8 @@
             labelTitle = new Label();
             labelArtist = new Label();
             pictureBoxCover = new PictureBox();
+            pictureBoxRandom = new PictureBox();
+            pictureBoxRandomGreen = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
@@ -70,6 +72,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatOne).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatAll).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxCover).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRandom).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRandomGreen).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -98,7 +102,7 @@
             musicList.TabIndex = 0;
             musicList.UseCompatibleStateImageBehavior = false;
             musicList.ColumnWidthChanging += ColumnWidthChanging;
-            musicList.Click += playMusic;
+            musicList.Click += playSelectedTrack;
             // 
             // Cover
             // 
@@ -331,12 +335,35 @@
             pictureBoxCover.TabIndex = 21;
             pictureBoxCover.TabStop = false;
             // 
+            // pictureBoxRandom
+            // 
+            pictureBoxRandom.Image = (Image)resources.GetObject("pictureBoxRandom.Image");
+            pictureBoxRandom.Location = new Point(435, 598);
+            pictureBoxRandom.Name = "pictureBoxRandom";
+            pictureBoxRandom.Size = new Size(41, 37);
+            pictureBoxRandom.TabIndex = 22;
+            pictureBoxRandom.TabStop = false;
+            pictureBoxRandom.Click += changeRandomPlay;
+            // 
+            // pictureBoxRandomGreen
+            // 
+            pictureBoxRandomGreen.Image = (Image)resources.GetObject("pictureBoxRandomGreen.Image");
+            pictureBoxRandomGreen.Location = new Point(435, 598);
+            pictureBoxRandomGreen.Name = "pictureBoxRandomGreen";
+            pictureBoxRandomGreen.Size = new Size(41, 37);
+            pictureBoxRandomGreen.TabIndex = 23;
+            pictureBoxRandomGreen.TabStop = false;
+            pictureBoxRandomGreen.Visible = false;
+            pictureBoxRandomGreen.Click += changeRandomPlay;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(pictureBoxRandomGreen);
+            Controls.Add(pictureBoxRandom);
             Controls.Add(pictureBoxCover);
             Controls.Add(labelArtist);
             Controls.Add(labelTitle);
@@ -375,6 +402,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatOne).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatAll).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxCover).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRandom).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxRandomGreen).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -407,5 +436,7 @@
         private Label labelTitle;
         private Label labelArtist;
         private PictureBox pictureBoxCover;
+        private PictureBox pictureBoxRandom;
+        private PictureBox pictureBoxRandomGreen;
     }
 }

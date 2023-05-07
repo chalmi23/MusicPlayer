@@ -1,4 +1,5 @@
 using NAudio.Wave;
+using System;
 using System.Windows.Forms;
 
 namespace WinFormsApp1
@@ -12,12 +13,15 @@ namespace WinFormsApp1
 
         bool isPlaying = false;
         bool isPaused = false;
+        bool isRandom = false;
 
 
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
 
         private List<trackClass> tracks = new List<trackClass>();
+        private List<int> availableTrackIndexes = new List<int>(); 
+
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         public Form1()
         {
@@ -36,12 +40,12 @@ namespace WinFormsApp1
             timer.Interval = 10;
             timer.Tick += Timer_Tick;
         }
-        private List<Image> albumCovers = new List<Image>(); // utwórz listê obrazów ok³adek albumów
+        private List<Image> albumCovers = new List<Image>();
 
         private void AddNewSongsButtonClick(object sender, EventArgs e)
         {
             List<trackClass> tracksAdded = trackClass.AddNewSongs();
-            ImageList imageList = musicList.SmallImageList ?? new ImageList(); // pobierz istniej¹cy obiekt ImageList lub utwórz nowy
+            ImageList imageList = musicList.SmallImageList ?? new ImageList();
             imageList.ImageSize = new Size(48, 48);
 
             foreach (trackClass track in tracksAdded)
@@ -51,7 +55,6 @@ namespace WinFormsApp1
                 musicList.Items.Add(item);
                 tracks.Add(track);
 
-                // sprawdŸ, czy obraz ok³adki albumu jest ju¿ w liœcie obrazów
                 int index = -1;
                 byte[] pictureData = track.CoverGS?.Data?.Data;
                 if (pictureData != null)
@@ -68,17 +71,13 @@ namespace WinFormsApp1
                         }
                     }
                 }
-
-                item.ImageIndex = index; // ustaw w³aœciwoœæ ImageIndex na indeks obrazu w ImageList
+                item.ImageIndex = index;
             }
-            musicList.SmallImageList = imageList; // przypisz ImageList do w³aœciwoœci SmallImageList
+            musicList.SmallImageList = imageList;
         }
-
-
 
         private int timerCounterTitle = 0;
         private int timerCounterArtist = 0;
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (outputDevice.PlaybackState == PlaybackState.Playing)
@@ -93,16 +92,15 @@ namespace WinFormsApp1
                     trackBar.Value = trackBar.Maximum;
                 }
             }
-
             ScrollLabelIfTooLong(labelTitle, 20, ref timerCounterTitle);
             ScrollLabelIfTooLong(labelArtist, 16, ref timerCounterArtist);
         }
 
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
-            audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 1000);
+            if(audioFile!=null) audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 1000);
         }
-        private void playMusic(object sender, EventArgs e)
+        private void playSelectedTrack(object sender, EventArgs e)
         {
             if (musicList.SelectedItems.Count > 0)
             {
@@ -115,10 +113,10 @@ namespace WinFormsApp1
                 audioFile = new AudioFileReader(filePath);
 
                 outputDevice.Init(audioFile);
-                playingNewSongInfo(sender, e);
                 currentTrackIndex = trackIndex;
-                labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
-                labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
+
+                if(isRandom) initializeAvailableTrackIndexes();
+                playingNewSongInfo(sender, e);
                 DisplayCoverImage();
             }
         }
@@ -128,8 +126,7 @@ namespace WinFormsApp1
             trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds * 1000);
             audioFile.Volume = (float)trackBarVolume.Value / 100;
             labelDuration.Text = audioFile.TotalTime.ToString(@"mm\:ss");
-            labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
-            labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
+
             DisplayCoverImage();
             setStatusSongPlaying(sender, e);
         }
@@ -190,30 +187,39 @@ namespace WinFormsApp1
 
             outputDevice.Stop();
 
-            currentTrackIndex++;
-            if (currentTrackIndex >= tracks.Count) currentTrackIndex = 0;
+            if (playStatus == 2)
+            {
+                if (isRandom)
+                {
+                    if (availableTrackIndexes.Count == 0) // jeœli brak dostêpnych utworów
+                    {
+                        MessageBox.Show("Wszystkie piosenki z listy zosta³y ju¿ odtworzone.", "Koniec listy");
+                        if (isRandom) initializeAvailableTrackIndexes();
+                        playPausePictureBox_Click(sender, e);
+                        return;
+                    }
+
+                    Random rnd = new Random();
+                    int randomIndex = rnd.Next(availableTrackIndexes.Count); // losowy indeks z listy dostêpnych utworów
+                    currentTrackIndex = availableTrackIndexes[randomIndex]; // ustawienie aktualnego indeksu
+                    availableTrackIndexes.RemoveAt(randomIndex); // usuniêcie wybranego indeksu z listy dostêpnych utworów
+                }
+                else
+                {
+                    currentTrackIndex++;
+                    if (currentTrackIndex >= tracks.Count) currentTrackIndex = 0;
+                }
+            }
 
             string filePath = tracks[currentTrackIndex].PathGS;
             audioFile = new AudioFileReader(filePath);
 
             outputDevice.Init(audioFile);
-            outputDevice.Play();
             playingNewSongInfo(sender, e);
 
             musicList.Items[currentTrackIndex].Selected = true;
             musicList.Select();
         }
-        private void ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
-        {
-            e.Cancel = true;
-            e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            audioFile.CurrentTime = TimeSpan.FromMilliseconds(300);
-        }
-
         private void setVolume(object sender, EventArgs e)
         {
             bool isAudioFileNotNull = (audioFile != null);
@@ -311,7 +317,7 @@ namespace WinFormsApp1
 
                 if (playStatus == 1)
                 {
-                    playMusic(sender, e);
+                    playSelectedTrack(sender, e);
                 }
                 if (playStatus == 2)
                 {
@@ -342,7 +348,17 @@ namespace WinFormsApp1
             else playStatus++;
             return;
         }
+        private void changeRandomPlay(object sender, EventArgs e)
+        {
+            isRandom = !isRandom;
+            pictureBoxRandom.Visible = !isRandom;
+            pictureBoxRandomGreen.Visible = isRandom;
 
+            if (isRandom)
+            {
+                initializeAvailableTrackIndexes();
+            }
+        }
         private void setStatusSongPlaying(object sender, EventArgs e)
         {
             outputDevice.Play();
@@ -379,6 +395,23 @@ namespace WinFormsApp1
                 }
             }
             pictureBoxCover.Image = image;
+            labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
+            labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
+        }
+
+        private void initializeAvailableTrackIndexes()
+        {
+            availableTrackIndexes.Clear();
+            for (int i = 0; i < tracks.Count; i++)
+            {
+                availableTrackIndexes.Add(i);
+                availableTrackIndexes.Remove(currentTrackIndex);
+            }
+        }
+        private void ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
         }
     }
 }
