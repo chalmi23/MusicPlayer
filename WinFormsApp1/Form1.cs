@@ -71,7 +71,6 @@ namespace WinFormsApp1
 
                 item.ImageIndex = index; // ustaw w³aœciwoœæ ImageIndex na indeks obrazu w ImageList
             }
-
             musicList.SmallImageList = imageList; // przypisz ImageList do w³aœciwoœci SmallImageList
         }
 
