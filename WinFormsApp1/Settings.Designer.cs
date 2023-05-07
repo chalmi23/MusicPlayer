@@ -34,7 +34,7 @@
             Directory = new ColumnHeader();
             Path = new ColumnHeader();
             label1 = new Label();
-            button1 = new Button();
+            buttonAddFolder = new Button();
             button2 = new Button();
             SuspendLayout();
             // 
@@ -80,18 +80,18 @@
             label1.TabIndex = 1;
             label1.Text = "Directory list";
             // 
-            // button1
+            // buttonAddFolder
             // 
-            button1.BackColor = SystemColors.ButtonFace;
-            button1.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.ForeColor = SystemColors.ControlText;
-            button1.Location = new Point(419, 313);
-            button1.Name = "button1";
-            button1.Size = new Size(209, 42);
-            button1.TabIndex = 2;
-            button1.Text = "Add new directory";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += addFolder;
+            buttonAddFolder.BackColor = SystemColors.ButtonFace;
+            buttonAddFolder.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonAddFolder.ForeColor = SystemColors.ControlText;
+            buttonAddFolder.Location = new Point(419, 313);
+            buttonAddFolder.Name = "buttonAddFolder";
+            buttonAddFolder.Size = new Size(209, 42);
+            buttonAddFolder.TabIndex = 2;
+            buttonAddFolder.Text = "Add new directory";
+            buttonAddFolder.UseVisualStyleBackColor = false;
+            buttonAddFolder.Click += addFolder;
             // 
             // button2
             // 
@@ -111,7 +111,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(buttonAddFolder);
             Controls.Add(label1);
             Controls.Add(listViewDirectories);
             Name = "Settings";
@@ -124,11 +124,11 @@
 
         private ListView listViewDirectories;
         private Label label1;
-        private Button button1;
         private ColumnHeader empty;
         private ColumnHeader Id;
         private ColumnHeader Directory;
         private ColumnHeader Path;
         private Button button2;
+        public Button buttonAddFolder;
     }
 }

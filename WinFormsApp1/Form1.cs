@@ -1,9 +1,13 @@
 using NAudio.Wave;
+using System.Windows.Forms;
+using TagLib;
+using TagLib.Mpeg;
 
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
+        private Settings settings;
         int trackCounter = 0;
         int currentTrackIndex;
         int playStatus = 0; //0 - jednorazowe odtworzenie, 1 - powtarzanie jednej piosenki, 2 - powtarzanie wszystkich piosenek
@@ -13,7 +17,6 @@ namespace WinFormsApp1
         bool isPaused = false;
         bool isRandom = false;
 
-        Settings settings = new Settings();
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
 
@@ -37,12 +40,12 @@ namespace WinFormsApp1
 
             timer.Interval = 10;
             timer.Tick += Timer_Tick;
+            settings = new Settings(this);
         }
         private List<Image> albumCovers = new List<Image>();
 
-        private void AddNewSongsButtonClick(object sender, EventArgs e)
+        private void AddNewSongs(List<trackClass> tracksAdded)
         {
-            List<trackClass> tracksAdded = trackClass.AddNewSongs();
             ImageList imageList = musicList.SmallImageList ?? new ImageList();
             imageList.ImageSize = new Size(48, 48);
 
@@ -72,6 +75,15 @@ namespace WinFormsApp1
                 item.ImageIndex = index;
             }
             musicList.SmallImageList = imageList;
+        }
+
+        private void AddNewSongsButtonClick(object sender, EventArgs e)
+        {
+            AddNewSongs(trackClass.AddNewSongs());
+        }
+        public void LoadToListViewFromFolder(string folderPath)
+        {
+            AddNewSongs(trackClass.LoadFromDirectory(folderPath));
         }
 
         private int timerCounterTitle = 0;
@@ -189,7 +201,7 @@ namespace WinFormsApp1
             {
                 if (isRandom)
                 {
-                    if (availableTrackIndexes.Count == 0) 
+                    if (availableTrackIndexes.Count == 0)
                     {
                         MessageBox.Show("Wszystkie piosenki z listy zosta³y ju¿ odtworzone.", "Koniec listy");
                         if (isRandom) initializeAvailableTrackIndexes();
@@ -198,9 +210,9 @@ namespace WinFormsApp1
                     }
 
                     Random rnd = new Random();
-                    int randomIndex = rnd.Next(availableTrackIndexes.Count); 
-                    currentTrackIndex = availableTrackIndexes[randomIndex]; 
-                    availableTrackIndexes.RemoveAt(randomIndex); 
+                    int randomIndex = rnd.Next(availableTrackIndexes.Count);
+                    currentTrackIndex = availableTrackIndexes[randomIndex];
+                    availableTrackIndexes.RemoveAt(randomIndex);
                 }
                 else
                 {
@@ -422,3 +434,4 @@ namespace WinFormsApp1
         }
     }
 }
+

@@ -312,7 +312,7 @@
             labelTitle.Name = "labelTitle";
             labelTitle.Size = new Size(187, 23);
             labelTitle.TabIndex = 19;
-            labelTitle.Text = "Przykładowy tytuł piosenki";
+            labelTitle.Text = "title";
             // 
             // labelArtist
             // 
@@ -323,7 +323,7 @@
             labelArtist.Name = "labelArtist";
             labelArtist.Size = new Size(110, 23);
             labelArtist.TabIndex = 20;
-            labelArtist.Text = "Przykładowy artysta";
+            labelArtist.Text = "artist";
             // 
             // pictureBoxCover
             // 
