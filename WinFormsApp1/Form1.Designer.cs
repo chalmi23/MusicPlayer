@@ -31,9 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             button1 = new Button();
             musicList = new ListView();
-            empty = new ColumnHeader();
-            Id = new ColumnHeader();
             Cover = new ColumnHeader();
+            Id = new ColumnHeader();
             Title = new ColumnHeader();
             Artist = new ColumnHeader();
             Album = new ColumnHeader();
@@ -54,6 +53,9 @@
             pictureBoxRepeat = new PictureBox();
             pictureBoxRepeatOne = new PictureBox();
             pictureBoxRepeatAll = new PictureBox();
+            labelTitle = new Label();
+            labelArtist = new Label();
+            pictureBoxCover = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
@@ -67,6 +69,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatOne).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatAll).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxCover).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -84,7 +87,7 @@
             // 
             // musicList
             // 
-            musicList.Columns.AddRange(new ColumnHeader[] { empty, Id, Cover, Title, Artist, Album, Duration });
+            musicList.Columns.AddRange(new ColumnHeader[] { Cover, Id, Title, Artist, Album, Duration });
             musicList.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             musicList.FullRowSelect = true;
             musicList.HideSelection = true;
@@ -97,19 +100,15 @@
             musicList.ColumnWidthChanging += ColumnWidthChanging;
             musicList.Click += playMusic;
             // 
-            // empty
+            // Cover
             // 
-            empty.Width = 0;
+            Cover.Text = "Cover";
+            Cover.Width = 75;
             // 
             // Id
             // 
             Id.Text = "Id";
             Id.Width = 65;
-            // 
-            // Cover
-            // 
-            Cover.Text = "Cover";
-            Cover.Width = 100;
             // 
             // Title
             // 
@@ -119,7 +118,7 @@
             // Artist
             // 
             Artist.Text = "Artist";
-            Artist.Width = 150;
+            Artist.Width = 175;
             // 
             // Album
             // 
@@ -298,12 +297,49 @@
             pictureBoxRepeatAll.Visible = false;
             pictureBoxRepeatAll.Click += changeStatus;
             // 
+            // labelTitle
+            // 
+            labelTitle.AutoEllipsis = true;
+            labelTitle.Font = new Font("Bahnschrift", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            labelTitle.ForeColor = SystemColors.ActiveCaptionText;
+            labelTitle.Location = new Point(83, 628);
+            labelTitle.Name = "labelTitle";
+            labelTitle.Size = new Size(187, 23);
+            labelTitle.TabIndex = 19;
+            labelTitle.Text = "Przykładowy tytuł piosenki";
+            // 
+            // labelArtist
+            // 
+            labelArtist.AutoEllipsis = true;
+            labelArtist.Font = new Font("Bahnschrift", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            labelArtist.ForeColor = SystemColors.ControlDarkDark;
+            labelArtist.Location = new Point(83, 651);
+            labelArtist.Name = "labelArtist";
+            labelArtist.Size = new Size(110, 23);
+            labelArtist.TabIndex = 20;
+            labelArtist.Text = "Przykładowy artysta";
+            // 
+            // pictureBoxCover
+            // 
+            pictureBoxCover.Image = (Image)resources.GetObject("pictureBoxCover.Image");
+            pictureBoxCover.Location = new Point(12, 620);
+            pictureBoxCover.MaximumSize = new Size(66, 58);
+            pictureBoxCover.MinimumSize = new Size(66, 58);
+            pictureBoxCover.Name = "pictureBoxCover";
+            pictureBoxCover.Size = new Size(66, 58);
+            pictureBoxCover.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxCover.TabIndex = 21;
+            pictureBoxCover.TabStop = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(pictureBoxCover);
+            Controls.Add(labelArtist);
+            Controls.Add(labelTitle);
             Controls.Add(pictureBoxRepeatAll);
             Controls.Add(pictureBoxRepeatOne);
             Controls.Add(pictureBoxRepeat);
@@ -338,6 +374,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeat).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatOne).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxRepeatAll).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxCover).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -345,7 +382,6 @@
         #endregion
         private Button button1;
         private ListView musicList;
-        private ColumnHeader empty;
         private ColumnHeader Id;
         private ColumnHeader Cover;
         private ColumnHeader Title;
@@ -368,5 +404,8 @@
         private PictureBox pictureBoxRepeat;
         private PictureBox pictureBoxRepeatOne;
         private PictureBox pictureBoxRepeatAll;
+        private Label labelTitle;
+        private Label labelArtist;
+        private PictureBox pictureBoxCover;
     }
 }

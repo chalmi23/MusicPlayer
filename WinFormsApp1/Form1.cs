@@ -1,4 +1,6 @@
 using NAudio.Wave;
+using System.Windows.Forms;
+
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
@@ -23,7 +25,6 @@ namespace WinFormsApp1
 
             musicList.View = View.Details;
             musicList.SmallImageList = new ImageList();
-            musicList.SmallImageList.ImageSize = new Size(48, 48);
 
             outputDevice = new WaveOutEvent();
 
@@ -35,18 +36,49 @@ namespace WinFormsApp1
             timer.Interval = 10;
             timer.Tick += Timer_Tick;
         }
+        private List<Image> albumCovers = new List<Image>(); // utwórz listê obrazów ok³adek albumów
 
         private void AddNewSongsButtonClick(object sender, EventArgs e)
         {
             List<trackClass> tracksAdded = trackClass.AddNewSongs();
+            ImageList imageList = musicList.SmallImageList ?? new ImageList(); // pobierz istniej¹cy obiekt ImageList lub utwórz nowy
+            imageList.ImageSize = new Size(48, 48);
+
             foreach (trackClass track in tracksAdded)
             {
                 trackCounter++;
-                ListViewItem item = new ListViewItem(new string[] { "", trackCounter.ToString(), "brak", track.TitleGS, track.ArtistGS, track.AlbumGS, track.DurationGS });
+                ListViewItem item = new ListViewItem(new string[] { "", trackCounter.ToString(), track.TitleGS, track.ArtistGS, track.AlbumGS, track.DurationGS });
                 musicList.Items.Add(item);
                 tracks.Add(track);
+
+                // sprawdŸ, czy obraz ok³adki albumu jest ju¿ w liœcie obrazów
+                int index = -1;
+                byte[] pictureData = track.CoverGS?.Data?.Data;
+                if (pictureData != null)
+                {
+                    using (var ms = new MemoryStream(pictureData))
+                    {
+                        Image coverImage = Image.FromStream(ms);
+                        index = albumCovers.FindIndex(img => img.RawFormat.Equals(coverImage.RawFormat) && img.Size.Equals(coverImage.Size));
+                        if (index == -1)
+                        {
+                            index = albumCovers.Count;
+                            albumCovers.Add(coverImage);
+                            imageList.Images.Add(coverImage);
+                        }
+                    }
+                }
+
+                item.ImageIndex = index; // ustaw w³aœciwoœæ ImageIndex na indeks obrazu w ImageList
             }
+
+            musicList.SmallImageList = imageList; // przypisz ImageList do w³aœciwoœci SmallImageList
         }
+
+
+
+        private int timerCounterTitle = 0;
+        private int timerCounterArtist = 0;
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -62,6 +94,9 @@ namespace WinFormsApp1
                     trackBar.Value = trackBar.Maximum;
                 }
             }
+
+            ScrollLabelIfTooLong(labelTitle, 20, ref timerCounterTitle);
+            ScrollLabelIfTooLong(labelArtist, 16, ref timerCounterArtist);
         }
 
         private void TrackBar_Scroll(object sender, EventArgs e)
@@ -81,9 +116,11 @@ namespace WinFormsApp1
                 audioFile = new AudioFileReader(filePath);
 
                 outputDevice.Init(audioFile);
-                outputDevice.Play();
                 playingNewSongInfo(sender, e);
                 currentTrackIndex = trackIndex;
+                labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
+                labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
+                DisplayCoverImage();
             }
         }
         private void playingNewSongInfo(object sender, EventArgs e)
@@ -92,6 +129,9 @@ namespace WinFormsApp1
             trackBar.Maximum = (int)(audioFile.TotalTime.TotalMilliseconds * 1000);
             audioFile.Volume = (float)trackBarVolume.Value / 100;
             labelDuration.Text = audioFile.TotalTime.ToString(@"mm\:ss");
+            labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
+            labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
+            DisplayCoverImage();
             setStatusSongPlaying(sender, e);
         }
         private void playPausePictureBox_Click(object sender, EventArgs e)
@@ -312,6 +352,34 @@ namespace WinFormsApp1
             pictureBoxPlayMusic.Visible = false;
             pictureBoxStopMusic.Visible = true;
             timer.Start();
+        }
+
+        private void ScrollLabelIfTooLong(Label label, int maxLength, ref int timerCounter)
+        {
+            if (label.Text.Length > maxLength)
+            {
+                timerCounter++;
+                if (timerCounter == 25)
+                {
+                    timerCounter = 0;
+                    label.Text = label.Text.Substring(1) + label.Text.Substring(0, 1);
+                }
+            }
+        }
+
+        private void DisplayCoverImage()
+        {
+            byte[] pictureData = tracks[currentTrackIndex].CoverGS?.Data?.Data;
+
+            Image image = null;
+            if (pictureData != null)
+            {
+                using (var ms = new MemoryStream(pictureData))
+                {
+                    image = Image.FromStream(ms);
+                }
+            }
+            pictureBoxCover.Image = image;
         }
     }
 }
