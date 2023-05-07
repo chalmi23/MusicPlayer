@@ -58,6 +58,8 @@
             pictureBoxCover = new PictureBox();
             pictureBoxRandom = new PictureBox();
             pictureBoxRandomGreen = new PictureBox();
+            panelSettings = new Panel();
+            buttonSettings = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
@@ -83,7 +85,7 @@
             button1.ForeColor = SystemColors.ActiveCaptionText;
             button1.Location = new Point(12, 12);
             button1.Name = "button1";
-            button1.Size = new Size(204, 43);
+            button1.Size = new Size(246, 43);
             button1.TabIndex = 1;
             button1.Text = "add new songs";
             button1.UseVisualStyleBackColor = false;
@@ -356,12 +358,36 @@
             pictureBoxRandomGreen.Visible = false;
             pictureBoxRandomGreen.Click += changeRandomPlay;
             // 
+            // panelSettings
+            // 
+            panelSettings.Location = new Point(264, 0);
+            panelSettings.Name = "panelSettings";
+            panelSettings.Size = new Size(960, 706);
+            panelSettings.TabIndex = 24;
+            panelSettings.Visible = false;
+            panelSettings.Paint += panelSettingsPaint;
+            // 
+            // buttonSettings
+            // 
+            buttonSettings.BackColor = SystemColors.ButtonFace;
+            buttonSettings.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonSettings.ForeColor = SystemColors.ActiveCaptionText;
+            buttonSettings.Location = new Point(12, 61);
+            buttonSettings.Name = "buttonSettings";
+            buttonSettings.Size = new Size(246, 43);
+            buttonSettings.TabIndex = 25;
+            buttonSettings.Text = "Settings";
+            buttonSettings.UseVisualStyleBackColor = false;
+            buttonSettings.Click += openSettings;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 706);
+            Controls.Add(buttonSettings);
+            Controls.Add(panelSettings);
             Controls.Add(pictureBoxRandomGreen);
             Controls.Add(pictureBoxRandom);
             Controls.Add(pictureBoxCover);
@@ -438,5 +464,7 @@
         private PictureBox pictureBoxCover;
         private PictureBox pictureBoxRandom;
         private PictureBox pictureBoxRandomGreen;
+        private Panel panelSettings;
+        private Button buttonSettings;
     }
 }

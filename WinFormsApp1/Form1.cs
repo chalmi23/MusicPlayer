@@ -15,12 +15,12 @@ namespace WinFormsApp1
         bool isPaused = false;
         bool isRandom = false;
 
-
+        Settings settings = new Settings();
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
 
         private List<trackClass> tracks = new List<trackClass>();
-        private List<int> availableTrackIndexes = new List<int>(); 
+        private List<int> availableTrackIndexes = new List<int>();
 
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         public Form1()
@@ -98,7 +98,7 @@ namespace WinFormsApp1
 
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
-            if(audioFile!=null) audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 1000);
+            if (audioFile != null) audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 1000);
         }
         private void playSelectedTrack(object sender, EventArgs e)
         {
@@ -115,7 +115,7 @@ namespace WinFormsApp1
                 outputDevice.Init(audioFile);
                 currentTrackIndex = trackIndex;
 
-                if(isRandom) initializeAvailableTrackIndexes();
+                if (isRandom) initializeAvailableTrackIndexes();
                 playingNewSongInfo(sender, e);
                 DisplayCoverImage();
             }
@@ -412,6 +412,15 @@ namespace WinFormsApp1
         {
             e.Cancel = true;
             e.NewWidth = musicList.Columns[e.ColumnIndex].Width;
+        }
+        private void panelSettingsPaint(object sender, PaintEventArgs e)
+        {
+            settings.Dock = DockStyle.Fill;
+            panelSettings.Controls.Add(settings);
+        }
+        private void openSettings(object sender, EventArgs e)
+        {
+            panelSettings.Visible = !panelSettings.Visible;
         }
     }
 }
