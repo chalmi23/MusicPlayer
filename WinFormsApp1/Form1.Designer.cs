@@ -396,21 +396,26 @@
             button2.TabIndex = 26;
             button2.Text = "Add new playlist";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += AddNewPlaylist;
             // 
             // listViewPlaylist
             // 
             listViewPlaylist.Columns.AddRange(new ColumnHeader[] { Image, Number, PlayListName });
             listViewPlaylist.Font = new Font("Bahnschrift Condensed", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            listViewPlaylist.FullRowSelect = true;
             listViewPlaylist.Location = new Point(12, 305);
+            listViewPlaylist.MultiSelect = false;
             listViewPlaylist.Name = "listViewPlaylist";
             listViewPlaylist.Size = new Size(246, 309);
             listViewPlaylist.TabIndex = 27;
             listViewPlaylist.UseCompatibleStateImageBehavior = false;
             listViewPlaylist.ColumnWidthChanging += ColumnWidthChanging;
+            listViewPlaylist.SelectedIndexChanged += listViewPlaylist_SelectedIndexChanged;
             // 
             // Image
             // 
             Image.Text = "Image";
+            Image.Width = 0;
             // 
             // Number
             // 
@@ -420,7 +425,7 @@
             // PlayListName
             // 
             PlayListName.Text = "Playlist name";
-            PlayListName.Width = 130;
+            PlayListName.Width = 190;
             // 
             // Form1
             // 

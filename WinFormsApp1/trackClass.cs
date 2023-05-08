@@ -1,4 +1,5 @@
-﻿using TagLib;
+﻿using Newtonsoft.Json;
+using TagLib;
 
 namespace WinFormsApp1
 {
@@ -15,9 +16,13 @@ namespace WinFormsApp1
         }
 
         public string TitleGS { get => Title; set => Title = value; }
+
         public string ArtistGS { get => Artist; set => Artist = value; }
+
         public string AlbumGS { get => Album; set => Album = value; }
+
         public string DurationGS { get => Duration; set => Duration = value; }
+
         public IPicture CoverGS { get => Cover; set => Cover = value; }
         public string PathGS { get => Path; set => Path = value; }
 

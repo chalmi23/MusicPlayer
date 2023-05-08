@@ -7,6 +7,7 @@ namespace WinFormsApp1
     {
         private readonly Form1 _form1;
         private List<string> folderList = new List<string>();
+        public List<string> FolderList { get => folderList; set => folderList = value; }
         int folderCount = 0;
         public Settings(Form1 form1)
         {

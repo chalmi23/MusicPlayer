@@ -7,6 +7,6 @@ namespace WinFormsApp1
         private List<trackClass> trackList;
 
         public string NameGS { get => Name; set => Name = value; }
-        internal List<trackClass> TrackListGS { get => trackList; set => trackList = value; }
+        public List<trackClass> TrackListGS { get => trackList; set => trackList = value; }
     }
 }

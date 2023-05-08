@@ -8,7 +8,9 @@ namespace WinFormsApp1
         private Settings settings;
         private PictureBox defaultCover = new PictureBox();
         private int trackCounter = 0;
+        private int playlistCounter = 0;
         private int currentTrackIndex;
+        private int currentPlaylistIndex = -1;
         private int playStatus = 0; //0 - jednorazowe odtworzenie, 1 - powtarzanie jednej piosenki, 2 - powtarzanie wszystkich piosenek
         private float previousVolume = 1;
 
@@ -52,22 +54,56 @@ namespace WinFormsApp1
             {
                 string json = System.IO.File.ReadAllText("appSettings.json");
                 AppSettingsClass appSettings = JsonConvert.DeserializeObject<AppSettingsClass>(json);
+                if (appSettings.PlaylistsGS != null)
+                {
+                    bool mainPlaylistExists = false;
+                    foreach (var playList in appSettings.PlaylistsGS)
+                    {
+                        if (playList.NameGS == "Main playlist")
+                        {
+                            mainPlaylistExists = true;
+                        }
+                        playlistCounter++;
+                        ListViewItem item = new ListViewItem(new string[] { "", playlistCounter.ToString(), playList.NameGS });
+                        listViewPlaylist.Items.Add(item);
+                        playLists.Add(playList);
+                    }
+                    if (!mainPlaylistExists)
+                    {
+                        var mainPlaylist = new PlaylistClass { NameGS = "Main playlist", TrackListGS = tracks };
+                        appSettings.PlaylistsGS.Add(mainPlaylist);
+                        ListViewItem item = new ListViewItem(new string[] { "", (++playlistCounter).ToString(), mainPlaylist.NameGS });
+                        listViewPlaylist.Items.Add(item);
+                        playLists.Add(mainPlaylist);
+                    }
+                }
                 if (appSettings.DirectoriesGS != null)
                 {
-                    foreach (var dir in appSettings.DirectoriesGS) AddNewSongs(trackClass.LoadFromDirectory(dir));
+                    foreach (var dir in appSettings.DirectoriesGS)
+                    {
+                        AddNewSongs(trackClass.LoadFromDirectory(dir));
+                    }
                 }
-                if (appSettings.PlaylistsGS != null) playLists = appSettings.PlaylistsGS;
+                currentPlaylistIndex = 0;
             }
             else
             {
                 var appSettings = new AppSettingsClass
                 {
                     DirectoriesGS = new List<string> { Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) },
-                    PlaylistsGS = new List<PlaylistClass> { new PlaylistClass { NameGS = "", TrackListGS = new List<trackClass>() } }
+                    PlaylistsGS = new List<PlaylistClass> { new PlaylistClass { NameGS = "Main playlist", TrackListGS = tracks } }
                 };
                 var json = JsonConvert.SerializeObject(appSettings, Newtonsoft.Json.Formatting.Indented);
                 File.WriteAllText("appSettings.json", json);
+                foreach (var playList in appSettings.PlaylistsGS)
+                {
+                    playlistCounter++;
+                    ListViewItem item = new ListViewItem(new string[] { "", playlistCounter.ToString(), playList.NameGS });
+                    listViewPlaylist.Items.Add(item);
+                    playLists.Add(playList);
+                }
                 AddNewSongs(trackClass.LoadFromDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)));
+                currentPlaylistIndex = 0;
             }
         }
         private void AddNewSongs(List<trackClass> tracksAdded)
@@ -87,9 +123,16 @@ namespace WinFormsApp1
                     newTracks.Add(track);
                 }
             }
-            if (tracksAdded.Count > newTracks.Count) MessageBox.Show("Some songs are already on the list.", "Music Player");
-            
+
+            if (tracksAdded.Count > newTracks.Count)
+            {
+                MessageBox.Show("Some songs are already on the list.", "Music Player");
+            }
+
             tracksAdded = newTracks;
+            PlaylistClass selectedPlaylist = new PlaylistClass();
+            if(currentPlaylistIndex != -1) selectedPlaylist = playLists[currentPlaylistIndex];
+
             foreach (trackClass track in tracksAdded)
             {
                 trackCounter++;
@@ -124,8 +167,100 @@ namespace WinFormsApp1
                     }
                 }
                 item.ImageIndex = index;
+                if (currentPlaylistIndex != -1) selectedPlaylist.TrackListGS.Add(track); 
             }
             musicList.SmallImageList = imageList;
+            refreshJsonFile(settings.FolderList);
+        }
+
+        private void listViewPlaylist_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewPlaylist.SelectedItems.Count > 0)
+            {
+                PlaylistClass selectedPlaylist = playLists[listViewPlaylist.SelectedIndices[0]];
+                currentPlaylistIndex = listViewPlaylist.SelectedIndices[0];
+                List<trackClass> selectedTracks = selectedPlaylist.TrackListGS;
+
+                musicList.Items.Clear();
+                tracks.Clear();
+                trackCounter = 0;
+                availableTrackIndexes.Clear();
+                ImageList imageList = new ImageList();
+                imageList.ImageSize = new Size(48, 48);
+
+                if (selectedTracks != null)
+                {
+                    foreach (trackClass track in selectedTracks)
+                    {
+                        trackCounter++;
+                        tracks.Add(track);
+                        availableTrackIndexes.Add(trackCounter - 1);
+
+                        imageList.Images.Add(GetAlbumArt(track.PathGS));
+                        ListViewItem item = new ListViewItem(new string[] {"", trackCounter.ToString(), track.TitleGS, track.ArtistGS, track.AlbumGS, track.DurationGS });
+                        musicList.Items.Add(item);
+                        item.ImageIndex = trackCounter - 1;
+                    }
+                }
+                musicList.SmallImageList = imageList;
+            }
+        }
+        private Image GetAlbumArt(string filePath)
+        {
+            byte[] pictureData;
+            using (TagLib.File file = TagLib.File.Create(filePath))
+            {
+                pictureData = file.Tag.Pictures.FirstOrDefault()?.Data?.Data;
+            }
+
+            if (pictureData != null)
+            {
+                using (var ms = new MemoryStream(pictureData))
+                {
+                    return System.Drawing.Image.FromStream(ms);
+                }
+            }
+            else
+            {
+                return defaultCover.Image;
+            }
+        }
+
+        private void AddNewPlaylist(object sender, EventArgs e)
+        {
+            Form prompt = new Form();
+            prompt.Width = 300;
+            prompt.Height = 150;
+            prompt.Text = "Add new playlist";
+
+            Label textLabel = new Label() { Left = 50, Top = 20, Text = "Enter name:" };
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 200 };
+            Button confirmation = new Button() { Text = "Dodaj", Left = 110, Width = 70, Top = 80 };
+
+            confirmation.Click += (sender, e) =>
+            {
+                if (!string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    playlistCounter++;
+                    PlaylistClass newPlaylist = new PlaylistClass { NameGS = textBox.Text, TrackListGS = new List<trackClass>() };
+                    playLists.Add(newPlaylist);
+                    ListViewItem item = new ListViewItem(new string[] { "", playlistCounter.ToString(), newPlaylist.NameGS });
+                    listViewPlaylist.Items.Add(item);
+
+                    prompt.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Nazwa playlisty nie mo¿e byæ pusta.", "B³¹d", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.Controls.Add(textBox);
+
+            prompt.ShowDialog();
+            refreshJsonFile(settings.FolderList);
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -161,6 +296,17 @@ namespace WinFormsApp1
 
                 if (isPlaying || isPaused) outputDevice.Stop();
 
+                if (CheckAndRemoveNonexistentTrack(trackIndex))
+                {
+                    if (currentTrackIndex >= trackIndex && currentTrackIndex > 0)
+                    {
+                        currentTrackIndex--;
+                    }
+
+                    selectedItem = musicList.Items[currentTrackIndex];
+                    trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
+                }
+
                 string filePath = tracks[trackIndex].PathGS;
                 audioFile = new AudioFileReader(filePath);
 
@@ -181,6 +327,39 @@ namespace WinFormsApp1
 
             DisplayCoverImage();
             setStatusSongPlaying(sender, e);
+        }
+
+        private bool CheckAndRemoveNonexistentTrack(int trackIndex)
+        {
+            if (!File.Exists(tracks[trackIndex].PathGS))
+            {
+                foreach (PlaylistClass playlist in playLists)
+                {
+                    List<trackClass> tracksInPlaylist = playlist.TrackListGS;
+                    int trackIndexInPlaylist = tracksInPlaylist.FindIndex(t => t.PathGS == tracks[trackIndex].PathGS);
+                    if (trackIndexInPlaylist != -1)
+                    {
+                        tracksInPlaylist.RemoveAt(trackIndexInPlaylist);
+                    }
+                }
+                tracks.RemoveAt(trackIndex);
+
+                foreach (ListViewItem item in musicList.Items)
+                {
+                    if (item.SubItems[2].Text == tracks[trackIndex].TitleGS && item.SubItems[3].Text == tracks[trackIndex].ArtistGS)
+                    {
+                        musicList.Items.Remove(item);
+                        trackCounter--;
+                        break;
+                    }
+                }
+                for (int i = 0; i < musicList.Items.Count; i++)
+                {
+                    musicList.Items[i].SubItems[1].Text = (i + 1).ToString();
+                }
+                return true;
+            }
+            return false;
         }
         private void playPausePictureBox_Click(object sender, EventArgs e)
         {
@@ -291,45 +470,6 @@ namespace WinFormsApp1
                 audioFile.Volume = (float)trackBarVolume.Value / 100;
             }
         }
-
-        private void setVolumeBySpeaker(object sender, EventArgs e)
-        {
-            if (audioFile != null)
-            {
-                if (audioFile.Volume > 0)
-                {
-                    previousVolume = audioFile.Volume;
-                    trackBarVolume.Value = 0;
-                    audioFile.Volume = 0;
-                    pictureBoxSpeakerNoSound.Visible = true;
-                    pictureBoxSpeaker.Visible = false;
-                }
-                else
-                {
-                    trackBarVolume.Value = (int)(previousVolume * 100);
-                    audioFile.Volume = previousVolume;
-                    pictureBoxSpeakerNoSound.Visible = false;
-                    pictureBoxSpeaker.Visible = true;
-                }
-            }
-            else
-            {
-                if (trackBarVolume.Value > 0)
-                {
-                    previousVolume = (float)trackBarVolume.Value / 100;
-                    trackBarVolume.Value = 0;
-                    pictureBoxSpeakerNoSound.Visible = true;
-                    pictureBoxSpeaker.Visible = false;
-                }
-                else
-                {
-                    trackBarVolume.Value = (int)(previousVolume * 100);
-                    pictureBoxSpeakerNoSound.Visible = false;
-                    pictureBoxSpeaker.Visible = true;
-                }
-            }
-        }
-
         private void rewindSong(object sender, EventArgs e)
         {
             if (outputDevice.PlaybackState == PlaybackState.Playing || outputDevice.PlaybackState == PlaybackState.Paused)
@@ -449,18 +589,7 @@ namespace WinFormsApp1
 
         private void DisplayCoverImage()
         {
-            byte[] pictureData = tracks[currentTrackIndex].CoverGS?.Data?.Data;
-
-            Image image = null;
-            if (pictureData != null)
-            {
-                using (var ms = new MemoryStream(pictureData))
-                {
-                    image = System.Drawing.Image.FromStream(ms);
-
-                }
-            }
-            else image = defaultCover.Image;
+            Image image = GetAlbumArt(tracks[currentTrackIndex].PathGS);
             pictureBoxCover.Image = image;
             labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
             labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
@@ -500,13 +629,26 @@ namespace WinFormsApp1
                 {
                     tracks.RemoveAt(index);
 
-                    foreach (ListViewItem item in musicList.Items)
+                    foreach (PlaylistClass playlist in playLists)
                     {
-                        if (item.SubItems[2].Text == trackToDelete.TitleGS && item.SubItems[3].Text == trackToDelete.ArtistGS)
+                        if (playlist.NameGS == "Main playlist")
                         {
-                            musicList.Items.Remove(item);
-                            trackCounter--;
-                            break;
+                            List<trackClass> tracksInPlaylist = playlist.TrackListGS;
+                            int trackIndex = tracksInPlaylist.FindIndex(t => t.PathGS == trackToDelete.PathGS);
+                            if (trackIndex != -1)
+                            {
+                                tracksInPlaylist.RemoveAt(trackIndex);
+
+                                foreach (ListViewItem item in musicList.Items)
+                                {
+                                    if (item.SubItems[2].Text == trackToDelete.TitleGS && item.SubItems[3].Text == trackToDelete.ArtistGS)
+                                    {
+                                        musicList.Items.Remove(item);
+                                        trackCounter--;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -533,8 +675,59 @@ namespace WinFormsApp1
                     PlaylistsGS = new List<PlaylistClass> { new PlaylistClass { NameGS = "", TrackListGS = new List<trackClass>() } }
                 };
             }
+
+            foreach (var playlist in appSettings.PlaylistsGS)
+            {
+                var existingPlaylist = playLists.FirstOrDefault(p => p.NameGS == playlist.NameGS);
+                if (existingPlaylist != null)
+                {
+                    playlist.TrackListGS = existingPlaylist.TrackListGS.Select(track => new trackClass { PathGS = track.PathGS, AlbumGS = track.AlbumGS, ArtistGS = track.ArtistGS, DurationGS = track.DurationGS, TitleGS = track.TitleGS }).ToList();
+                }
+                else
+                {
+                    playLists.Add(playlist);
+                }
+            }
+
             var json = JsonConvert.SerializeObject(appSettings, Formatting.Indented);
             File.WriteAllText("appSettings.json", json);
+        }
+        private void setVolumeBySpeaker(object sender, EventArgs e)
+        {
+            if (audioFile != null)
+            {
+                if (audioFile.Volume > 0)
+                {
+                    previousVolume = audioFile.Volume;
+                    trackBarVolume.Value = 0;
+                    audioFile.Volume = 0;
+                    pictureBoxSpeakerNoSound.Visible = true;
+                    pictureBoxSpeaker.Visible = false;
+                }
+                else
+                {
+                    trackBarVolume.Value = (int)(previousVolume * 100);
+                    audioFile.Volume = previousVolume;
+                    pictureBoxSpeakerNoSound.Visible = false;
+                    pictureBoxSpeaker.Visible = true;
+                }
+            }
+            else
+            {
+                if (trackBarVolume.Value > 0)
+                {
+                    previousVolume = (float)trackBarVolume.Value / 100;
+                    trackBarVolume.Value = 0;
+                    pictureBoxSpeakerNoSound.Visible = true;
+                    pictureBoxSpeaker.Visible = false;
+                }
+                else
+                {
+                    trackBarVolume.Value = (int)(previousVolume * 100);
+                    pictureBoxSpeakerNoSound.Visible = false;
+                    pictureBoxSpeaker.Visible = true;
+                }
+            }
         }
         private void openSettings(object sender, EventArgs e)
         {
