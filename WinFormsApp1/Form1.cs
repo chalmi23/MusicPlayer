@@ -7,20 +7,25 @@ namespace WinFormsApp1
     {
         private Settings settings;
         private PictureBox defaultCover = new PictureBox();
-        int trackCounter = 0;
-        int currentTrackIndex;
-        int playStatus = 0; //0 - jednorazowe odtworzenie, 1 - powtarzanie jednej piosenki, 2 - powtarzanie wszystkich piosenek
-        float previousVolume = 1;
+        private int trackCounter = 0;
+        private int currentTrackIndex;
+        private int playStatus = 0; //0 - jednorazowe odtworzenie, 1 - powtarzanie jednej piosenki, 2 - powtarzanie wszystkich piosenek
+        private float previousVolume = 1;
 
-        bool isPlaying = false;
-        bool isPaused = false;
-        bool isRandom = false;
+        private bool isPlaying = false;
+        private bool isPaused = false;
+        private bool isRandom = false;
+
+        private int timerCounterTitle = 0;
+        private int timerCounterArtist = 0;
 
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
 
         private List<trackClass> tracks = new List<trackClass>();
         private List<int> availableTrackIndexes = new List<int>();
+        private List<PlaylistClass> playLists = new List<PlaylistClass>();
+        private List<Image> albumCovers = new List<Image>();
 
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         public Form1()
@@ -46,15 +51,25 @@ namespace WinFormsApp1
             if (System.IO.File.Exists("appSettings.json"))
             {
                 string json = System.IO.File.ReadAllText("appSettings.json");
-                List<DirectoryClass> directories = JsonConvert.DeserializeObject<List<DirectoryClass>>(json);
-
-                foreach (var dir in directories)
+                AppSettingsClass appSettings = JsonConvert.DeserializeObject<AppSettingsClass>(json);
+                if (appSettings.DirectoriesGS != null)
                 {
-                    AddNewSongs(trackClass.LoadFromDirectory(dir.PathGS));
+                    foreach (var dir in appSettings.DirectoriesGS) AddNewSongs(trackClass.LoadFromDirectory(dir));
                 }
+                if (appSettings.PlaylistsGS != null) playLists = appSettings.PlaylistsGS;
+            }
+            else
+            {
+                var appSettings = new AppSettingsClass
+                {
+                    DirectoriesGS = new List<string> { Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) },
+                    PlaylistsGS = new List<PlaylistClass> { new PlaylistClass { NameGS = "", TrackListGS = new List<trackClass>() } }
+                };
+                var json = JsonConvert.SerializeObject(appSettings, Newtonsoft.Json.Formatting.Indented);
+                File.WriteAllText("appSettings.json", json);
+                AddNewSongs(trackClass.LoadFromDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)));
             }
         }
-        private List<Image> albumCovers = new List<Image>();
         private void AddNewSongs(List<trackClass> tracksAdded)
         {
             ImageList imageList = musicList.SmallImageList ?? new ImageList();
@@ -73,6 +88,7 @@ namespace WinFormsApp1
                 }
             }
             if (tracksAdded.Count > newTracks.Count) MessageBox.Show("Some songs are already on the list.", "Music Player");
+            
             tracksAdded = newTracks;
             foreach (trackClass track in tracksAdded)
             {
@@ -109,12 +125,8 @@ namespace WinFormsApp1
                 }
                 item.ImageIndex = index;
             }
-
             musicList.SmallImageList = imageList;
         }
-
-        private int timerCounterTitle = 0;
-        private int timerCounterArtist = 0;
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (outputDevice.PlaybackState == PlaybackState.Playing)
@@ -503,6 +515,26 @@ namespace WinFormsApp1
             {
                 musicList.Items[i].SubItems[1].Text = (i + 1).ToString();
             }
+        }
+        public void refreshJsonFile(List<string> DirectoriesList)
+        {
+            AppSettingsClass appSettings;
+            if (File.Exists("appSettings.json"))
+            {
+                appSettings = JsonConvert.DeserializeObject<AppSettingsClass>(File.ReadAllText("appSettings.json"));
+                appSettings.DirectoriesGS = DirectoriesList;
+                appSettings.PlaylistsGS = playLists;
+            }
+            else
+            {
+                appSettings = new AppSettingsClass
+                {
+                    DirectoriesGS = DirectoriesList,
+                    PlaylistsGS = new List<PlaylistClass> { new PlaylistClass { NameGS = "", TrackListGS = new List<trackClass>() } }
+                };
+            }
+            var json = JsonConvert.SerializeObject(appSettings, Formatting.Indented);
+            File.WriteAllText("appSettings.json", json);
         }
         private void openSettings(object sender, EventArgs e)
         {

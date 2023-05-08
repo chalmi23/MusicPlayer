@@ -92,7 +92,7 @@
             button1.Name = "button1";
             button1.Size = new Size(246, 43);
             button1.TabIndex = 1;
-            button1.Text = "add new songs";
+            button1.Text = "Add new songs";
             button1.UseVisualStyleBackColor = false;
             button1.Click += AddNewSongsButtonClick;
             // 
@@ -394,7 +394,7 @@
             button2.Name = "button2";
             button2.Size = new Size(246, 43);
             button2.TabIndex = 26;
-            button2.Text = "add new playlist";
+            button2.Text = "Add new playlist";
             button2.UseVisualStyleBackColor = false;
             // 
             // listViewPlaylist
