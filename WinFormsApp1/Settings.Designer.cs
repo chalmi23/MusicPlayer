@@ -41,9 +41,9 @@
             // listViewDirectories
             // 
             listViewDirectories.Columns.AddRange(new ColumnHeader[] { empty, Id, Directory, Path });
-            listViewDirectories.Font = new Font("Bahnschrift Condensed", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            listViewDirectories.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             listViewDirectories.FullRowSelect = true;
-            listViewDirectories.Location = new Point(419, 28);
+            listViewDirectories.Location = new Point(209, 194);
             listViewDirectories.MultiSelect = false;
             listViewDirectories.Name = "listViewDirectories";
             listViewDirectories.Size = new Size(538, 279);
@@ -74,7 +74,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Bahnschrift Condensed", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(419, 0);
+            label1.Location = new Point(209, 166);
             label1.Name = "label1";
             label1.Size = new Size(104, 25);
             label1.TabIndex = 1;
@@ -85,7 +85,7 @@
             buttonAddFolder.BackColor = SystemColors.ButtonFace;
             buttonAddFolder.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonAddFolder.ForeColor = SystemColors.ControlText;
-            buttonAddFolder.Location = new Point(419, 313);
+            buttonAddFolder.Location = new Point(209, 479);
             buttonAddFolder.Name = "buttonAddFolder";
             buttonAddFolder.Size = new Size(209, 42);
             buttonAddFolder.TabIndex = 2;
@@ -98,7 +98,7 @@
             button2.BackColor = Color.Red;
             button2.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
             button2.ForeColor = SystemColors.ControlText;
-            button2.Location = new Point(748, 313);
+            button2.Location = new Point(538, 479);
             button2.Name = "button2";
             button2.Size = new Size(209, 42);
             button2.TabIndex = 3;

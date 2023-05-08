@@ -98,8 +98,10 @@
             // 
             // musicList
             // 
+            musicList.BackColor = SystemColors.ButtonHighlight;
             musicList.Columns.AddRange(new ColumnHeader[] { Cover, Id, Title, Artist, Album, Duration });
             musicList.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            musicList.ForeColor = SystemColors.WindowText;
             musicList.FullRowSelect = true;
             musicList.HideSelection = true;
             musicList.Location = new Point(264, 12);
@@ -108,7 +110,7 @@
             musicList.Size = new Size(950, 546);
             musicList.TabIndex = 0;
             musicList.UseCompatibleStateImageBehavior = false;
-            musicList.ColumnWidthChanging += ColumnWidthChanging;
+            musicList.ColumnWidthChanging += ColumnWidthChangingMusicList;
             musicList.Click += playSelectedTrack;
             // 
             // Cover
@@ -235,7 +237,7 @@
             // labelTimeCounter
             // 
             labelTimeCounter.AutoSize = true;
-            labelTimeCounter.BackColor = SystemColors.ButtonHighlight;
+            labelTimeCounter.BackColor = Color.Transparent;
             labelTimeCounter.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
             labelTimeCounter.ForeColor = SystemColors.ActiveCaptionText;
             labelTimeCounter.Location = new Point(329, 644);
@@ -247,7 +249,7 @@
             // labelDuration
             // 
             labelDuration.AutoSize = true;
-            labelDuration.BackColor = SystemColors.ButtonHighlight;
+            labelDuration.BackColor = Color.Transparent;
             labelDuration.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
             labelDuration.ForeColor = SystemColors.ActiveCaptionText;
             labelDuration.Location = new Point(865, 644);
@@ -311,6 +313,7 @@
             // labelTitle
             // 
             labelTitle.AutoEllipsis = true;
+            labelTitle.BackColor = Color.Transparent;
             labelTitle.Font = new Font("Bahnschrift", 12F, FontStyle.Bold, GraphicsUnit.Point);
             labelTitle.ForeColor = SystemColors.ActiveCaptionText;
             labelTitle.Location = new Point(83, 628);
@@ -322,6 +325,7 @@
             // labelArtist
             // 
             labelArtist.AutoEllipsis = true;
+            labelArtist.BackColor = Color.Transparent;
             labelArtist.Font = new Font("Bahnschrift", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             labelArtist.ForeColor = SystemColors.ControlDarkDark;
             labelArtist.Location = new Point(83, 651);
@@ -400,8 +404,9 @@
             // 
             // listViewPlaylist
             // 
+            listViewPlaylist.BorderStyle = BorderStyle.None;
             listViewPlaylist.Columns.AddRange(new ColumnHeader[] { Image, Number, PlayListName });
-            listViewPlaylist.Font = new Font("Bahnschrift Condensed", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            listViewPlaylist.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             listViewPlaylist.FullRowSelect = true;
             listViewPlaylist.Location = new Point(12, 305);
             listViewPlaylist.MultiSelect = false;
@@ -409,7 +414,7 @@
             listViewPlaylist.Size = new Size(246, 309);
             listViewPlaylist.TabIndex = 27;
             listViewPlaylist.UseCompatibleStateImageBehavior = false;
-            listViewPlaylist.ColumnWidthChanging += ColumnWidthChanging;
+            listViewPlaylist.ColumnWidthChanging += ColumnWidthChangingPlaylist;
             listViewPlaylist.SelectedIndexChanged += listViewPlaylist_SelectedIndexChanged;
             // 
             // Image

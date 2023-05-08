@@ -23,16 +23,9 @@ namespace WinFormsApp1
                 {
                     folderList.Add(directory);
                     folderCount++;
-                    ListViewItem item = new ListViewItem(new string[] { "",folderCount.ToString(), System.IO.Path.GetFileName(directory), directory });
+                    ListViewItem item = new ListViewItem(new string[] { "", folderCount.ToString(), System.IO.Path.GetFileName(directory), directory });
                     listViewDirectories.Items.Add(item);
                 }
-            }
-            else
-            {
-                folderList.Add(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
-                folderCount++;
-                ListViewItem item = new ListViewItem(new string[] { "", folderCount.ToString(), System.IO.Path.GetFileName(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)), Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) });
-                listViewDirectories.Items.Add(item);
             }
         }
         private void addFolder(object sender, EventArgs e)
