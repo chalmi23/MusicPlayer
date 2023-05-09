@@ -6,7 +6,6 @@ namespace WinFormsApp1
     public partial class Form1 : Form
     {
         private Settings settings;
-        private PictureBox defaultCover = new PictureBox();
         private int trackCounter = 0;
         private int playlistCounter = 0;
         private int currentTrackIndex;
@@ -21,6 +20,10 @@ namespace WinFormsApp1
         private int timerCounterTitle = 0;
         private int timerCounterArtist = 0;
 
+        private bool dragging = false;
+        private Point dragCursorPoint;
+        private Point dragFormPoint;
+
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
 
@@ -30,6 +33,9 @@ namespace WinFormsApp1
         private List<Image> albumCovers = new List<Image>();
 
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+
+        public int CurrentPlaylistIndexGS { get => currentPlaylistIndex; set => currentPlaylistIndex = value; }
+
         public Form1()
         {
             InitializeComponent();
@@ -37,6 +43,7 @@ namespace WinFormsApp1
             musicList.View = View.Details;
             listViewPlaylist.View = View.Details;
             musicList.SmallImageList = new ImageList();
+            musicList.ForeColor = Color.FromArgb(40, 40, 40);
 
             outputDevice = new WaveOutEvent();
 
@@ -48,7 +55,6 @@ namespace WinFormsApp1
             timer.Interval = 10;
             timer.Tick += Timer_Tick;
             settings = new Settings(this);
-            defaultCover.Image = pictureBoxCover.Image;
 
             if (System.IO.File.Exists("appSettings.json"))
             {
@@ -182,7 +188,7 @@ namespace WinFormsApp1
                 LoadTracksToListView(currentPlaylistIndex);
             }
         }
-        private void LoadTracksToListView(int playlistIndex)
+        public void LoadTracksToListView(int playlistIndex)
         {
             musicList.Items.Clear();
             tracks.Clear();
@@ -786,6 +792,33 @@ namespace WinFormsApp1
         public void LoadToListViewFromFolder(string folderPath)
         {
             AddNewSongs(trackClass.LoadFromDirectory(folderPath));
+        }
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragging = true;
+            dragCursorPoint = Cursor.Position;
+            dragFormPoint = this.Location;
+        }
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragging)
+            {
+                Point dif = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
+                this.Location = Point.Add(dragFormPoint, new Size(dif));
+            }
+        }
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragging = false;
+        }
+
+        private void MinimizeWindow(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+        private void CloseApplication(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
