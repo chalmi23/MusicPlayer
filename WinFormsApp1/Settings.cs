@@ -212,22 +212,25 @@ namespace WinFormsApp1
                 return;
             }
 
-            ColorMatrix colorMatrix = new ColorMatrix(new float[][] {
-                new float[] {-1, 0, 0, 0, 0},
-                new float[] {0, -1, 0, 0, 0},
-                new float[] {0, 0, -1, 0, 0},
-                new float[] {0, 0, 0, 1, 0},
-                new float[] {1, 1, 1, 0, 1}
-            });
-
-            ImageAttributes imageAttributes = new ImageAttributes();
-            imageAttributes.SetColorMatrix(colorMatrix);
-
             Bitmap bitmap = new Bitmap(pictureBox.Image);
 
-            using (Graphics graphics = Graphics.FromImage(bitmap))
+            for (int x = 0; x < bitmap.Width; x++)
             {
-                graphics.DrawImage(bitmap, new Rectangle(0, 0, bitmap.Width, bitmap.Height), 0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, imageAttributes);
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    Color pixelColor = bitmap.GetPixel(x, y);
+
+                    if (pixelColor.A != 0)
+                    {
+                        int newR = 255 - pixelColor.R;
+                        int newG = 255 - pixelColor.G;
+                        int newB = 255 - pixelColor.B;
+
+                        Color newColor = Color.FromArgb(pixelColor.A, newR, newG, newB);
+
+                        bitmap.SetPixel(x, y, newColor);
+                    }
+                }
             }
 
             pictureBox.Image = bitmap;
