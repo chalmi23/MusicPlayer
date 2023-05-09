@@ -97,10 +97,13 @@ namespace WinFormsApp1
             PictureBox defaultCover = (PictureBox)_form1.Controls["defaultCover"];
             PictureBox closeApp = (PictureBox)_form1.Controls["pictureBoxCloseApp"];
             PictureBox minimizeApp = (PictureBox)_form1.Controls["pictureBoxMinimizeApp"];
+            PictureBox logoApp = (PictureBox)_form1.Controls["pictureBoxLogo"];
             Label TimeCounter = (Label)_form1.Controls["labelTimeCounter"];
             Label TimeDuration = (Label)_form1.Controls["labelDuration"];
             Label labelArtist = (Label)_form1.Controls["labelArtist"];
             Label labelTitle = (Label)_form1.Controls["labelTitle"];
+            Label labelPlayerName = (Label)_form1.Controls["labelPlayerName"];
+            Label labelPlaylistName = (Label)_form1.Controls["labelPlaylistName"];
             ListView listViewSongs = (ListView)_form1.Controls["musicList"];
             ListView listViewPlaylist = (ListView)_form1.Controls["listViewPlaylist"];
 
@@ -115,7 +118,7 @@ namespace WinFormsApp1
                 buttonSettings.BackColor = SystemColors.ButtonHighlight;
                 buttonAddSongs.BackColor = SystemColors.ButtonHighlight;
                 buttonAddPlaylist.BackColor = SystemColors.ButtonHighlight;
-                buttonSettings.ForeColor = SystemColors.ControlDarkDark;
+                buttonSettings.ForeColor = SystemColors.ControlText;
                 buttonAddSongs.ForeColor = SystemColors.ControlDarkDark;
                 buttonAddPlaylist.ForeColor = SystemColors.ControlDarkDark;
                 InvertPictureBoxColors(playMusic);
@@ -131,19 +134,27 @@ namespace WinFormsApp1
                 InvertPictureBoxColors(minimizeApp);
                 InvertPictureBoxColors(closeApp);
                 InvertPictureBoxColors(defaultCover);
+                InvertPictureBoxColors(logoApp);
                 listViewSongs.BackColor = SystemColors.ButtonHighlight;
+                listViewSongs.HeaderStyle = ColumnHeaderStyle.None;
                 listViewPlaylist.BackColor = SystemColors.ButtonHighlight;
                 listViewDirectories.BackColor = SystemColors.ButtonHighlight;
+                buttonDeleteFolder.BackColor = SystemColors.ButtonHighlight;
+                buttonAddFolder.BackColor = SystemColors.ButtonHighlight;
+                buttonAddFolder.ForeColor = SystemColors.ControlText;
                 listViewDirectories.ForeColor = SystemColors.ControlText;
+                labelPlayerName.ForeColor = SystemColors.ControlText;
+                labelPlaylistName.ForeColor = SystemColors.ControlText;
                 this.BackColor = SystemColors.ButtonHighlight;
                 TimeCounter.ForeColor = SystemColors.ControlText;
                 TimeDuration.ForeColor = SystemColors.ControlText;
                 labelDirectoryList.ForeColor = SystemColors.ControlText;
                 labelTitle.ForeColor = SystemColors.ControlDarkDark;
                 labelArtist.ForeColor = SystemColors.ActiveCaption;
-                listViewSongs.ForeColor = SystemColors.ControlDarkDark;
+                listViewSongs.ForeColor = SystemColors.ControlText;
                 listViewPlaylist.ForeColor = SystemColors.ControlDarkDark;
                 listViewSongs.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+                
             }
             else
             {
@@ -154,14 +165,20 @@ namespace WinFormsApp1
                 pictureBoxDarkMode.Visible = !pictureBoxDarkMode.Visible;
                 _form1.BackColor = Color.FromArgb(35, 35, 35);
                 this.BackColor = Color.FromArgb(35, 35, 35);
+                listViewSongs.HeaderStyle = ColumnHeaderStyle.None;
                 listViewDirectories.BackColor = Color.FromArgb(35, 35, 35);
                 listViewPlaylist.BackColor = Color.FromArgb(35, 35, 35);
-                buttonSettings.BackColor = Color.FromArgb(80, 80, 80);
-                buttonAddSongs.BackColor = Color.FromArgb(80, 80, 80);
-                buttonAddPlaylist.BackColor = Color.FromArgb(80, 80, 80);
+                buttonSettings.BackColor = Color.FromArgb(35, 35, 35);
+                buttonAddSongs.BackColor = Color.FromArgb(35, 35, 35);
+                buttonAddPlaylist.BackColor = Color.FromArgb(35, 35, 35);
                 buttonSettings.ForeColor = SystemColors.ButtonHighlight;
                 buttonAddSongs.ForeColor = SystemColors.ButtonHighlight;
                 buttonAddPlaylist.ForeColor = SystemColors.ButtonHighlight;
+                labelPlayerName.ForeColor = SystemColors.ButtonHighlight;
+                labelPlaylistName.ForeColor = SystemColors.ButtonHighlight;
+                buttonAddFolder.ForeColor = SystemColors.ButtonHighlight;
+                buttonDeleteFolder.BackColor = Color.FromArgb(35, 35, 35);
+                buttonAddFolder.BackColor = Color.FromArgb(35, 35, 35);
                 InvertPictureBoxColors(playMusic);
                 InvertPictureBoxColors(stopMusic);
                 InvertPictureBoxColors(nextSong);
@@ -169,13 +186,14 @@ namespace WinFormsApp1
                 InvertPictureBoxColors(Forwards);
                 InvertPictureBoxColors(Backwards);
                 InvertPictureBoxColors(Random);
+                InvertPictureBoxColors(logoApp);
                 InvertPictureBoxColors(minimizeApp);
                 InvertPictureBoxColors(closeApp);
                 InvertPictureBoxColors(Repeat);
                 InvertPictureBoxColors(speakerNoSound);
                 InvertPictureBoxColors(speaker);
                 InvertPictureBoxColors(defaultCover);
-                listViewSongs.BackColor = Color.FromArgb(40, 40, 40);
+                listViewSongs.BackColor = Color.FromArgb(35, 35, 35);
                 listViewDirectories.ForeColor = SystemColors.ButtonHighlight;
                 TimeCounter.ForeColor = SystemColors.ButtonHighlight;
                 TimeDuration.ForeColor = SystemColors.ButtonHighlight;

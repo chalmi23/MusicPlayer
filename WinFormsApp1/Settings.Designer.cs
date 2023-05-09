@@ -36,7 +36,7 @@
             Path = new ColumnHeader();
             labelDirectoryList = new Label();
             buttonAddFolder = new Button();
-            button2 = new Button();
+            buttonDeleteFolder = new Button();
             labelDark = new Label();
             pictureBoxLightMode = new PictureBox();
             pictureBoxDarkMode = new PictureBox();
@@ -52,7 +52,7 @@
             listViewDirectories.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             listViewDirectories.FullRowSelect = true;
             listViewDirectories.HeaderStyle = ColumnHeaderStyle.None;
-            listViewDirectories.Location = new Point(392, 28);
+            listViewDirectories.Location = new Point(458, 57);
             listViewDirectories.MultiSelect = false;
             listViewDirectories.Name = "listViewDirectories";
             listViewDirectories.Size = new Size(538, 279);
@@ -81,41 +81,45 @@
             // labelDirectoryList
             // 
             labelDirectoryList.AutoSize = true;
-            labelDirectoryList.Font = new Font("Bahnschrift Condensed", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            labelDirectoryList.Font = new Font("Bahnschrift Condensed", 18F, FontStyle.Regular, GraphicsUnit.Point);
             labelDirectoryList.ForeColor = SystemColors.ControlText;
-            labelDirectoryList.Location = new Point(392, 0);
+            labelDirectoryList.Location = new Point(458, 13);
             labelDirectoryList.Name = "labelDirectoryList";
-            labelDirectoryList.Size = new Size(104, 25);
+            labelDirectoryList.Size = new Size(117, 29);
             labelDirectoryList.TabIndex = 1;
             labelDirectoryList.Text = "Directory list";
             // 
             // buttonAddFolder
             // 
-            buttonAddFolder.BackColor = SystemColors.ButtonFace;
-            buttonAddFolder.FlatStyle = FlatStyle.System;
+            buttonAddFolder.BackColor = SystemColors.ButtonHighlight;
+            buttonAddFolder.FlatAppearance.BorderSize = 0;
+            buttonAddFolder.FlatStyle = FlatStyle.Flat;
             buttonAddFolder.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonAddFolder.ForeColor = SystemColors.ControlText;
-            buttonAddFolder.Location = new Point(392, 313);
+            buttonAddFolder.Location = new Point(594, 9);
             buttonAddFolder.Name = "buttonAddFolder";
-            buttonAddFolder.Size = new Size(209, 42);
+            buttonAddFolder.Size = new Size(198, 42);
             buttonAddFolder.TabIndex = 2;
             buttonAddFolder.Text = "Add new directory";
+            buttonAddFolder.TextAlign = ContentAlignment.MiddleLeft;
             buttonAddFolder.UseVisualStyleBackColor = false;
             buttonAddFolder.Click += addFolder;
             // 
-            // button2
+            // buttonDeleteFolder
             // 
-            button2.BackColor = Color.Red;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.ForeColor = SystemColors.ControlText;
-            button2.Location = new Point(721, 313);
-            button2.Name = "button2";
-            button2.Size = new Size(209, 42);
-            button2.TabIndex = 3;
-            button2.Text = "Delete selected directory";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += deleteFolder;
+            buttonDeleteFolder.BackColor = SystemColors.ButtonHighlight;
+            buttonDeleteFolder.FlatAppearance.BorderSize = 0;
+            buttonDeleteFolder.FlatStyle = FlatStyle.Flat;
+            buttonDeleteFolder.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonDeleteFolder.ForeColor = Color.Red;
+            buttonDeleteFolder.Location = new Point(798, 9);
+            buttonDeleteFolder.Name = "buttonDeleteFolder";
+            buttonDeleteFolder.Size = new Size(198, 42);
+            buttonDeleteFolder.TabIndex = 3;
+            buttonDeleteFolder.Text = "Delete selected directory";
+            buttonDeleteFolder.TextAlign = ContentAlignment.MiddleLeft;
+            buttonDeleteFolder.UseVisualStyleBackColor = false;
+            buttonDeleteFolder.Click += deleteFolder;
             // 
             // labelDark
             // 
@@ -174,12 +178,12 @@
             Controls.Add(pictureBoxDarkMode);
             Controls.Add(pictureBoxLightMode);
             Controls.Add(labelDark);
-            Controls.Add(button2);
+            Controls.Add(buttonDeleteFolder);
             Controls.Add(buttonAddFolder);
             Controls.Add(labelDirectoryList);
             Controls.Add(listViewDirectories);
             Name = "Settings";
-            Size = new Size(960, 706);
+            Size = new Size(1003, 653);
             ((System.ComponentModel.ISupportInitialize)pictureBoxLightMode).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDarkMode).EndInit();
             ResumeLayout(false);
@@ -194,7 +198,7 @@
         private ColumnHeader Id;
         private ColumnHeader Directory;
         private ColumnHeader Path;
-        private Button button2;
+        private Button buttonDeleteFolder;
         public Button buttonAddFolder;
         private Label labelDark;
         private PictureBox pictureBoxLightMode;

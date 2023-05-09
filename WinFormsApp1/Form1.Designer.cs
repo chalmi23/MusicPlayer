@@ -68,8 +68,15 @@
             defaultCover = new PictureBox();
             pictureBoxMinimizeApp = new PictureBox();
             pictureBoxCloseApp = new PictureBox();
-            label1 = new Label();
-            pictureBox1 = new PictureBox();
+            labelPlayerName = new Label();
+            pictureBoxLogo = new PictureBox();
+            labelPlaylistName = new Label();
+            pictureBox2 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox4 = new PictureBox();
+            pictureBox5 = new PictureBox();
+            pictureBox6 = new PictureBox();
+            pictureBox7 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxStopMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlayMusic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNextTrack).BeginInit();
@@ -89,7 +96,13 @@
             ((System.ComponentModel.ISupportInitialize)defaultCover).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMinimizeApp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxCloseApp).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             SuspendLayout();
             // 
             // buttonAddSongs
@@ -98,10 +111,10 @@
             buttonAddSongs.FlatAppearance.BorderSize = 0;
             buttonAddSongs.FlatStyle = FlatStyle.Flat;
             buttonAddSongs.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonAddSongs.ForeColor = SystemColors.ActiveCaptionText;
-            buttonAddSongs.Location = new Point(12, 251);
+            buttonAddSongs.ForeColor = SystemColors.ControlDarkDark;
+            buttonAddSongs.Location = new Point(24, 251);
             buttonAddSongs.Name = "buttonAddSongs";
-            buttonAddSongs.Size = new Size(246, 43);
+            buttonAddSongs.Size = new Size(169, 43);
             buttonAddSongs.TabIndex = 1;
             buttonAddSongs.Text = "Add new songs";
             buttonAddSongs.TextAlign = ContentAlignment.MiddleLeft;
@@ -114,14 +127,14 @@
             musicList.BorderStyle = BorderStyle.None;
             musicList.Columns.AddRange(new ColumnHeader[] { Cover, Id, Title, Artist, Album, Duration });
             musicList.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            musicList.ForeColor = Color.White;
+            musicList.ForeColor = SystemColors.ControlText;
             musicList.FullRowSelect = true;
             musicList.HeaderStyle = ColumnHeaderStyle.None;
             musicList.HideSelection = true;
-            musicList.Location = new Point(264, 56);
+            musicList.Location = new Point(233, 109);
             musicList.MultiSelect = false;
             musicList.Name = "musicList";
-            musicList.Size = new Size(950, 546);
+            musicList.Size = new Size(970, 493);
             musicList.TabIndex = 0;
             musicList.UseCompatibleStateImageBehavior = false;
             musicList.ColumnWidthChanging += ColumnWidthChangingMusicList;
@@ -217,7 +230,7 @@
             // 
             // trackBarVolume
             // 
-            trackBarVolume.Location = new Point(1179, 627);
+            trackBarVolume.Location = new Point(1144, 611);
             trackBarVolume.Maximum = 100;
             trackBarVolume.Name = "trackBarVolume";
             trackBarVolume.Orientation = Orientation.Vertical;
@@ -230,7 +243,7 @@
             // pictureBoxSpeaker
             // 
             pictureBoxSpeaker.Image = (Image)resources.GetObject("pictureBoxSpeaker.Image");
-            pictureBoxSpeaker.Location = new Point(1143, 664);
+            pictureBoxSpeaker.Location = new Point(1108, 648);
             pictureBoxSpeaker.Name = "pictureBoxSpeaker";
             pictureBoxSpeaker.Size = new Size(30, 31);
             pictureBoxSpeaker.TabIndex = 10;
@@ -240,7 +253,7 @@
             // pictureBoxSpeakerNoSound
             // 
             pictureBoxSpeakerNoSound.Image = (Image)resources.GetObject("pictureBoxSpeakerNoSound.Image");
-            pictureBoxSpeakerNoSound.Location = new Point(1143, 664);
+            pictureBoxSpeakerNoSound.Location = new Point(1108, 648);
             pictureBoxSpeakerNoSound.Name = "pictureBoxSpeakerNoSound";
             pictureBoxSpeakerNoSound.Size = new Size(30, 31);
             pictureBoxSpeakerNoSound.TabIndex = 11;
@@ -332,7 +345,7 @@
             labelTitle.BackColor = Color.Transparent;
             labelTitle.Font = new Font("Bahnschrift", 12F, FontStyle.Bold, GraphicsUnit.Point);
             labelTitle.ForeColor = SystemColors.ActiveCaptionText;
-            labelTitle.Location = new Point(83, 672);
+            labelTitle.Location = new Point(95, 657);
             labelTitle.Name = "labelTitle";
             labelTitle.Size = new Size(187, 23);
             labelTitle.TabIndex = 19;
@@ -344,7 +357,7 @@
             labelArtist.BackColor = Color.Transparent;
             labelArtist.Font = new Font("Bahnschrift", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             labelArtist.ForeColor = SystemColors.ControlDarkDark;
-            labelArtist.Location = new Point(83, 695);
+            labelArtist.Location = new Point(95, 680);
             labelArtist.Name = "labelArtist";
             labelArtist.Size = new Size(110, 23);
             labelArtist.TabIndex = 20;
@@ -353,7 +366,7 @@
             // pictureBoxCover
             // 
             pictureBoxCover.Image = (Image)resources.GetObject("pictureBoxCover.Image");
-            pictureBoxCover.Location = new Point(12, 664);
+            pictureBoxCover.Location = new Point(24, 649);
             pictureBoxCover.MaximumSize = new Size(66, 58);
             pictureBoxCover.MinimumSize = new Size(66, 58);
             pictureBoxCover.Name = "pictureBoxCover";
@@ -385,9 +398,9 @@
             // 
             // panelSettings
             // 
-            panelSettings.Location = new Point(264, 53);
+            panelSettings.Location = new Point(211, 76);
             panelSettings.Name = "panelSettings";
-            panelSettings.Size = new Size(960, 706);
+            panelSettings.Size = new Size(1003, 653);
             panelSettings.TabIndex = 24;
             panelSettings.Visible = false;
             panelSettings.Paint += panelSettingsPaint;
@@ -397,11 +410,11 @@
             buttonSettings.BackColor = SystemColors.ButtonHighlight;
             buttonSettings.FlatAppearance.BorderSize = 0;
             buttonSettings.FlatStyle = FlatStyle.Flat;
-            buttonSettings.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonSettings.ForeColor = SystemColors.ActiveCaptionText;
-            buttonSettings.Location = new Point(9, 56);
+            buttonSettings.Font = new Font("Bahnschrift Condensed", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonSettings.ForeColor = SystemColors.ControlText;
+            buttonSettings.Location = new Point(25, 62);
             buttonSettings.Name = "buttonSettings";
-            buttonSettings.Size = new Size(249, 44);
+            buttonSettings.Size = new Size(168, 44);
             buttonSettings.TabIndex = 25;
             buttonSettings.Text = "Settings";
             buttonSettings.TextAlign = ContentAlignment.MiddleLeft;
@@ -414,10 +427,10 @@
             buttonAddPlaylist.FlatAppearance.BorderSize = 0;
             buttonAddPlaylist.FlatStyle = FlatStyle.Flat;
             buttonAddPlaylist.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonAddPlaylist.ForeColor = SystemColors.ActiveCaptionText;
-            buttonAddPlaylist.Location = new Point(12, 300);
+            buttonAddPlaylist.ForeColor = SystemColors.ControlDarkDark;
+            buttonAddPlaylist.Location = new Point(24, 300);
             buttonAddPlaylist.Name = "buttonAddPlaylist";
-            buttonAddPlaylist.Size = new Size(246, 43);
+            buttonAddPlaylist.Size = new Size(169, 43);
             buttonAddPlaylist.TabIndex = 26;
             buttonAddPlaylist.Text = "Add new playlist";
             buttonAddPlaylist.TextAlign = ContentAlignment.MiddleLeft;
@@ -431,10 +444,10 @@
             listViewPlaylist.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             listViewPlaylist.FullRowSelect = true;
             listViewPlaylist.HeaderStyle = ColumnHeaderStyle.None;
-            listViewPlaylist.Location = new Point(12, 349);
+            listViewPlaylist.Location = new Point(24, 349);
             listViewPlaylist.MultiSelect = false;
             listViewPlaylist.Name = "listViewPlaylist";
-            listViewPlaylist.Size = new Size(246, 309);
+            listViewPlaylist.Size = new Size(203, 291);
             listViewPlaylist.TabIndex = 27;
             listViewPlaylist.UseCompatibleStateImageBehavior = false;
             listViewPlaylist.ColumnWidthChanging += ColumnWidthChangingPlaylist;
@@ -448,17 +461,17 @@
             // Number
             // 
             Number.Text = "No.";
-            Number.Width = 40;
+            Number.Width = 35;
             // 
             // PlayListName
             // 
             PlayListName.Text = "Playlist name";
-            PlayListName.Width = 190;
+            PlayListName.Width = 160;
             // 
             // defaultCover
             // 
             defaultCover.Image = (Image)resources.GetObject("defaultCover.Image");
-            defaultCover.Location = new Point(13, 664);
+            defaultCover.Location = new Point(25, 649);
             defaultCover.Name = "defaultCover";
             defaultCover.Size = new Size(65, 58);
             defaultCover.SizeMode = PictureBoxSizeMode.Zoom;
@@ -469,7 +482,7 @@
             // pictureBoxMinimizeApp
             // 
             pictureBoxMinimizeApp.Image = (Image)resources.GetObject("pictureBoxMinimizeApp.Image");
-            pictureBoxMinimizeApp.Location = new Point(1124, 5);
+            pictureBoxMinimizeApp.Location = new Point(1113, 12);
             pictureBoxMinimizeApp.Name = "pictureBoxMinimizeApp";
             pictureBoxMinimizeApp.Size = new Size(42, 42);
             pictureBoxMinimizeApp.TabIndex = 0;
@@ -479,33 +492,99 @@
             // pictureBoxCloseApp
             // 
             pictureBoxCloseApp.Image = (Image)resources.GetObject("pictureBoxCloseApp.Image");
-            pictureBoxCloseApp.Location = new Point(1172, 5);
+            pictureBoxCloseApp.Location = new Point(1161, 12);
             pictureBoxCloseApp.Name = "pictureBoxCloseApp";
             pictureBoxCloseApp.Size = new Size(42, 42);
             pictureBoxCloseApp.TabIndex = 29;
             pictureBoxCloseApp.TabStop = false;
             pictureBoxCloseApp.Click += CloseApplication;
             // 
-            // label1
+            // labelPlayerName
             // 
-            label1.AutoSize = true;
-            label1.BackColor = SystemColors.ButtonHighlight;
-            label1.Font = new Font("Bahnschrift Condensed", 20.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(60, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(129, 33);
-            label1.TabIndex = 0;
-            label1.Text = "Music Player";
+            labelPlayerName.AutoSize = true;
+            labelPlayerName.BackColor = Color.Transparent;
+            labelPlayerName.Font = new Font("Bahnschrift Condensed", 20.25F, FontStyle.Regular, GraphicsUnit.Point);
+            labelPlayerName.ForeColor = SystemColors.ControlText;
+            labelPlayerName.Location = new Point(64, 16);
+            labelPlayerName.Name = "labelPlayerName";
+            labelPlayerName.Size = new Size(129, 33);
+            labelPlayerName.TabIndex = 0;
+            labelPlayerName.Text = "Music Player";
             // 
-            // pictureBox1
+            // pictureBoxLogo
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(9, 5);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(45, 44);
-            pictureBox1.TabIndex = 30;
-            pictureBox1.TabStop = false;
+            pictureBoxLogo.Image = (Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Location = new Point(13, 12);
+            pictureBoxLogo.Name = "pictureBoxLogo";
+            pictureBoxLogo.Size = new Size(45, 44);
+            pictureBoxLogo.TabIndex = 30;
+            pictureBoxLogo.TabStop = false;
+            // 
+            // labelPlaylistName
+            // 
+            labelPlaylistName.AutoEllipsis = true;
+            labelPlaylistName.BackColor = Color.Transparent;
+            labelPlaylistName.Font = new Font("Bahnschrift", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            labelPlaylistName.ForeColor = SystemColors.ActiveCaptionText;
+            labelPlaylistName.Location = new Point(233, 75);
+            labelPlaylistName.Name = "labelPlaylistName";
+            labelPlaylistName.Size = new Size(149, 31);
+            labelPlaylistName.TabIndex = 31;
+            labelPlaylistName.Text = "Main playlist";
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(0, 0);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(990, 5);
+            pictureBox2.TabIndex = 32;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
+            pictureBox3.Location = new Point(420, 0);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(990, 5);
+            pictureBox3.TabIndex = 33;
+            pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(0, 735);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(990, 5);
+            pictureBox4.TabIndex = 34;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
+            pictureBox5.Location = new Point(282, 735);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(990, 5);
+            pictureBox5.TabIndex = 35;
+            pictureBox5.TabStop = false;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(0, 0);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(5, 750);
+            pictureBox6.TabIndex = 36;
+            pictureBox6.TabStop = false;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
+            pictureBox7.Location = new Point(1221, -10);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(5, 750);
+            pictureBox7.TabIndex = 37;
+            pictureBox7.TabStop = false;
             // 
             // Form1
             // 
@@ -513,8 +592,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1226, 740);
-            Controls.Add(pictureBox1);
-            Controls.Add(label1);
+            Controls.Add(pictureBox7);
+            Controls.Add(pictureBox6);
+            Controls.Add(pictureBox5);
+            Controls.Add(pictureBox4);
+            Controls.Add(pictureBox3);
+            Controls.Add(pictureBox2);
+            Controls.Add(pictureBoxLogo);
+            Controls.Add(labelPlayerName);
             Controls.Add(pictureBoxCloseApp);
             Controls.Add(pictureBoxMinimizeApp);
             Controls.Add(listViewPlaylist);
@@ -545,6 +630,7 @@
             Controls.Add(buttonAddSongs);
             Controls.Add(musicList);
             Controls.Add(defaultCover);
+            Controls.Add(labelPlaylistName);
             ForeColor = SystemColors.ControlLight;
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form1";
@@ -571,7 +657,13 @@
             ((System.ComponentModel.ISupportInitialize)defaultCover).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMinimizeApp).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxCloseApp).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -616,7 +708,14 @@
         private PictureBox defaultCover;
         private PictureBox pictureBoxMinimizeApp;
         private PictureBox pictureBoxCloseApp;
-        private Label label1;
-        private PictureBox pictureBox1;
+        private Label labelPlayerName;
+        private PictureBox pictureBoxLogo;
+        private Label labelPlaylistName;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox5;
+        private PictureBox pictureBox6;
+        private PictureBox pictureBox7;
     }
 }
