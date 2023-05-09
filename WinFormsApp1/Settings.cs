@@ -107,6 +107,9 @@ namespace WinFormsApp1
             ListView listViewSongs = (ListView)_form1.Controls["musicList"];
             ListView listViewPlaylist = (ListView)_form1.Controls["listViewPlaylist"];
 
+            Color darkModeBackground = Color.FromArgb(35, 35, 35);
+            Color lightMode = SystemColors.ButtonHighlight;
+
             if (isDark)
             {
                 isDark = !isDark;
@@ -121,20 +124,12 @@ namespace WinFormsApp1
                 buttonSettings.ForeColor = SystemColors.ControlText;
                 buttonAddSongs.ForeColor = SystemColors.ControlDarkDark;
                 buttonAddPlaylist.ForeColor = SystemColors.ControlDarkDark;
-                InvertPictureBoxColors(playMusic);
-                InvertPictureBoxColors(stopMusic);
-                InvertPictureBoxColors(nextSong);
-                InvertPictureBoxColors(previousSong);
-                InvertPictureBoxColors(Forwards);
-                InvertPictureBoxColors(Backwards);
-                InvertPictureBoxColors(Random);
-                InvertPictureBoxColors(Repeat);
-                InvertPictureBoxColors(speakerNoSound);
-                InvertPictureBoxColors(speaker);
-                InvertPictureBoxColors(minimizeApp);
-                InvertPictureBoxColors(closeApp);
-                InvertPictureBoxColors(defaultCover);
-                InvertPictureBoxColors(logoApp);
+                List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };
+
+                foreach (PictureBox pictureBox in pictureBoxList)
+                {
+                    InvertPictureBoxColors(pictureBox);
+                }
                 listViewSongs.BackColor = SystemColors.ButtonHighlight;
                 listViewSongs.HeaderStyle = ColumnHeaderStyle.None;
                 listViewPlaylist.BackColor = SystemColors.ButtonHighlight;
@@ -159,47 +154,43 @@ namespace WinFormsApp1
             else
             {
                 isDark = !isDark;
-                labelLight.Visible = !labelLight.Visible;
-                labelDark.Visible = !labelDark.Visible;
-                pictureBoxLightMode.Visible = !pictureBoxLightMode.Visible;
-                pictureBoxDarkMode.Visible = !pictureBoxDarkMode.Visible;
-                _form1.BackColor = Color.FromArgb(35, 35, 35);
-                this.BackColor = Color.FromArgb(35, 35, 35);
-                listViewSongs.HeaderStyle = ColumnHeaderStyle.None;
-                listViewDirectories.BackColor = Color.FromArgb(35, 35, 35);
-                listViewPlaylist.BackColor = Color.FromArgb(35, 35, 35);
-                buttonSettings.BackColor = Color.FromArgb(35, 35, 35);
-                buttonAddSongs.BackColor = Color.FromArgb(35, 35, 35);
-                buttonAddPlaylist.BackColor = Color.FromArgb(35, 35, 35);
-                buttonSettings.ForeColor = SystemColors.ButtonHighlight;
-                buttonAddSongs.ForeColor = SystemColors.ButtonHighlight;
-                buttonAddPlaylist.ForeColor = SystemColors.ButtonHighlight;
-                labelPlayerName.ForeColor = SystemColors.ButtonHighlight;
-                labelPlaylistName.ForeColor = SystemColors.ButtonHighlight;
-                buttonAddFolder.ForeColor = SystemColors.ButtonHighlight;
-                buttonDeleteFolder.BackColor = Color.FromArgb(35, 35, 35);
-                buttonAddFolder.BackColor = Color.FromArgb(35, 35, 35);
-                InvertPictureBoxColors(playMusic);
-                InvertPictureBoxColors(stopMusic);
-                InvertPictureBoxColors(nextSong);
-                InvertPictureBoxColors(previousSong);
-                InvertPictureBoxColors(Forwards);
-                InvertPictureBoxColors(Backwards);
-                InvertPictureBoxColors(Random);
-                InvertPictureBoxColors(logoApp);
-                InvertPictureBoxColors(minimizeApp);
-                InvertPictureBoxColors(closeApp);
-                InvertPictureBoxColors(Repeat);
-                InvertPictureBoxColors(speakerNoSound);
-                InvertPictureBoxColors(speaker);
-                InvertPictureBoxColors(defaultCover);
-                listViewSongs.BackColor = Color.FromArgb(35, 35, 35);
-                listViewDirectories.ForeColor = SystemColors.ButtonHighlight;
-                TimeCounter.ForeColor = SystemColors.ButtonHighlight;
-                TimeDuration.ForeColor = SystemColors.ButtonHighlight;
-                labelTitle.ForeColor = SystemColors.ButtonHighlight;
-                labelArtist.ForeColor = SystemColors.ButtonHighlight;
-                labelDirectoryList.ForeColor = SystemColors.ButtonHighlight;
+                List<Control> toggleControls = new List<Control>
+                {
+                    labelLight,labelDark,pictureBoxLightMode,pictureBoxDarkMode
+                };
+
+                foreach (Control control in toggleControls)
+                {
+                    control.Visible = !control.Visible;
+                }
+
+                List<Control> darkModeControls = new List<Control>
+                {
+                    _form1,this,listViewDirectories,listViewPlaylist,buttonSettings,buttonAddSongs,buttonAddPlaylist,buttonDeleteFolder,buttonAddFolder,listViewSongs
+                };
+
+                foreach (Control control in darkModeControls)
+                {
+                    control.BackColor = darkModeBackground;
+                }
+
+                List<Control> lightModeControls = new List<Control>
+                {
+                    buttonSettings, buttonAddSongs, buttonAddPlaylist,buttonAddFolder, labelPlayerName, labelPlaylistName, listViewDirectories, TimeCounter, TimeDuration, labelTitle, labelArtist, labelDirectoryList
+                };
+
+                foreach (Control control in lightModeControls)
+                {
+                    control.ForeColor = lightMode;
+                }
+
+                List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };
+
+                foreach (PictureBox pictureBox in pictureBoxList)
+                {
+                    InvertPictureBoxColors(pictureBox);
+                }
+
                 listViewSongs.ForeColor = Color.White;
                 listViewPlaylist.ForeColor = Color.White;
                 listViewSongs.HeaderStyle = ColumnHeaderStyle.None;
