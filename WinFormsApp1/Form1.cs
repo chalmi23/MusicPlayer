@@ -216,6 +216,7 @@ namespace WinFormsApp1
                 }
             }
             musicList.SmallImageList = imageList;
+            labelPlaylistName.Text = playLists[playlistIndex].NameGS;
         }
         private void AddNewPlaylist(object sender, EventArgs e)
         {
@@ -225,12 +226,12 @@ namespace WinFormsApp1
             prompt.Text = "Add new playlist";
 
             Label textLabel = new Label() { Left = 50, Top = 20, Text = "Enter name:" };
-            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 200 };
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 200, MaxLength = 18 };
             Button confirmation = new Button() { Text = "Dodaj", Left = 110, Width = 70, Top = 80 };
 
             confirmation.Click += (sender, e) =>
             {
-                if (!string.IsNullOrWhiteSpace(textBox.Text))
+                if (!string.IsNullOrWhiteSpace(textBox.Text) && textBox.Text != "Main playlist")
                 {
                     playlistCounter++;
                     PlaylistClass newPlaylist = new PlaylistClass { NameGS = textBox.Text, TrackListGS = new List<trackClass>() };
@@ -242,7 +243,7 @@ namespace WinFormsApp1
                 }
                 else
                 {
-                    MessageBox.Show("Nazwa playlisty nie mo¿e byæ pusta.", "B³¹d", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Enter a valid playlist name", ":(", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             };
 
@@ -761,7 +762,6 @@ namespace WinFormsApp1
             ScrollLabelIfTooLong(labelTitle, 20, ref timerCounterTitle);
             ScrollLabelIfTooLong(labelArtist, 16, ref timerCounterArtist);
         }
-
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
             if (audioFile != null) audioFile.CurrentTime = TimeSpan.FromMilliseconds(trackBar.Value / 1000);

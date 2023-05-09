@@ -398,7 +398,7 @@
             // 
             // panelSettings
             // 
-            panelSettings.Location = new Point(211, 76);
+            panelSettings.Location = new Point(212, 76);
             panelSettings.Name = "panelSettings";
             panelSettings.Size = new Size(1003, 653);
             panelSettings.TabIndex = 24;
@@ -444,10 +444,10 @@
             listViewPlaylist.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             listViewPlaylist.FullRowSelect = true;
             listViewPlaylist.HeaderStyle = ColumnHeaderStyle.None;
-            listViewPlaylist.Location = new Point(24, 349);
+            listViewPlaylist.Location = new Point(13, 349);
             listViewPlaylist.MultiSelect = false;
             listViewPlaylist.Name = "listViewPlaylist";
-            listViewPlaylist.Size = new Size(203, 291);
+            listViewPlaylist.Size = new Size(214, 291);
             listViewPlaylist.TabIndex = 27;
             listViewPlaylist.UseCompatibleStateImageBehavior = false;
             listViewPlaylist.ColumnWidthChanging += ColumnWidthChangingPlaylist;
@@ -526,9 +526,10 @@
             labelPlaylistName.BackColor = Color.Transparent;
             labelPlaylistName.Font = new Font("Bahnschrift", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             labelPlaylistName.ForeColor = SystemColors.ActiveCaptionText;
+            labelPlaylistName.ImageAlign = ContentAlignment.MiddleLeft;
             labelPlaylistName.Location = new Point(233, 75);
             labelPlaylistName.Name = "labelPlaylistName";
-            labelPlaylistName.Size = new Size(149, 31);
+            labelPlaylistName.Size = new Size(404, 31);
             labelPlaylistName.TabIndex = 31;
             labelPlaylistName.Text = "Main playlist";
             // 

@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Drawing.Imaging;
-
 
 namespace WinFormsApp1
 {
@@ -51,7 +49,7 @@ namespace WinFormsApp1
                 }
                 else
                 {
-                    MessageBox.Show("Ten folder został już dodany.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("This directory is already on the list", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -81,9 +79,6 @@ namespace WinFormsApp1
 
         private void changeMode(object sender, EventArgs e)
         {
-            Button buttonSettings = (Button)_form1.Controls["buttonSettings"];
-            Button buttonAddSongs = (Button)_form1.Controls["buttonAddSongs"];
-            Button buttonAddPlaylist = (Button)_form1.Controls["buttonAddPlaylist"];
             PictureBox playMusic = (PictureBox)_form1.Controls["pictureBoxPlayMusic"];
             PictureBox stopMusic = (PictureBox)_form1.Controls["pictureBoxStopMusic"];
             PictureBox nextSong = (PictureBox)_form1.Controls["pictureBoxNextTrack"];
@@ -98,6 +93,7 @@ namespace WinFormsApp1
             PictureBox closeApp = (PictureBox)_form1.Controls["pictureBoxCloseApp"];
             PictureBox minimizeApp = (PictureBox)_form1.Controls["pictureBoxMinimizeApp"];
             PictureBox logoApp = (PictureBox)_form1.Controls["pictureBoxLogo"];
+            Button buttonSettings = (Button)_form1.Controls["buttonSettings"];
             Label TimeCounter = (Label)_form1.Controls["labelTimeCounter"];
             Label TimeDuration = (Label)_form1.Controls["labelDuration"];
             Label labelArtist = (Label)_form1.Controls["labelArtist"];
@@ -105,6 +101,9 @@ namespace WinFormsApp1
             Label labelPlayerName = (Label)_form1.Controls["labelPlayerName"];
             Label labelPlaylistName = (Label)_form1.Controls["labelPlaylistName"];
             ListView listViewSongs = (ListView)_form1.Controls["musicList"];
+            Button buttonAddSongs = (Button)_form1.Controls["buttonAddSongs"];
+            Button buttonAddPlaylist = (Button)_form1.Controls["buttonAddPlaylist"];
+
             ListView listViewPlaylist = (ListView)_form1.Controls["listViewPlaylist"];
 
             Color darkModeBackground = Color.FromArgb(35, 35, 35);
@@ -114,47 +113,21 @@ namespace WinFormsApp1
             {
                 isDark = !isDark;
 
-                List<Control> toggleControls = new List<Control>
-                {
-                    labelLight,labelDark,pictureBoxLightMode,pictureBoxDarkMode
-                };
+                List<Control> toggleControls = new List<Control> { labelLight,labelDark,pictureBoxLightMode,pictureBoxDarkMode };
+                foreach (Control control in toggleControls) control.Visible = !control.Visible;
+               
+                List<Control> lightModeControls = new List<Control> { _form1, buttonSettings, buttonAddSongs, buttonAddPlaylist, this, buttonAddFolder, listViewSongs, listViewPlaylist, listViewDirectories, buttonDeleteFolder};
+                foreach (Control control in lightModeControls) control.BackColor = lightMode;
+                
+                List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };
+                foreach (PictureBox pictureBox in pictureBoxList) InvertPictureBoxColors(pictureBox);
 
-                foreach (Control control in toggleControls)
-                {
-                    control.Visible = !control.Visible;
-                }
-
-                List<Control> lightModeControls = new List<Control>
-                {
-                    _form1, buttonSettings, buttonAddSongs, buttonAddPlaylist, this, buttonAddFolder, listViewSongs, listViewPlaylist, listViewDirectories, buttonDeleteFolder
-                };
-
-                foreach (Control control in lightModeControls)
-                {
-                    control.BackColor = lightMode;
-                }
+                List<Control> toggleControlsControlText = new List<Control> { buttonAddFolder, listViewDirectories, labelPlayerName, labelPlaylistName, TimeCounter, TimeDuration, labelDirectoryList, listViewSongs };
+                foreach (Control control in toggleControlsControlText) control.ForeColor = SystemColors.ControlText;
 
                 buttonSettings.ForeColor = SystemColors.ControlText;
                 buttonAddSongs.ForeColor = SystemColors.ControlDarkDark;
                 buttonAddPlaylist.ForeColor = SystemColors.ControlDarkDark;
-
-                List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };
-
-                foreach (PictureBox pictureBox in pictureBoxList)
-                {
-                    InvertPictureBoxColors(pictureBox);
-                }
-
-                List<Control> toggleControlsControlText = new List<Control>
-                {
-                    buttonAddFolder, listViewDirectories, labelPlayerName, labelPlaylistName, TimeCounter, TimeDuration, labelDirectoryList, listViewSongs
-                };
-
-                foreach (Control control in toggleControlsControlText)
-                {
-                    control.ForeColor = SystemColors.ControlText;
-                }
-
                 labelTitle.ForeColor = SystemColors.ControlDarkDark;
                 labelArtist.ForeColor = SystemColors.ActiveCaption;
                 listViewPlaylist.ForeColor = SystemColors.ControlDarkDark;              
@@ -162,42 +135,18 @@ namespace WinFormsApp1
             else
             {
                 isDark = !isDark;
-                List<Control> toggleControls = new List<Control>
-                {
-                    labelLight,labelDark,pictureBoxLightMode,pictureBoxDarkMode
-                };
+                List<Control> toggleControls = new List<Control> { labelLight,labelDark,pictureBoxLightMode,pictureBoxDarkMode };
+                foreach (Control control in toggleControls) control.Visible = !control.Visible;
 
-                foreach (Control control in toggleControls)
-                {
-                    control.Visible = !control.Visible;
-                }
 
-                List<Control> darkModeControls = new List<Control>
-                {
-                    _form1,this,listViewDirectories,listViewPlaylist,buttonSettings,buttonAddSongs,buttonAddPlaylist,buttonDeleteFolder,buttonAddFolder,listViewSongs
-                };
+                List<Control> darkModeControls = new List<Control> { _form1,this,listViewDirectories,listViewPlaylist,buttonSettings,buttonAddSongs,buttonAddPlaylist,buttonDeleteFolder,buttonAddFolder,listViewSongs};
+                foreach (Control control in darkModeControls) control.BackColor = darkModeBackground;
 
-                foreach (Control control in darkModeControls)
-                {
-                    control.BackColor = darkModeBackground;
-                }
-
-                List<Control> lightModeControls = new List<Control>
-                {
-                    buttonSettings, buttonAddSongs, buttonAddPlaylist,buttonAddFolder, labelPlayerName, labelPlaylistName, listViewDirectories, TimeCounter, TimeDuration, labelTitle, labelArtist, labelDirectoryList
-                };
-
-                foreach (Control control in lightModeControls)
-                {
-                    control.ForeColor = lightMode;
-                }
+                List<Control> lightModeControls = new List<Control>{ buttonSettings, buttonAddSongs, buttonAddPlaylist,buttonAddFolder, labelPlayerName, labelPlaylistName, listViewDirectories, TimeCounter, TimeDuration, labelTitle, labelArtist, labelDirectoryList};
+                foreach (Control control in lightModeControls) control.ForeColor = lightMode;
 
                 List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };
-
-                foreach (PictureBox pictureBox in pictureBoxList)
-                {
-                    InvertPictureBoxColors(pictureBox);
-                }
+                foreach (PictureBox pictureBox in pictureBoxList) InvertPictureBoxColors(pictureBox);
 
                 listViewSongs.ForeColor = Color.White;
                 listViewPlaylist.ForeColor = Color.White;
@@ -213,7 +162,6 @@ namespace WinFormsApp1
             }
 
             Bitmap bitmap = new Bitmap(pictureBox.Image);
-
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
@@ -232,7 +180,6 @@ namespace WinFormsApp1
                     }
                 }
             }
-
             pictureBox.Image = bitmap;
         }
     }
