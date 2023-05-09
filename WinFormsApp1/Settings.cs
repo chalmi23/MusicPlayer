@@ -113,43 +113,51 @@ namespace WinFormsApp1
             if (isDark)
             {
                 isDark = !isDark;
-                labelLight.Visible = !labelLight.Visible;
-                labelDark.Visible = !labelDark.Visible;
-                pictureBoxLightMode.Visible = !pictureBoxLightMode.Visible;
-                pictureBoxDarkMode.Visible = !pictureBoxDarkMode.Visible;
-                _form1.BackColor = SystemColors.ButtonHighlight;
-                buttonSettings.BackColor = SystemColors.ButtonHighlight;
-                buttonAddSongs.BackColor = SystemColors.ButtonHighlight;
-                buttonAddPlaylist.BackColor = SystemColors.ButtonHighlight;
+
+                List<Control> toggleControls = new List<Control>
+                {
+                    labelLight,labelDark,pictureBoxLightMode,pictureBoxDarkMode
+                };
+
+                foreach (Control control in toggleControls)
+                {
+                    control.Visible = !control.Visible;
+                }
+
+                List<Control> lightModeControls = new List<Control>
+                {
+                    _form1, buttonSettings, buttonAddSongs, buttonAddPlaylist, this, buttonAddFolder, listViewSongs, listViewPlaylist, listViewDirectories, buttonDeleteFolder
+                };
+
+                foreach (Control control in lightModeControls)
+                {
+                    control.BackColor = lightMode;
+                }
+
                 buttonSettings.ForeColor = SystemColors.ControlText;
                 buttonAddSongs.ForeColor = SystemColors.ControlDarkDark;
                 buttonAddPlaylist.ForeColor = SystemColors.ControlDarkDark;
+
                 List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };
 
                 foreach (PictureBox pictureBox in pictureBoxList)
                 {
                     InvertPictureBoxColors(pictureBox);
                 }
-                listViewSongs.BackColor = SystemColors.ButtonHighlight;
-                listViewSongs.HeaderStyle = ColumnHeaderStyle.None;
-                listViewPlaylist.BackColor = SystemColors.ButtonHighlight;
-                listViewDirectories.BackColor = SystemColors.ButtonHighlight;
-                buttonDeleteFolder.BackColor = SystemColors.ButtonHighlight;
-                buttonAddFolder.BackColor = SystemColors.ButtonHighlight;
-                buttonAddFolder.ForeColor = SystemColors.ControlText;
-                listViewDirectories.ForeColor = SystemColors.ControlText;
-                labelPlayerName.ForeColor = SystemColors.ControlText;
-                labelPlaylistName.ForeColor = SystemColors.ControlText;
-                this.BackColor = SystemColors.ButtonHighlight;
-                TimeCounter.ForeColor = SystemColors.ControlText;
-                TimeDuration.ForeColor = SystemColors.ControlText;
-                labelDirectoryList.ForeColor = SystemColors.ControlText;
+
+                List<Control> toggleControlsControlText = new List<Control>
+                {
+                    buttonAddFolder, listViewDirectories, labelPlayerName, labelPlaylistName, TimeCounter, TimeDuration, labelDirectoryList, listViewSongs
+                };
+
+                foreach (Control control in toggleControlsControlText)
+                {
+                    control.ForeColor = SystemColors.ControlText;
+                }
+
                 labelTitle.ForeColor = SystemColors.ControlDarkDark;
                 labelArtist.ForeColor = SystemColors.ActiveCaption;
-                listViewSongs.ForeColor = SystemColors.ControlText;
-                listViewPlaylist.ForeColor = SystemColors.ControlDarkDark;
-                listViewSongs.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-                
+                listViewPlaylist.ForeColor = SystemColors.ControlDarkDark;              
             }
             else
             {
@@ -193,8 +201,8 @@ namespace WinFormsApp1
 
                 listViewSongs.ForeColor = Color.White;
                 listViewPlaylist.ForeColor = Color.White;
-                listViewSongs.HeaderStyle = ColumnHeaderStyle.None;
             }
+            listViewSongs.HeaderStyle = ColumnHeaderStyle.None;
             _form1.LoadTracksToListView(_form1.CurrentPlaylistIndexGS);
         }
         private void InvertPictureBoxColors(PictureBox pictureBox)
