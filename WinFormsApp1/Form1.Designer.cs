@@ -138,7 +138,7 @@
             musicList.TabIndex = 0;
             musicList.UseCompatibleStateImageBehavior = false;
             musicList.ColumnWidthChanging += ColumnWidthChangingMusicList;
-            musicList.Click += playSelectedTrack;
+            musicList.MouseClick += playSelectedTrack;
             // 
             // Cover
             // 
@@ -398,7 +398,7 @@
             // 
             // panelSettings
             // 
-            panelSettings.Location = new Point(212, 76);
+            panelSettings.Location = new Point(211, 76);
             panelSettings.Name = "panelSettings";
             panelSettings.Size = new Size(1003, 653);
             panelSettings.TabIndex = 24;

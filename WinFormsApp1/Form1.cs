@@ -254,45 +254,90 @@ namespace WinFormsApp1
             prompt.ShowDialog();
             refreshJsonFile(settings.FolderList);
         }
-        private void playSelectedTrack(object sender, EventArgs e)
+        private void playSelectedTrack(object sender, MouseEventArgs e)
         {
-            pictureBoxPlayMusic.Enabled = true;
-            pictureBoxForwards.Enabled = true;
-            pictureBoxBackwards.Enabled = true;
+            if (e.Button == MouseButtons.Left)
+            {
+                pictureBoxPlayMusic.Enabled = true;
+                pictureBoxForwards.Enabled = true;
+                pictureBoxBackwards.Enabled = true;
+                if (musicList.SelectedItems.Count > 0)
+                {
+                    ListViewItem selectedItem = musicList.SelectedItems[0];
+                    int trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
+
+                    if (isPlaying || isPaused) outputDevice.Stop();
+
+                    if (CheckAndRemoveNonexistentTrack(trackIndex))
+                    {
+                        if (currentTrackIndex >= trackIndex && currentTrackIndex > 0)
+                        {
+                            currentTrackIndex--;
+                        }
+
+                        selectedItem = musicList.Items[currentTrackIndex];
+                        trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
+                        LoadTracksToListView(currentPlaylistIndex);
+                        MessageBox.Show("The file has been deleted or is corrupted.", "Message");
+                    }
+
+                    string filePath = tracks[trackIndex].PathGS;
+
+                    if (!File.Exists(filePath))
+                    {
+                        return;
+                    }
+                    audioFile = new AudioFileReader(filePath);
+
+                    outputDevice.Init(audioFile);
+                    currentTrackIndex = trackIndex;
+
+                    if (isRandom) initializeAvailableTrackIndexes();
+                    playingNewSongInfo(sender, e);
+                }
+            }
+            if(e.Button == MouseButtons.Right)
+            {
+                ListViewItem item = musicList.GetItemAt(e.X, e.Y);
+                if (item != null)
+                {
+                    ContextMenuStrip menu = new ContextMenuStrip();
+                    menu.Items.Add("Add to playlist", null, addToPlaylist);
+                    menu.Items.Add("Remove from playlist", null, RemoveFromPlaylist_Click);
+                    musicList.ContextMenuStrip = menu;
+                    musicList.ContextMenuStrip.Show(musicList, new Point(e.X, e.Y));
+                }
+            }
+        }
+        private void addToPlaylist(object sender, EventArgs e)
+        {
             if (musicList.SelectedItems.Count > 0)
             {
+                // get the selected track
                 ListViewItem selectedItem = musicList.SelectedItems[0];
                 int trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
 
-                if (isPlaying || isPaused) outputDevice.Stop();
-
-                if (CheckAndRemoveNonexistentTrack(trackIndex))
+                // add the track to a playlist
+                ContextMenuStrip menu = new ContextMenuStrip();
+                ToolStripMenuItem playlistMenuItem;
+                foreach (PlaylistClass playlist in playLists)
                 {
-                    if (currentTrackIndex >= trackIndex && currentTrackIndex > 0)
+                    playlistMenuItem = new ToolStripMenuItem(playlist.NameGS);
+                    playlistMenuItem.Click += (s, ev) =>
                     {
-                        currentTrackIndex--;
-                    }
-
-                    selectedItem = musicList.Items[currentTrackIndex];
-                    trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
-                    LoadTracksToListView(currentPlaylistIndex);
-                    MessageBox.Show("The file has been deleted or is corrupted.", "Message");
+                        playlist.TrackListGS.Add(tracks[trackIndex]);
+                        LoadTracksToListView(currentPlaylistIndex);
+                        refreshJsonFile(settings.FolderList);
+                    };
+                    menu.Items.Add(playlistMenuItem);
                 }
-
-                string filePath = tracks[trackIndex].PathGS;
-
-                if (!File.Exists(filePath))
-                {
-                    return;
-                }
-                audioFile = new AudioFileReader(filePath);
-
-                outputDevice.Init(audioFile);
-                currentTrackIndex = trackIndex;
-
-                if (isRandom) initializeAvailableTrackIndexes();
-                playingNewSongInfo(sender, e);
+                menu.Show(musicList.PointToScreen(selectedItem.Position));
             }
+        }
+
+        private void RemoveFromPlaylist_Click(object sender, EventArgs e)
+        {
+
         }
         private void playingNewSongInfo(object sender, EventArgs e)
         {
@@ -511,14 +556,15 @@ namespace WinFormsApp1
             }
             else return;
         }
-        private void SongIsOver(object sender, StoppedEventArgs e)
+        private void SongIsOver(object sender, EventArgs e)
         {
             if (audioFile != null && labelTimeCounter.Text == audioFile.TotalTime.ToString(@"mm\:ss"))
             {
                 if (playStatus == 0) SetDefaultInformations();
                 if (playStatus == 1)
                 {
-                    playSelectedTrack(sender, e);
+                    System.Windows.Forms.MouseEventArgs me = null;
+                    playSelectedTrack(sender, me);
                 }
                 if (playStatus == 2)
                 {

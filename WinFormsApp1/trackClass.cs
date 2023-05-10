@@ -22,7 +22,7 @@ namespace WinFormsApp1
         public string AlbumGS { get => Album; set => Album = value; }
 
         public string DurationGS { get => Duration; set => Duration = value; }
-
+        [JsonIgnore]
         public IPicture CoverGS { get => Cover; set => Cover = value; }
         public string PathGS { get => Path; set => Path = value; }
 
