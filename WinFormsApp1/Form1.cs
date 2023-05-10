@@ -326,11 +326,11 @@ namespace WinFormsApp1
                     playlistMenuItem = new ToolStripMenuItem(playlist.NameGS);
                     playlistMenuItem.Click += (s, ev) =>
                     {
-                        string trackIdentifier = $"{tracks[selectedTrackIndex].TitleGS} {tracks[selectedTrackIndex].ArtistGS}";
-                        List<string> existingTracks = tracks.Select(t => $"{t.TitleGS} {t.ArtistGS}").ToList();
-                        if (!existingTracks.Contains(trackIdentifier))
+                        trackClass selectedTrack = tracks[selectedTrackIndex];
+                        bool trackExists = playlist.TrackListGS.Any(t => t.TitleGS == selectedTrack.TitleGS && t.ArtistGS == selectedTrack.ArtistGS);
+                        if (!trackExists)
                         {
-                            playlist.TrackListGS.Add(tracks[selectedTrackIndex]);
+                            playlist.TrackListGS.Add(selectedTrack);
                             refreshJsonFile(settings.FolderList);
                         }
                         else
@@ -346,7 +346,16 @@ namespace WinFormsApp1
 
         private void RemoveFromPlaylist_Click(object sender, EventArgs e)
         {
+            if (musicList.SelectedItems.Count > 0)
+            {
+                ListViewItem selectedItem = musicList.SelectedItems[0];
+                int selectedTrackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
 
+                PlaylistClass selectedPlaylist = playLists[currentPlaylistIndex];
+                selectedPlaylist.TrackListGS.RemoveAll(track => track.TitleGS == tracks[selectedTrackIndex].TitleGS && track.ArtistGS == tracks[selectedTrackIndex].ArtistGS);
+                refreshJsonFile(settings.FolderList);
+                LoadTracksToListView(currentPlaylistIndex);
+            }
         }
         private void playingNewSongInfo(object sender, EventArgs e)
         {
