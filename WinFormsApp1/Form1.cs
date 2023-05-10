@@ -315,7 +315,7 @@ namespace WinFormsApp1
             if (musicList.SelectedItems.Count > 0)
             {
                 ListViewItem selectedItem = musicList.SelectedItems[0];
-                int trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
+                int selectedTrackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
 
                 ContextMenuStrip menu = new ContextMenuStrip();
                 menu.Font = new Font("Bahnschrift Condensed", 13);
@@ -326,8 +326,17 @@ namespace WinFormsApp1
                     playlistMenuItem = new ToolStripMenuItem(playlist.NameGS);
                     playlistMenuItem.Click += (s, ev) =>
                     {
-                        playlist.TrackListGS.Add(tracks[trackIndex]);
-                        refreshJsonFile(settings.FolderList);
+                        string trackIdentifier = $"{tracks[selectedTrackIndex].TitleGS} {tracks[selectedTrackIndex].ArtistGS}";
+                        List<string> existingTracks = tracks.Select(t => $"{t.TitleGS} {t.ArtistGS}").ToList();
+                        if (!existingTracks.Contains(trackIdentifier))
+                        {
+                            playlist.TrackListGS.Add(tracks[selectedTrackIndex]);
+                            refreshJsonFile(settings.FolderList);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Song is already on the playlist.", "Music Player");
+                        }
                     };
                     menu.Items.Add(playlistMenuItem);
                 }
