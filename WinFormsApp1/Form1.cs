@@ -321,6 +321,7 @@ namespace WinFormsApp1
                 menu.Font = new Font("Bahnschrift Condensed", 13);
                 menu.ForeColor = Color.FromArgb(35, 35, 35);
                 ToolStripMenuItem playlistMenuItem;
+
                 foreach (PlaylistClass playlist in playLists)
                 {
                     playlistMenuItem = new ToolStripMenuItem(playlist.NameGS);
@@ -340,13 +341,13 @@ namespace WinFormsApp1
                     };
                     menu.Items.Add(playlistMenuItem);
                 }
-                menu.Show(musicList.PointToScreen(selectedItem.Position));
+                menu.Show(Cursor.Position);
             }
         }
 
         private void RemoveFromPlaylist_Click(object sender, EventArgs e)
         {
-            if (musicList.SelectedItems.Count > 0)
+            if (musicList.SelectedItems.Count > 0 && currentPlaylistIndex>0)
             {
                 ListViewItem selectedItem = musicList.SelectedItems[0];
                 int selectedTrackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
@@ -355,6 +356,10 @@ namespace WinFormsApp1
                 selectedPlaylist.TrackListGS.RemoveAll(track => track.TitleGS == tracks[selectedTrackIndex].TitleGS && track.ArtistGS == tracks[selectedTrackIndex].ArtistGS);
                 refreshJsonFile(settings.FolderList);
                 LoadTracksToListView(currentPlaylistIndex);
+            }
+            else
+            {
+                MessageBox.Show("Cannot remove track from main playlist. It stores all tracks from folders.", "Music Player");
             }
         }
         private void playingNewSongInfo(object sender, EventArgs e)
