@@ -304,6 +304,7 @@ namespace WinFormsApp1
                     ContextMenuStrip menu = new ContextMenuStrip();
                     menu.Items.Add("Add to playlist", null, addToPlaylist);
                     menu.Items.Add("Remove from playlist", null, RemoveFromPlaylist_Click);
+                    menu.Font = new Font("Bahnschrift Condensed", 13);
                     musicList.ContextMenuStrip = menu;
                     musicList.ContextMenuStrip.Show(musicList, new Point(e.X, e.Y));
                 }
@@ -313,12 +314,12 @@ namespace WinFormsApp1
         {
             if (musicList.SelectedItems.Count > 0)
             {
-                // get the selected track
                 ListViewItem selectedItem = musicList.SelectedItems[0];
                 int trackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
 
-                // add the track to a playlist
                 ContextMenuStrip menu = new ContextMenuStrip();
+                menu.Font = new Font("Bahnschrift Condensed", 13);
+                menu.ForeColor = Color.FromArgb(35, 35, 35);
                 ToolStripMenuItem playlistMenuItem;
                 foreach (PlaylistClass playlist in playLists)
                 {
@@ -326,7 +327,6 @@ namespace WinFormsApp1
                     playlistMenuItem.Click += (s, ev) =>
                     {
                         playlist.TrackListGS.Add(tracks[trackIndex]);
-                        LoadTracksToListView(currentPlaylistIndex);
                         refreshJsonFile(settings.FolderList);
                     };
                     menu.Items.Add(playlistMenuItem);
