@@ -24,6 +24,9 @@ namespace WinFormsApp1
         private Point dragCursorPoint;
         private Point dragFormPoint;
 
+        ContextMenuStrip menuPlaylist = new ContextMenuStrip();
+        ContextMenuStrip menuAddToPlaylist = new ContextMenuStrip();
+
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
 
@@ -301,11 +304,10 @@ namespace WinFormsApp1
                 ListViewItem item = musicList.GetItemAt(e.X, e.Y);
                 if (item != null)
                 {
-                    ContextMenuStrip menu = new ContextMenuStrip();
-                    menu.Items.Add("Add to playlist", null, addToPlaylist);
-                    menu.Items.Add("Remove from playlist", null, RemoveFromPlaylist_Click);
-                    menu.Font = new Font("Bahnschrift Condensed", 13);
-                    musicList.ContextMenuStrip = menu;
+                    menuPlaylist.Items.Add("Add to playlist", null, addToPlaylist);
+                    menuPlaylist.Items.Add("Remove from playlist", null, RemoveFromPlaylist_Click);
+                    menuPlaylist.Font = new Font("Bahnschrift Condensed", 13);
+                    musicList.ContextMenuStrip = menuPlaylist;
                     musicList.ContextMenuStrip.Show(musicList, new Point(e.X, e.Y));
                 }
             }
@@ -317,9 +319,8 @@ namespace WinFormsApp1
                 ListViewItem selectedItem = musicList.SelectedItems[0];
                 int selectedTrackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
 
-                ContextMenuStrip menu = new ContextMenuStrip();
-                menu.Font = new Font("Bahnschrift Condensed", 13);
-                menu.ForeColor = Color.FromArgb(35, 35, 35);
+                menuAddToPlaylist.Font = new Font("Bahnschrift Condensed", 13);
+                menuAddToPlaylist.ForeColor = Color.FromArgb(35, 35, 35);
                 ToolStripMenuItem playlistMenuItem;
 
                 foreach (PlaylistClass playlist in playLists)
@@ -339,9 +340,9 @@ namespace WinFormsApp1
                             MessageBox.Show("Song is already on the playlist.", "Music Player");
                         }
                     };
-                    menu.Items.Add(playlistMenuItem);
+                    menuAddToPlaylist.Items.Add(playlistMenuItem);
                 }
-                menu.Show(Cursor.Position);
+                menuAddToPlaylist.Show(Cursor.Position);
             }
         }
 
