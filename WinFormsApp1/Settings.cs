@@ -9,6 +9,7 @@ namespace WinFormsApp1
         private bool isDark = false;
         private List<string> folderList = new List<string>();
         public List<string> FolderList { get => folderList; set => folderList = value; }
+        public bool isDarkGS { get => isDark; set => isDark = value; }
 
         public Settings(Form1 form1)
         {

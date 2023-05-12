@@ -24,9 +24,6 @@ namespace WinFormsApp1
         private Point dragCursorPoint;
         private Point dragFormPoint;
 
-        ContextMenuStrip menuPlaylist = new ContextMenuStrip();
-        ContextMenuStrip menuAddToPlaylist = new ContextMenuStrip();
-
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
 
@@ -301,11 +298,22 @@ namespace WinFormsApp1
             }
             if(e.Button == MouseButtons.Right)
             {
+                ContextMenuStrip menuPlaylist = new ContextMenuStrip();
                 ListViewItem item = musicList.GetItemAt(e.X, e.Y);
                 if (item != null)
                 {
                     menuPlaylist.Items.Add("Add to playlist", null, addToPlaylist);
                     menuPlaylist.Items.Add("Remove from playlist", null, RemoveFromPlaylist_Click);
+                    if(settings.isDarkGS == false)
+                    {
+                        menuPlaylist.ForeColor = SystemColors.ControlText;
+                        menuPlaylist.BackColor = SystemColors.ButtonHighlight;
+                    }
+                    else
+                    {
+                        menuPlaylist.ForeColor = SystemColors.ButtonHighlight;
+                        menuPlaylist.BackColor = Color.FromArgb(35, 35, 35);
+                    }
                     menuPlaylist.Font = new Font("Bahnschrift Condensed", 13);
                     musicList.ContextMenuStrip = menuPlaylist;
                     musicList.ContextMenuStrip.Show(musicList, new Point(e.X, e.Y));
@@ -316,11 +324,21 @@ namespace WinFormsApp1
         {
             if (musicList.SelectedItems.Count > 0)
             {
+                ContextMenuStrip menuAddToPlaylist = new ContextMenuStrip();
                 ListViewItem selectedItem = musicList.SelectedItems[0];
                 int selectedTrackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
-
                 menuAddToPlaylist.Font = new Font("Bahnschrift Condensed", 13);
-                menuAddToPlaylist.ForeColor = Color.FromArgb(35, 35, 35);
+
+                if (settings.isDarkGS == false)
+                {
+                    menuAddToPlaylist.ForeColor = SystemColors.ControlText;
+                    menuAddToPlaylist.BackColor = SystemColors.ButtonHighlight;
+                }
+                else 
+                {
+                    menuAddToPlaylist.ForeColor = SystemColors.ButtonHighlight;
+                    menuAddToPlaylist.BackColor = Color.FromArgb(35, 35, 35);
+                }
                 ToolStripMenuItem playlistMenuItem;
 
                 foreach (PlaylistClass playlist in playLists)
