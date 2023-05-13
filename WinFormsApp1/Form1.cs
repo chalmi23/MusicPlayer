@@ -260,6 +260,7 @@ namespace WinFormsApp1
             {
                 pictureBoxPlayMusic.Enabled = true;
                 pictureBoxForwards.Enabled = true;
+
                 pictureBoxBackwards.Enabled = true;
                 if (musicList.SelectedItems.Count > 0)
                 {
