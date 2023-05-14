@@ -26,7 +26,7 @@ namespace WinFormsApp1
 
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
-
+#push
         private List<trackClass> tracks = new List<trackClass>();
         private List<int> availableTrackIndexes = new List<int>();
         private List<PlaylistClass> playLists = new List<PlaylistClass>();
