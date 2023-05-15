@@ -6,11 +6,14 @@ namespace WinFormsApp1
     public partial class Form1 : Form
     {
         private Settings settings;
+
         private int trackCounter = 0;
         private int playlistCounter = 0;
+
         private int currentTrackIndex;
         private int currentPlaylistIndex = -1;
-        private int playStatus = 0; //0 - jednorazowe odtworzenie, 1 - powtarzanie jednej piosenki, 2 - powtarzanie wszystkich piosenek
+
+        private int playStatus = 0;
         private float previousVolume = 1;
 
         private bool isPlaying = false;
