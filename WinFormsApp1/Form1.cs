@@ -26,7 +26,7 @@ namespace WinFormsApp1
 
         AudioFileReader audioFile;
         WaveOutEvent outputDevice;
-#push
+
         private List<trackClass> tracks = new List<trackClass>();
         private List<int> availableTrackIndexes = new List<int>();
         private List<PlaylistClass> playLists = new List<PlaylistClass>();
@@ -499,7 +499,7 @@ namespace WinFormsApp1
         {
             if (tracks.Count == 0)
             {
-                MessageBox.Show("Brak piosenek na liœcie.", "B³¹d");
+                MessageBox.Show("No songs on the list.", "B³¹d");
                 return;
             }
             pictureBoxPlayMusic.Enabled = true;
@@ -514,7 +514,7 @@ namespace WinFormsApp1
                 {
                     if (availableTrackIndexes.Count == 0)
                     {
-                        MessageBox.Show("Wszystkie piosenki z listy zosta³y ju¿ odtworzone.", "Koniec listy");
+                        MessageBox.Show("All the songs have been played.", "End of the list");
                         if (isRandom) initializeAvailableTrackIndexes();
                         playPausePictureBox_Click(sender, e);
                         return;
