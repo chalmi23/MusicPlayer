@@ -104,7 +104,7 @@ namespace WinFormsApp1
             ListView listViewSongs = (ListView)_form1.Controls["musicList"];
             Button buttonAddSongs = (Button)_form1.Controls["buttonAddSongs"];
             Button buttonAddPlaylist = (Button)_form1.Controls["buttonAddPlaylist"];
-            
+
             ListView listViewPlaylist = (ListView)_form1.Controls["listViewPlaylist"];
 
             Color darkModeBackground = Color.FromArgb(35, 35, 35);
@@ -114,12 +114,12 @@ namespace WinFormsApp1
             {
                 isDark = !isDark;
 
-                List<Control> toggleControls = new List<Control> { labelLight,labelDark,pictureBoxLightMode,pictureBoxDarkMode };
+                List<Control> toggleControls = new List<Control> { labelLight, labelDark, pictureBoxLightMode, pictureBoxDarkMode };
                 foreach (Control control in toggleControls) control.Visible = !control.Visible;
-               
-                List<Control> lightModeControls = new List<Control> { _form1, buttonSettings, buttonAddSongs, buttonAddPlaylist, this, buttonAddFolder, listViewSongs, listViewPlaylist, listViewDirectories, buttonDeleteFolder};
+
+                List<Control> lightModeControls = new List<Control> { _form1, buttonSettings, buttonAddSongs, buttonAddPlaylist, this, buttonAddFolder, listViewSongs, listViewPlaylist, listViewDirectories, buttonDeleteFolder };
                 foreach (Control control in lightModeControls) control.BackColor = lightMode;
-                
+
                 List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };
                 foreach (PictureBox pictureBox in pictureBoxList) InvertPictureBoxColors(pictureBox);
 
@@ -131,19 +131,19 @@ namespace WinFormsApp1
                 buttonAddPlaylist.ForeColor = SystemColors.ControlDarkDark;
                 labelTitle.ForeColor = SystemColors.ControlDarkDark;
                 labelArtist.ForeColor = SystemColors.ActiveCaption;
-                listViewPlaylist.ForeColor = SystemColors.ControlDarkDark;              
+                listViewPlaylist.ForeColor = SystemColors.ControlDarkDark;
             }
             else
             {
                 isDark = !isDark;
-                List<Control> toggleControls = new List<Control> { labelLight,labelDark,pictureBoxLightMode,pictureBoxDarkMode };
+                List<Control> toggleControls = new List<Control> { labelLight, labelDark, pictureBoxLightMode, pictureBoxDarkMode };
                 foreach (Control control in toggleControls) control.Visible = !control.Visible;
 
 
-                List<Control> darkModeControls = new List<Control> { _form1,this,listViewDirectories,listViewPlaylist,buttonSettings,buttonAddSongs,buttonAddPlaylist,buttonDeleteFolder,buttonAddFolder,listViewSongs};
+                List<Control> darkModeControls = new List<Control> { _form1, this, listViewDirectories, listViewPlaylist, buttonSettings, buttonAddSongs, buttonAddPlaylist, buttonDeleteFolder, buttonAddFolder, listViewSongs };
                 foreach (Control control in darkModeControls) control.BackColor = darkModeBackground;
 
-                List<Control> lightModeControls = new List<Control>{ buttonSettings, buttonAddSongs, buttonAddPlaylist,buttonAddFolder, labelPlayerName, labelPlaylistName, listViewDirectories, TimeCounter, TimeDuration, labelTitle, labelArtist, labelDirectoryList};
+                List<Control> lightModeControls = new List<Control> { buttonSettings, buttonAddSongs, buttonAddPlaylist, buttonAddFolder, labelPlayerName, labelPlaylistName, listViewDirectories, TimeCounter, TimeDuration, labelTitle, labelArtist, labelDirectoryList };
                 foreach (Control control in lightModeControls) control.ForeColor = lightMode;
 
                 List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };

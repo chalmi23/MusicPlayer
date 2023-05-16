@@ -41,8 +41,12 @@
             pictureBoxLightMode = new PictureBox();
             pictureBoxDarkMode = new PictureBox();
             labelLight = new Label();
+            trackBar1 = new TrackBar();
+            checkBox1 = new CheckBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLightMode).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDarkMode).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             SuspendLayout();
             // 
             // listViewDirectories
@@ -169,11 +173,45 @@
             labelLight.Visible = false;
             labelLight.Click += changeMode;
             // 
+            // trackBar1
+            // 
+            trackBar1.Location = new Point(48, 171);
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new Size(141, 45);
+            trackBar1.TabIndex = 8;
+            trackBar1.TickStyle = TickStyle.None;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Font = new Font("Bahnschrift Condensed", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            checkBox1.ForeColor = SystemColors.ControlText;
+            checkBox1.Location = new Point(48, 132);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(173, 33);
+            checkBox1.TabIndex = 9;
+            checkBox1.Text = "smooth transition";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.ForeColor = SystemColors.ControlText;
+            label1.Location = new Point(185, 168);
+            label1.Name = "label1";
+            label1.Size = new Size(29, 23);
+            label1.TabIndex = 10;
+            label1.Text = "0 s";
+            // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
+            Controls.Add(label1);
+            Controls.Add(checkBox1);
+            Controls.Add(trackBar1);
             Controls.Add(labelLight);
             Controls.Add(pictureBoxDarkMode);
             Controls.Add(pictureBoxLightMode);
@@ -186,6 +224,7 @@
             Size = new Size(1003, 653);
             ((System.ComponentModel.ISupportInitialize)pictureBoxLightMode).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDarkMode).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -204,5 +243,8 @@
         private PictureBox pictureBoxLightMode;
         private PictureBox pictureBoxDarkMode;
         private Label labelLight;
+        private TrackBar trackBar1;
+        private CheckBox checkBox1;
+        private Label label1;
     }
 }
