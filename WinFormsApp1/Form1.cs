@@ -471,7 +471,7 @@ namespace WinFormsApp1
             while (audioFile.Volume > targetVolume)
             {
                 audioFile.Volume -= fadeStep;
-                await Task.Delay(100); 
+                await Task.Delay(10000); 
             } 
         }
         private async void FadeInNewSong()
@@ -893,7 +893,7 @@ namespace WinFormsApp1
                     if (remainingTime <= 500000*5)
                     {
                         FadeOutCurrentSong();
-                        FadeInNewSong();
+                        //FadeInNewSong();
                     }
                 }
                 catch (System.ArgumentOutOfRangeException)
