@@ -472,9 +472,7 @@ namespace WinFormsApp1
             {
                 audioFile.Volume -= fadeStep;
                 await Task.Delay(100); 
-            }
-
-            outputDevice.Stop(); 
+            } 
         }
         private async void FadeInNewSong()
         {
@@ -889,12 +887,21 @@ namespace WinFormsApp1
                 {
                     trackBar.Value = (int)(audioFile.CurrentTime.TotalMilliseconds * 1000);
                     labelTimeCounter.Text = audioFile.CurrentTime.ToString(@"mm\:ss");
+
+                    double remainingTime = audioFile.Length - audioFile.Position;
+
+                    if (remainingTime <= 500000*5)
+                    {
+                        FadeOutCurrentSong();
+                        FadeInNewSong();
+                    }
                 }
                 catch (System.ArgumentOutOfRangeException)
                 {
                     trackBar.Value = trackBar.Maximum;
                 }
             }
+
             ScrollLabelIfTooLong(labelTitle, 20, ref timerCounterTitle);
             ScrollLabelIfTooLong(labelArtist, 16, ref timerCounterArtist);
         }
