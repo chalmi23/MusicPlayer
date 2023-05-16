@@ -19,6 +19,7 @@ namespace WinFormsApp1
         private bool isPlaying = false;
         private bool isPaused = false;
         private bool isRandom = false;
+        private bool isFadingOut = false;
 
         private int timerCounterTitle = 0;
         private int timerCounterArtist = 0;
@@ -459,6 +460,41 @@ namespace WinFormsApp1
             }
         }
 
+        private async void FadeOutCurrentSong()
+        {
+            isFadingOut = true;
+            float initialVolume = audioFile.Volume;
+            float targetVolume = 0.0f;
+            float fadeDuration = 5.0f; 
+            float fadeStep = (initialVolume - targetVolume) / (fadeDuration * 10); 
+
+            while (audioFile.Volume > targetVolume)
+            {
+                audioFile.Volume -= fadeStep;
+                await Task.Delay(100); 
+            }
+
+            outputDevice.Stop(); 
+        }
+        private async void FadeInNewSong()
+        {
+            isFadingOut = false;
+            float initialVolume = 0.0f;
+            float targetVolume = (float)trackBarVolume.Value / 100;
+            float fadeDuration = 5.0f; 
+            float fadeStep = (targetVolume - initialVolume) / (fadeDuration * 10); 
+
+            audioFile.Volume = initialVolume;
+            outputDevice.Play();
+
+            while (audioFile.Volume < targetVolume)
+            {
+                audioFile.Volume += fadeStep;
+                await Task.Delay(100); 
+            }
+        }
+
+
         private void previousSong_Click(object sender, EventArgs e)
         {
             if (tracks.Count == 0)
@@ -554,7 +590,15 @@ namespace WinFormsApp1
 
             if (isAudioFileNotNull)
             {
-                audioFile.Volume = (float)trackBarVolume.Value / 100;
+                if (isFadingOut)
+                {
+                    float targetVolume = (float)trackBarVolume.Value / 100;
+                    audioFile.Volume = targetVolume;
+                }
+                else
+                {
+                    audioFile.Volume = (float)trackBarVolume.Value / 100;
+                }
             }
         }
         private void rewindSong(object sender, EventArgs e)

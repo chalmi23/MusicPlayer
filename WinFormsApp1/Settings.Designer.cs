@@ -176,10 +176,12 @@
             // trackBar1
             // 
             trackBar1.Location = new Point(48, 171);
+            trackBar1.Minimum = 1;
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(141, 45);
             trackBar1.TabIndex = 8;
             trackBar1.TickStyle = TickStyle.None;
+            trackBar1.Value = 1;
             // 
             // checkBox1
             // 
