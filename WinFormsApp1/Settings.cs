@@ -123,7 +123,7 @@ namespace WinFormsApp1
                 List<PictureBox> pictureBoxList = new List<PictureBox> { playMusic, stopMusic, nextSong, previousSong, Forwards, Backwards, Random, logoApp, minimizeApp, closeApp, Repeat, speakerNoSound, speaker, defaultCover };
                 foreach (PictureBox pictureBox in pictureBoxList) InvertPictureBoxColors(pictureBox);
 
-                List<Control> toggleControlsControlText = new List<Control> { buttonAddFolder, listViewDirectories, labelPlayerName, labelPlaylistName, TimeCounter, TimeDuration, labelDirectoryList, listViewSongs };
+                List<Control> toggleControlsControlText = new List<Control> { buttonAddFolder, listViewPlaylist, listViewDirectories, labelPlayerName, labelPlaylistName, TimeCounter, TimeDuration, labelDirectoryList, listViewSongs };
                 foreach (Control control in toggleControlsControlText) control.ForeColor = SystemColors.ControlText;
 
                 buttonSettings.ForeColor = SystemColors.ControlText;
@@ -131,7 +131,6 @@ namespace WinFormsApp1
                 buttonAddPlaylist.ForeColor = SystemColors.ControlDarkDark;
                 labelTitle.ForeColor = SystemColors.ControlDarkDark;
                 labelArtist.ForeColor = SystemColors.ActiveCaption;
-                listViewPlaylist.ForeColor = SystemColors.ControlDarkDark;
             }
             else
             {

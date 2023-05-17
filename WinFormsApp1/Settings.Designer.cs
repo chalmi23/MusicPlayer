@@ -127,7 +127,7 @@
             labelDark.BackColor = Color.Transparent;
             labelDark.Font = new Font("Bahnschrift Condensed", 24F, FontStyle.Regular, GraphicsUnit.Point);
             labelDark.ForeColor = SystemColors.ControlText;
-            labelDark.Location = new Point(48, 30);
+            labelDark.Location = new Point(154, 71);
             labelDark.Name = "labelDark";
             labelDark.Size = new Size(131, 39);
             labelDark.TabIndex = 4;
@@ -137,7 +137,7 @@
             // pictureBoxLightMode
             // 
             pictureBoxLightMode.Image = (Image)resources.GetObject("pictureBoxLightMode.Image");
-            pictureBoxLightMode.Location = new Point(185, 28);
+            pictureBoxLightMode.Location = new Point(291, 69);
             pictureBoxLightMode.Name = "pictureBoxLightMode";
             pictureBoxLightMode.Size = new Size(42, 41);
             pictureBoxLightMode.TabIndex = 5;
@@ -148,7 +148,7 @@
             // pictureBoxDarkMode
             // 
             pictureBoxDarkMode.Image = (Image)resources.GetObject("pictureBoxDarkMode.Image");
-            pictureBoxDarkMode.Location = new Point(185, 28);
+            pictureBoxDarkMode.Location = new Point(291, 69);
             pictureBoxDarkMode.Name = "pictureBoxDarkMode";
             pictureBoxDarkMode.Size = new Size(42, 41);
             pictureBoxDarkMode.TabIndex = 6;
@@ -161,7 +161,7 @@
             labelLight.BackColor = Color.Transparent;
             labelLight.Font = new Font("Bahnschrift Condensed", 24F, FontStyle.Regular, GraphicsUnit.Point);
             labelLight.ForeColor = SystemColors.ButtonHighlight;
-            labelLight.Location = new Point(48, 30);
+            labelLight.Location = new Point(154, 71);
             labelLight.Name = "labelLight";
             labelLight.Size = new Size(133, 39);
             labelLight.TabIndex = 7;

@@ -29,9 +29,7 @@ namespace WinFormsApp1
         private Point dragFormPoint;
 
         private AudioFileReader audioFile;
-        private AudioFileReader previousAudioFile;
         private WaveOutEvent outputDevice;
-        private WaveOutEvent previousOutputDevice;
 
         private List<trackClass> tracks = new List<trackClass>();
         private List<int> availableTrackIndexes = new List<int>();
