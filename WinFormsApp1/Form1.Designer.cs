@@ -398,7 +398,7 @@
             // 
             // panelSettings
             // 
-            panelSettings.Location = new Point(211, 76);
+            panelSettings.Location = new Point(168, 1);
             panelSettings.Name = "panelSettings";
             panelSettings.Size = new Size(1003, 653);
             panelSettings.TabIndex = 24;

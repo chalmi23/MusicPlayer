@@ -28,8 +28,10 @@ namespace WinFormsApp1
         private Point dragCursorPoint;
         private Point dragFormPoint;
 
-        AudioFileReader audioFile;
-        WaveOutEvent outputDevice;
+        private AudioFileReader audioFile;
+        private AudioFileReader previousAudioFile;
+        private WaveOutEvent outputDevice;
+        private WaveOutEvent previousOutputDevice;
 
         private List<trackClass> tracks = new List<trackClass>();
         private List<int> availableTrackIndexes = new List<int>();
@@ -301,7 +303,7 @@ namespace WinFormsApp1
                     playingNewSongInfo(sender, e);
                 }
             }
-            if(e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
                 ContextMenuStrip menuPlaylist = new ContextMenuStrip();
                 ListViewItem item = musicList.GetItemAt(e.X, e.Y);
@@ -309,7 +311,7 @@ namespace WinFormsApp1
                 {
                     menuPlaylist.Items.Add("Add to playlist", null, addToPlaylist);
                     menuPlaylist.Items.Add("Remove from playlist", null, RemoveFromPlaylist_Click);
-                    if(settings.isDarkGS == false)
+                    if (settings.isDarkGS == false)
                     {
                         menuPlaylist.ForeColor = SystemColors.ControlText;
                         menuPlaylist.BackColor = SystemColors.ButtonHighlight;
@@ -339,7 +341,7 @@ namespace WinFormsApp1
                     menuAddToPlaylist.ForeColor = SystemColors.ControlText;
                     menuAddToPlaylist.BackColor = SystemColors.ButtonHighlight;
                 }
-                else 
+                else
                 {
                     menuAddToPlaylist.ForeColor = SystemColors.ButtonHighlight;
                     menuAddToPlaylist.BackColor = Color.FromArgb(35, 35, 35);
@@ -371,7 +373,7 @@ namespace WinFormsApp1
 
         private void RemoveFromPlaylist_Click(object sender, EventArgs e)
         {
-            if (musicList.SelectedItems.Count > 0 && currentPlaylistIndex>0)
+            if (musicList.SelectedItems.Count > 0 && currentPlaylistIndex > 0)
             {
                 ListViewItem selectedItem = musicList.SelectedItems[0];
                 int selectedTrackIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
@@ -460,27 +462,30 @@ namespace WinFormsApp1
             }
         }
 
-        private async void FadeOutCurrentSong()
+        private async void FadeOutCurrentSong() //do poprawy
         {
+            previousAudioFile = audioFile;
             isFadingOut = true;
-            float initialVolume = audioFile.Volume;
+            float initialVolume = previousAudioFile.Volume;
             float targetVolume = 0.0f;
-            float fadeDuration = 5.0f; 
-            float fadeStep = (initialVolume - targetVolume) / (fadeDuration * 10); 
+            float fadeDuration = 5.0f;
+            float fadeStep = ((initialVolume - targetVolume) / (fadeDuration*1000));
 
-            while (audioFile.Volume > targetVolume)
+            while (previousAudioFile.Volume > targetVolume)
             {
-                audioFile.Volume -= fadeStep;
-                await Task.Delay(10000); 
-            } 
+                previousAudioFile.Volume -= fadeStep;
+                await Task.Delay(100);
+            }
+            previousAudioFile.Volume = 0;
         }
         private async void FadeInNewSong()
         {
             isFadingOut = false;
             float initialVolume = 0.0f;
-            float targetVolume = (float)trackBarVolume.Value / 100;
-            float fadeDuration = 5.0f; 
-            float fadeStep = (targetVolume - initialVolume) / (fadeDuration * 10); 
+            float targetVolume = (float)trackBarVolume.Value;
+            float fadeDuration = 5.0f;
+            float fadeStep = (targetVolume - initialVolume) / (fadeDuration * 1000);
+
 
             audioFile.Volume = initialVolume;
             outputDevice.Play();
@@ -488,7 +493,7 @@ namespace WinFormsApp1
             while (audioFile.Volume < targetVolume)
             {
                 audioFile.Volume += fadeStep;
-                await Task.Delay(100); 
+                await Task.Delay(100);
             }
         }
 
@@ -888,9 +893,17 @@ namespace WinFormsApp1
                     trackBar.Value = (int)(audioFile.CurrentTime.TotalMilliseconds * 1000);
                     labelTimeCounter.Text = audioFile.CurrentTime.ToString(@"mm\:ss");
 
-                    double remainingTime = audioFile.Length - audioFile.Position;
+                    string durationText = "00:" + labelDuration.Text; 
+                    string counterText = "00:" + labelTimeCounter.Text; 
 
-                    if (remainingTime <= 500000*5)
+                    TimeSpan duration = TimeSpan.Parse(durationText); 
+                    TimeSpan counter = TimeSpan.Parse(counterText); 
+
+                    TimeSpan remainingTime = duration - counter; 
+
+                    int remainingSeconds = (int)remainingTime.TotalSeconds; 
+
+                    if (remainingSeconds <= 5)
                     {
                         FadeOutCurrentSong();
                         //FadeInNewSong();
