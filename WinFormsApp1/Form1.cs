@@ -461,43 +461,6 @@ namespace WinFormsApp1
                 return;
             }
         }
-
-        private async void FadeOutCurrentSong() //do poprawy
-        {
-            previousAudioFile = audioFile;
-            isFadingOut = true;
-            float initialVolume = previousAudioFile.Volume;
-            float targetVolume = 0.0f;
-            float fadeDuration = 5.0f;
-            float fadeStep = ((initialVolume - targetVolume) / (fadeDuration*1000));
-
-            while (previousAudioFile.Volume > targetVolume)
-            {
-                previousAudioFile.Volume -= fadeStep;
-                await Task.Delay(100);
-            }
-            previousAudioFile.Volume = 0;
-        }
-        private async void FadeInNewSong()
-        {
-            isFadingOut = false;
-            float initialVolume = 0.0f;
-            float targetVolume = (float)trackBarVolume.Value;
-            float fadeDuration = 5.0f;
-            float fadeStep = (targetVolume - initialVolume) / (fadeDuration * 1000);
-
-
-            audioFile.Volume = initialVolume;
-            outputDevice.Play();
-
-            while (audioFile.Volume < targetVolume)
-            {
-                audioFile.Volume += fadeStep;
-                await Task.Delay(100);
-            }
-        }
-
-
         private void previousSong_Click(object sender, EventArgs e)
         {
             if (tracks.Count == 0)
@@ -892,22 +855,6 @@ namespace WinFormsApp1
                 {
                     trackBar.Value = (int)(audioFile.CurrentTime.TotalMilliseconds * 1000);
                     labelTimeCounter.Text = audioFile.CurrentTime.ToString(@"mm\:ss");
-
-                    string durationText = "00:" + labelDuration.Text; 
-                    string counterText = "00:" + labelTimeCounter.Text; 
-
-                    TimeSpan duration = TimeSpan.Parse(durationText); 
-                    TimeSpan counter = TimeSpan.Parse(counterText); 
-
-                    TimeSpan remainingTime = duration - counter; 
-
-                    int remainingSeconds = (int)remainingTime.TotalSeconds; 
-
-                    if (remainingSeconds <= 5)
-                    {
-                        FadeOutCurrentSong();
-                        //FadeInNewSong();
-                    }
                 }
                 catch (System.ArgumentOutOfRangeException)
                 {
