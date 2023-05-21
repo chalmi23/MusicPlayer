@@ -194,11 +194,10 @@ namespace WinFormsApp1
             if (e.Button == MouseButtons.Right)
             {
                 ContextMenuStrip menuPlaylist = new ContextMenuStrip();
-                ListViewItem item = musicList.GetItemAt(e.X, e.Y);
+                ListViewItem item = listViewPlaylist.GetItemAt(e.X, e.Y);
                 if (item != null)
                 {
-                    menuPlaylist.Items.Add("Add to playlist", null, addToPlaylist);
-                    menuPlaylist.Items.Add("Remove from playlist", null, RemoveFromPlaylist_Click);
+                    menuPlaylist.Items.Add("Delete playlist", null, deletePlaylist);
                     if (settings.isDarkGS == false)
                     {
                         menuPlaylist.ForeColor = SystemColors.ControlText;
@@ -210,10 +209,14 @@ namespace WinFormsApp1
                         menuPlaylist.BackColor = Color.FromArgb(35, 35, 35);
                     }
                     menuPlaylist.Font = new Font("Bahnschrift Condensed", 13);
-                    musicList.ContextMenuStrip = menuPlaylist;
-                    musicList.ContextMenuStrip.Show(musicList, new Point(e.X, e.Y));
+                    listViewPlaylist.ContextMenuStrip = menuPlaylist;
+                    listViewPlaylist.ContextMenuStrip.Show(musicList, new Point(e.X, e.Y));
                 }
             }
+        }
+        private void deletePlaylist(object sender, EventArgs e) 
+        { 
+            
         }
         public void LoadTracksToListView(int playlistIndex)
         {
