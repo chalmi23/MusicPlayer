@@ -667,7 +667,7 @@ namespace WinFormsApp1
             isPaused = false;
             pictureBoxPlayMusic.Visible = false;
             pictureBoxStopMusic.Visible = true;
-            labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
+            labelTitle.Text = tracks[currentTrackIndex].TitleGS + " "; //System.ArgumentOutOfRangeException: „Index was out of range. Must be non-negative and less than the size of the collection. Arg_ParamName_Name”
             labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
             timer.Start();
         }
