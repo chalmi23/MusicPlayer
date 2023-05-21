@@ -603,7 +603,6 @@
             Controls.Add(labelPlayerName);
             Controls.Add(pictureBoxCloseApp);
             Controls.Add(pictureBoxMinimizeApp);
-            Controls.Add(listViewPlaylist);
             Controls.Add(buttonAddPlaylist);
             Controls.Add(panelSettings);
             Controls.Add(buttonSettings);
@@ -632,6 +631,7 @@
             Controls.Add(musicList);
             Controls.Add(defaultCover);
             Controls.Add(labelPlaylistName);
+            Controls.Add(listViewPlaylist);
             ForeColor = SystemColors.ControlLight;
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form1";
