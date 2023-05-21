@@ -183,13 +183,59 @@ namespace WinFormsApp1
             refreshJsonFile(settings.FolderList);
         }
 
-        private void listViewPlaylist_SelectedIndexChanged(object sender, EventArgs e)
+        private void listViewPlaylist_SelectedIndexChanged(object sender, MouseEventArgs e)
         {
-            if (listViewPlaylist.SelectedItems.Count > 0)
+            if (e.Button == MouseButtons.Left)
             {
                 PlaylistClass selectedPlaylist = playLists[listViewPlaylist.SelectedIndices[0]];
                 currentPlaylistIndex = listViewPlaylist.SelectedIndices[0];
                 LoadTracksToListView(currentPlaylistIndex);
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                ContextMenuStrip menuPlaylist = new ContextMenuStrip();
+                ListViewItem item = listViewPlaylist.GetItemAt(e.X, e.Y);
+                if (item != null)
+                {
+                    menuPlaylist.Items.Add("Delete playlist", null, deletePlaylist);
+                    if (settings.isDarkGS == false)
+                    {
+                        menuPlaylist.ForeColor = SystemColors.ControlText;
+                        menuPlaylist.BackColor = SystemColors.ButtonHighlight;
+                    }
+                    else
+                    {
+                        menuPlaylist.ForeColor = SystemColors.ButtonHighlight;
+                        menuPlaylist.BackColor = Color.FromArgb(35, 35, 35);
+                    }
+                    menuPlaylist.Font = new Font("Bahnschrift Condensed", 13);
+                    listViewPlaylist.ContextMenuStrip = menuPlaylist;
+                    listViewPlaylist.ContextMenuStrip.Show(musicList, new Point(e.X, e.Y));
+                }
+            }
+        }
+        private void deletePlaylist(object sender, EventArgs e) 
+        {
+            ListViewItem selectedItem = listViewPlaylist.SelectedItems[0];
+            int selectedPlaylistIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
+            if (selectedPlaylistIndex != 0)
+            {
+                playlistCounter--;
+                playLists.RemoveAt(selectedPlaylistIndex);
+                listViewPlaylist.Items.Clear();
+                int playlistIndex = 1;
+                foreach (PlaylistClass playlist in playLists)
+                {
+                    ListViewItem item = new ListViewItem(new string[] { "", playlistIndex.ToString(), playlist.NameGS});
+                    listViewPlaylist.Items.Add(item);
+                    playlistIndex++;
+                }
+                LoadTracksToListView(0);
+                refreshJsonFile(settings.FolderList);
+            }
+            else
+            {
+                MessageBox.Show("Cannot delete the main playlist!", ":(", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public void LoadTracksToListView(int playlistIndex)
@@ -667,7 +713,7 @@ namespace WinFormsApp1
             isPaused = false;
             pictureBoxPlayMusic.Visible = false;
             pictureBoxStopMusic.Visible = true;
-            labelTitle.Text = tracks[currentTrackIndex].TitleGS + " ";
+            labelTitle.Text = tracks[currentTrackIndex].TitleGS + " "; //System.ArgumentOutOfRangeException: „Index was out of range. Must be non-negative and less than the size of the collection. Arg_ParamName_Name”
             labelArtist.Text = tracks[currentTrackIndex].ArtistGS + " ";
             timer.Start();
         }
@@ -920,6 +966,7 @@ namespace WinFormsApp1
         private void CloseApplication(object sender, EventArgs e)
         {
             Application.Exit();
+            Dispose();
         }
     }
 }
