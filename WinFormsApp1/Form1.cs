@@ -215,8 +215,19 @@ namespace WinFormsApp1
             }
         }
         private void deletePlaylist(object sender, EventArgs e) 
-        { 
-            
+        {
+            ListViewItem selectedItem = listViewPlaylist.SelectedItems[0];
+            int selectedPlaylistIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
+            if (selectedPlaylistIndex != 0)
+            {
+                playLists.RemoveAt(selectedPlaylistIndex);
+                LoadTracksToListView(0);
+                refreshJsonFile(settings.FolderList);
+            }
+            else
+            {
+                MessageBox.Show("Cannot delete the main playlist!", ":(", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         public void LoadTracksToListView(int playlistIndex)
         {
