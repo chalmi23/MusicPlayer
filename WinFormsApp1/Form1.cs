@@ -220,7 +220,16 @@ namespace WinFormsApp1
             int selectedPlaylistIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
             if (selectedPlaylistIndex != 0)
             {
+                playlistCounter--;
                 playLists.RemoveAt(selectedPlaylistIndex);
+                listViewPlaylist.Items.Clear();
+                int playlistIndex = 1;
+                foreach (PlaylistClass playlist in playLists)
+                {
+                    ListViewItem item = new ListViewItem(new string[] { "", playlistIndex.ToString(), playlist.NameGS});
+                    listViewPlaylist.Items.Add(item);
+                    playlistIndex++;
+                }
                 LoadTracksToListView(0);
                 refreshJsonFile(settings.FolderList);
             }
