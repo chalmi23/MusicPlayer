@@ -451,7 +451,7 @@
             listViewPlaylist.TabIndex = 27;
             listViewPlaylist.UseCompatibleStateImageBehavior = false;
             listViewPlaylist.ColumnWidthChanging += ColumnWidthChangingPlaylist;
-            listViewPlaylist.SelectedIndexChanged += listViewPlaylist_SelectedIndexChanged;
+            listViewPlaylist.MouseClick += listViewPlaylist_SelectedIndexChanged;
             // 
             // Image
             // 

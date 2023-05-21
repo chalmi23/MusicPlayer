@@ -183,13 +183,36 @@ namespace WinFormsApp1
             refreshJsonFile(settings.FolderList);
         }
 
-        private void listViewPlaylist_SelectedIndexChanged(object sender, EventArgs e)
+        private void listViewPlaylist_SelectedIndexChanged(object sender, MouseEventArgs e)
         {
-            if (listViewPlaylist.SelectedItems.Count > 0)
+            if (e.Button == MouseButtons.Left)
             {
                 PlaylistClass selectedPlaylist = playLists[listViewPlaylist.SelectedIndices[0]];
                 currentPlaylistIndex = listViewPlaylist.SelectedIndices[0];
                 LoadTracksToListView(currentPlaylistIndex);
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                ContextMenuStrip menuPlaylist = new ContextMenuStrip();
+                ListViewItem item = musicList.GetItemAt(e.X, e.Y);
+                if (item != null)
+                {
+                    menuPlaylist.Items.Add("Add to playlist", null, addToPlaylist);
+                    menuPlaylist.Items.Add("Remove from playlist", null, RemoveFromPlaylist_Click);
+                    if (settings.isDarkGS == false)
+                    {
+                        menuPlaylist.ForeColor = SystemColors.ControlText;
+                        menuPlaylist.BackColor = SystemColors.ButtonHighlight;
+                    }
+                    else
+                    {
+                        menuPlaylist.ForeColor = SystemColors.ButtonHighlight;
+                        menuPlaylist.BackColor = Color.FromArgb(35, 35, 35);
+                    }
+                    menuPlaylist.Font = new Font("Bahnschrift Condensed", 13);
+                    musicList.ContextMenuStrip = menuPlaylist;
+                    musicList.ContextMenuStrip.Show(musicList, new Point(e.X, e.Y));
+                }
             }
         }
         public void LoadTracksToListView(int playlistIndex)
@@ -920,6 +943,7 @@ namespace WinFormsApp1
         private void CloseApplication(object sender, EventArgs e)
         {
             Application.Exit();
+            Dispose();
         }
     }
 }
