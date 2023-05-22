@@ -112,7 +112,7 @@
             buttonAddSongs.FlatStyle = FlatStyle.Flat;
             buttonAddSongs.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             buttonAddSongs.ForeColor = SystemColors.ControlDarkDark;
-            buttonAddSongs.Location = new Point(24, 251);
+            buttonAddSongs.Location = new Point(13, 109);
             buttonAddSongs.Name = "buttonAddSongs";
             buttonAddSongs.Size = new Size(169, 43);
             buttonAddSongs.TabIndex = 1;
@@ -412,7 +412,7 @@
             buttonSettings.FlatStyle = FlatStyle.Flat;
             buttonSettings.Font = new Font("Bahnschrift Condensed", 18F, FontStyle.Regular, GraphicsUnit.Point);
             buttonSettings.ForeColor = SystemColors.ControlText;
-            buttonSettings.Location = new Point(25, 62);
+            buttonSettings.Location = new Point(14, 62);
             buttonSettings.Name = "buttonSettings";
             buttonSettings.Size = new Size(168, 44);
             buttonSettings.TabIndex = 25;
@@ -428,7 +428,7 @@
             buttonAddPlaylist.FlatStyle = FlatStyle.Flat;
             buttonAddPlaylist.Font = new Font("Bahnschrift Condensed", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             buttonAddPlaylist.ForeColor = SystemColors.ControlDarkDark;
-            buttonAddPlaylist.Location = new Point(24, 300);
+            buttonAddPlaylist.Location = new Point(13, 158);
             buttonAddPlaylist.Name = "buttonAddPlaylist";
             buttonAddPlaylist.Size = new Size(169, 43);
             buttonAddPlaylist.TabIndex = 26;

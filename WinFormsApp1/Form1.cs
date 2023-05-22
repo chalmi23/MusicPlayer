@@ -214,7 +214,7 @@ namespace WinFormsApp1
                 }
             }
         }
-        private void deletePlaylist(object sender, EventArgs e) 
+        private void deletePlaylist(object sender, EventArgs e)
         {
             ListViewItem selectedItem = listViewPlaylist.SelectedItems[0];
             int selectedPlaylistIndex = int.Parse(selectedItem.SubItems[1].Text) - 1;
@@ -226,7 +226,7 @@ namespace WinFormsApp1
                 int playlistIndex = 1;
                 foreach (PlaylistClass playlist in playLists)
                 {
-                    ListViewItem item = new ListViewItem(new string[] { "", playlistIndex.ToString(), playlist.NameGS});
+                    ListViewItem item = new ListViewItem(new string[] { "", playlistIndex.ToString(), playlist.NameGS });
                     listViewPlaylist.Items.Add(item);
                     playlistIndex++;
                 }
